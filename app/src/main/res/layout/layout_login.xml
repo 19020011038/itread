@@ -1,9 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff">
+
+            <TextView
+                android:id="@+id/login_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="17dp"
+                android:layout_marginBottom="14dp"
+                android:text="1234321"
+                android:textSize="20sp"
+                android:textColor="#0f0000">
+            </TextView>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/login_saw_1"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="55dp"
+            android:background="@drawable/shadow">
+        </ImageView>
+
+
+        <ImageView
+            android:id="@+id/login_imagelogo"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/login_saw_1"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/ic_launcher_round">
+        </ImageView>
+
+        <EditText
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="80dp"
+            android:layout_below="@+id/login_imagelogo"
+            android:hint=" 请输入手机号"
+            android:background="@drawable/edittext_shape">
+        </EditText>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/login"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edittext_shape"
+            android:hint=" 请输入密码">
+        </EditText>
+
+        <Button
+            android:id="@+id/login_loginbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="10dp"
+            android:text="登录"
+            android:textSize="19sp"
+            android:textColor="#000000">
+        </Button>
+
+        <RelativeLayout
+            android:id="@+id/login_forgitpassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:layout_below="@+id/password"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="19dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="找回密码"
+                android:textSize="16sp">
+            </TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_marginTop="12dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="35dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册账号"
+                android:textSize="16sp">
+            </TextView>
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>
