@@ -73,18 +73,7 @@
             android:hint=" 请输入密码">
         </EditText>
 
-        <Button
-            android:id="@+id/login_loginbtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/password"
-            android:layout_marginTop="70dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="10dp"
-            android:text="登录"
-            android:textSize="19sp"
-            android:textColor="#000000">
-        </Button>
+
 
         <RelativeLayout
             android:id="@+id/login_forgitpassword"
