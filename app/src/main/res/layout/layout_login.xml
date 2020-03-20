@@ -24,7 +24,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="17dp"
                 android:layout_marginBottom="14dp"
-                android:text="再改一个试试，明晚7点见"
+                android:text="登录"
                 android:textSize="20sp"
                 android:textColor="#0f0000">
             </TextView>
