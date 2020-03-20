@@ -24,9 +24,15 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="17dp"
                 android:layout_marginBottom="14dp"
-                android:text="55555555"
+                android:text="12131大手das"
                 android:textSize="20sp"
                 android:textColor="#0f0000">
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="456">
+                
             </TextView>
         </RelativeLayout>
 
