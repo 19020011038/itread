@@ -57,7 +57,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="80dp"
             android:layout_below="@+id/login_imagelogo"
-            android:hint=" 请输入手机号"
+            android:hint=" 请输入123456"
             android:background="@drawable/edittext_shape">
         </EditText>
 
