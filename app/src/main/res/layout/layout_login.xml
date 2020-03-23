@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="#f0f0f0">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,11 +50,11 @@
         </ImageView>
 
         <EditText
-            android:id="@+id/login"
+            android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="14dp"
             android:layout_marginTop="80dp"
             android:layout_below="@+id/login_imagelogo"
             android:hint=" 请输入手机号"
@@ -62,12 +62,12 @@
         </EditText>
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/login_password"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="10dp"
-            android:layout_below="@+id/login"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="14dp"
+            android:layout_below="@+id/login_username"
             android:layout_marginTop="15dp"
             android:background="@drawable/edittext_shape"
             android:hint=" 请输入密码">
@@ -77,23 +77,24 @@
             android:id="@+id/login_loginbtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/password"
+            android:background="#bddc8d"
+            android:layout_below="@+id/login_password"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="10dp"
             android:text="登录"
             android:textSize="19sp"
-            android:textColor="#000000">
+            android:textColor="#ffffff">
         </Button>
 
         <RelativeLayout
             android:id="@+id/login_forgitpassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:layout_below="@+id/password"
+            android:background="#f0f0f0"
+            android:layout_below="@+id/login_password"
             android:layout_marginTop="12dp"
-            android:layout_marginLeft="19dp">
+            android:layout_marginLeft="22dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,12 +105,14 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/login_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/password"
+            android:layout_below="@+id/login_password"
             android:layout_marginTop="12dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="35dp">
+            android:layout_marginRight="35dp"
+            android:onClick="onClick">
 
             <TextView
                 android:layout_width="wrap_content"
