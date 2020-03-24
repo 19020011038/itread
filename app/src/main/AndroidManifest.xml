@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.itread">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,35 +12,49 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FindPasswordActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".SaverActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WriteBookCommentsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MyBookCommentsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MyShortCommentsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".BookCommentsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".BookActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".HomeActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".BookListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".BookListAllActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".NewBookActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ChangePasswordActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".RegisterActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity android:name=".GetEmailNumberActivity"></activity>
+        <activity
+            android:name=".FindPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SaverActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WriteBookCommentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyBookCommentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyShortCommentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BookCommentsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BookActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BookListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BookListAllActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NewBookActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegisterActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
