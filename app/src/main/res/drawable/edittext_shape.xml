@@ -3,7 +3,7 @@
     android:shape="rectangle" >
 
     <solid
-        android:color="#" >
+        android:color="#ffffff" >
     </solid>
     <!-- 设置圆角 -->
     <corners
@@ -14,6 +14,6 @@
         android:topRightRadius="5dp" >
     </corners>
     <!-- 设置边框 -->
-    <stroke android:width="1dip" android:color="#c7c7c7" />
+    <stroke android:width="1dip" android:color="#f0f0f0" />
 
 </shape>
