@@ -41,7 +41,22 @@ public class LoginActivity extends AppCompatActivity {
         login_password = findViewById(R.id.login_password);
         login_loginbtn = findViewById(R.id.login_loginbtn);
 
-        login_loginbtn.setOnClickListener((View.OnClickListener) this);
+        login_loginbtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //String loginAddress="http://www.tooltool.club/vip/demo?username=123456&password=123456";
+                String loginAddress="http://www.tooltool.club/vip/demo?username=123456&password=123456";
+                String loginAccount = login_username.getText().toString();
+                String loginPassword = login_password.getText().toString();
+                if (TextUtils.isEmpty(loginAccount)){
+                    Toast.makeText(LoginActivity.this,"请输入用户名", Toast.LENGTH_SHORT).show();
+                }else if (TextUtils.isEmpty(loginPassword)){
+                    Toast.makeText(LoginActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
+                }else {
+                    loginWithOkHttp(loginAddress, loginAccount, loginPassword);
+                }
+            }
+        });
 
         //防空格回车
         setEditTextInputSpace(login_username);
@@ -63,18 +78,6 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.login_register:
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
-                break;
-            case R.id.login_loginbtn:
-                String loginAddress="http://henuajy.zicp.vip/LoLBoxServer_war_exploded/LoginServlet";
-                String loginAccount = login_username.getText().toString();
-                String loginPassword = login_password.getText().toString();
-                if (TextUtils.isEmpty(loginAccount)){
-                    Toast.makeText(LoginActivity.this,"请输入用户名", Toast.LENGTH_SHORT).show();
-                }else if (TextUtils.isEmpty(loginPassword)){
-                    Toast.makeText(LoginActivity.this, "请输入密码", Toast.LENGTH_SHORT).show();
-                }else {
-                    loginWithOkHttp(loginAddress, loginAccount, loginPassword);
-                }
                 break;
         }
     }

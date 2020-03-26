@@ -37,15 +37,13 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_register);
 
-        register_username.findViewById(R.id.register_username);
-        register_email.findViewById(R.id.register_email);
-        register_password.findViewById(R.id.register_password);
-        register_repassword.findViewById(R.id.register_repassword);
+        register_username = findViewById(R.id.register_username);
+        register_email = findViewById(R.id.register_email);
+        register_password = findViewById(R.id.register_password);
+        register_repassword = findViewById(R.id.register_repassword);
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
-        register_get_emailnum.findViewById(R.id.register_get_emailnum);
-        register_back.findViewById(R.id.register_back);
-
-        register_get_emailnum.setOnClickListener((View.OnClickListener) this);
+        register_get_emailnum = findViewById(R.id.register_get_emailnum);
+        register_back = findViewById(R.id.register_back);
 
         setEditTextInputSpace(register_username);
         setEditTextInputSpace(register_email);
