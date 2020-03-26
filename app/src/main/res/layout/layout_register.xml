@@ -27,7 +27,8 @@
         <RelativeLayout
             android:id="@+id/register_back"
             android:layout_width="54dp"
-            android:layout_height="57dp">
+            android:layout_height="57dp"
+            android:onClick="onClick">
 
             <ImageView
                 android:layout_width="30dp"
