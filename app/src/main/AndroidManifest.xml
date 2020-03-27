@@ -11,7 +11,9 @@
         android:label="爱特读书"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity android:name=".GetEmailNumberActivity"></activity>
         <activity
             android:name=".FindPasswordActivity"
