@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,9 @@ import android.widget.Toast;
 
 import com.example.itread.Util.HttpUtil;
 import com.example.itread.Util.SharedPreferencesUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -29,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText login_password;
     private Button login_loginbtn;
     private SharedPreferencesUtil check;
+    private String result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,26 +93,31 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
-                Toast.makeText(LoginActivity.this, "服务器获取信息失败", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (responseData.equals("true")){
+                try {
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    result = jsonObject.getString("result");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                        if (result.equals("true")){
                             Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                             check.setLogin(true);  //设置登录状态为已登录
                             check.setAccountId(account);  //添加账户信息
-                            Intent intent = new Intent(LoginActivity.this, NewBookActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
                         }else{
                             Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
