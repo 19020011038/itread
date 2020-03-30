@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
-        <activity android:name=".GetEmailNumberActivity"></activity>
+        <activity android:name=".GetEmailNumberActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".FindPasswordActivity"
             android:screenOrientation="portrait" />

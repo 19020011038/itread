@@ -1,84 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="751dp"
+    android:layout_height="1700px"
+    android:background="#ffffff"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="48px"
+        android:layout_marginTop="30px"
+        android:layout_marginRight="48px"
+        android:layout_marginBottom="30px"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="580px"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/book_image"
-                android:layout_width="150dp"
+                android:layout_width="362px"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="30px"
                 android:src="@drawable/blue" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/book_info"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:orientation="vertical">
+                android:text="显示书籍信息"
+                android:textSize="30px" />
 
-                <TextView
-                    android:id="@+id/book_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:text="书名书名书名" />
-
-                <TextView
-                    android:id="@+id/book_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:text="书的价格书的价格" />
-
-                <TextView
-                    android:id="@+id/book_author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:text="书的作者" />
-
-                <TextView
-                    android:id="@+id/book_page"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:text="书的页数" />
-
-                <TextView
-                    android:id="@+id/book_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:text="书的出版时间" />
-
-                <TextView
-                    android:id="@+id/book_publisher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:text="书的出版社" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="120px"
+            android:layout_marginTop="70px"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -90,18 +51,19 @@
                 <ImageView
                     android:id="@+id/book_want"
                     android:layout_width="wrap_content"
-                    android:layout_height="65dp"
+                    android:layout_height="80px"
                     android:layout_gravity="center"
-                    android:src="@drawable/logo" />
+                    android:src="@drawable/xiangdu"
+                    android:text="想读" />
 
                 <TextView
                     android:id="@+id/book_want_number"
                     android:layout_width="wrap_content"
-                    android:layout_height="15dp"
+                    android:layout_height="40px"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="想读人数："
-                    android:textSize="10sp" />
+                    android:textSize="30px" />
             </LinearLayout>
 
             <LinearLayout
@@ -113,18 +75,18 @@
                 <ImageView
                     android:id="@+id/book_reading"
                     android:layout_width="wrap_content"
-                    android:layout_height="65dp"
+                    android:layout_height="80px"
                     android:layout_gravity="center"
-                    android:src="@drawable/logo" />
+                    android:src="@drawable/zaidu" />
 
                 <TextView
                     android:id="@+id/book_reading_number"
                     android:layout_width="wrap_content"
-                    android:layout_height="15dp"
+                    android:layout_height="40px"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="想读人数："
-                    android:textSize="10sp" />
+                    android:text="在读人数："
+                    android:textSize="30px" />
             </LinearLayout>
 
             <LinearLayout
@@ -136,23 +98,25 @@
                 <ImageView
                     android:id="@+id/book_done"
                     android:layout_width="wrap_content"
-                    android:layout_height="65dp"
+                    android:layout_height="80px"
                     android:layout_gravity="center"
-                    android:src="@drawable/logo" />
+                    android:src="@drawable/yidu" />
 
                 <TextView
                     android:id="@+id/book_done_number"
                     android:layout_width="wrap_content"
-                    android:layout_height="15dp"
+                    android:layout_height="40px"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="读过人数：" />
+                    android:text="已读人数："
+                    android:textSize="30px" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120px"
+            android:layout_marginTop="32px"
             android:orientation="horizontal">
 
             <TextView
@@ -162,14 +126,17 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="评分"
-                android:textSize="24sp" />
+                android:textSize="48px" />
 
             <RatingBar
-                android:id="@+id/book_rating"
+
+                android:id="@+id/book_rating_1"
+                style="@style/roomRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:isIndicator="true"
                 android:numStars="5"
                 android:rating="3.5" />
 
@@ -181,42 +148,67 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="8.0"
-                android:textSize="24sp" />
+                android:textSize="48px" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/book_people"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="50px"
             android:layout_gravity="left"
+            android:layout_marginLeft="90px"
+            android:layout_marginBottom="20px"
             android:gravity="center"
             android:text="评分人数"
-            android:textSize="14sp" />
+            android:textSize="30px" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#000000" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="65px"
             android:layout_gravity="left"
+            android:layout_marginTop="23px"
             android:gravity="center"
             android:text="简介:"
-            android:textSize="24sp" />
+            android:textSize="48px" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/book_introduction"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:text="简介"
-            android:textSize="10sp" />
+            android:layout_height="400px"
+            android:layout_marginLeft="32px"
+            android:layout_marginTop="10px"
+            android:layout_marginRight="32px"
+            android:layout_marginBottom="10px"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/book_intro"
+                android:layout_width="match_parent"
+                android:layout_height="350px"
+                android:maxLength="100"
+                android:text="简介"
+                android:textSize="30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50px"
+                android:layout_gravity="right"
+                android:text="<展开全部>" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/jump_book_book_comments"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:background="#ffffff"
+            android:text="     全部书评   > "
+            android:textColor="#bddc8d"
+            android:textSize="48px" />
     </LinearLayout>
 </LinearLayout>
 

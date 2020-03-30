@@ -1,32 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="300px"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="100px"
+        android:layout_marginTop="32px"
+        android:layout_marginBottom="30px"
         android:orientation="horizontal">
-
+        <TextView
+            android:layout_width="400px"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="您的评分:"
+            android:textSize="48px" />
+        <RatingBar
+            android:id="@+id/book_rating_2"
+            style="@style/roomRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="3.5" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:orientation="horizontal">
         <EditText
-            android:id="@+id/book_write_short_comments_get"
-            android:layout_width="0dp"
+            android:layout_width="0px"
+            android:layout_marginLeft="30px"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:gravity="top"
-            android:hint="请输入你的评论（100字以内）" />
-
-        <ImageView
-            android:id="@+id/book_short_comments_publish"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/book_write_short_comments"
+            android:background="@drawable/shuruduanping"
+            android:hint="请输入100字以内短评"
+            android:textColorHint="#ffffff"
+            android:gravity="center"
+            android:textSize="36px"/>
+        <Button
+            android:layout_width="0px"
+            android:layout_marginLeft="40px"
+            android:layout_marginRight="40px"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:src="@drawable/logo" />
+            android:background="@drawable/fabuduanping"
+            android:id="@+id/book_publish_short_comments"
+            android:text="发布"
+            android:textSize="48px"
+            android:gravity="center"
+            android:textColor="#ffffff"/>
     </LinearLayout>
 
 </LinearLayout>
