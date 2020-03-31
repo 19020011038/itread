@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="300px"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100px"
         android:layout_marginTop="32px"
         android:layout_marginBottom="30px"
         android:orientation="horizontal">
+
         <TextView
             android:layout_width="400px"
             android:layout_height="match_parent"
@@ -16,6 +18,7 @@
             android:gravity="center"
             android:text="您的评分:"
             android:textSize="48px" />
+
         <RatingBar
             android:id="@+id/book_rating_2"
             style="@style/roomRatingBar"
@@ -27,33 +30,36 @@
             android:numStars="5"
             android:rating="3.5" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100px"
         android:orientation="horizontal">
+
         <EditText
-            android:layout_width="0px"
-            android:layout_marginLeft="30px"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
             android:id="@+id/book_write_short_comments"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30px"
+            android:layout_weight="4"
             android:background="@drawable/shuruduanping"
+            android:gravity="center"
             android:hint="请输入100字以内短评"
             android:textColorHint="#ffffff"
-            android:gravity="center"
-            android:textSize="36px"/>
+            android:textSize="36px" />
+
         <Button
+            android:id="@+id/book_publish_short_comments"
             android:layout_width="0px"
+            android:layout_height="match_parent"
             android:layout_marginLeft="40px"
             android:layout_marginRight="40px"
-            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/fabuduanping"
-            android:id="@+id/book_publish_short_comments"
-            android:text="发布"
-            android:textSize="48px"
             android:gravity="center"
-            android:textColor="#ffffff"/>
+            android:text="发布"
+            android:textColor="#ffffff"
+            android:textSize="48px" />
     </LinearLayout>
 
 </LinearLayout>
