@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="158px">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="书单"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:textSize="20dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="687dp"
+        android:background="#f0f0f0"
+        android:paddingHorizontal="20px">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="400px"
+            android:id="@+id/head">
+
+            <ImageView
+                android:id="@+id/pic"
+                android:layout_width="280px"
+                android:layout_height="335px"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="25px"
+                android:src="@drawable/shadow" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="140px"
+                android:layout_marginTop="120px"
+                android:layout_marginRight="118px"
+                android:layout_toRightOf="@+id/pic">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="中国历史入门推荐推荐推荐推荐"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_marginTop="10dp"
+                    android:text="21关注"
+                    android:textSize="18dp" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="186px"
+            android:layout_below="@+id/head"
+            android:background="@drawable/side_dark"
+            android:padding="7dp"
+            android:id="@+id/body"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="书的简介"
+                android:textSize="12dp"/>
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_below="@+id/body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50px"/>
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
