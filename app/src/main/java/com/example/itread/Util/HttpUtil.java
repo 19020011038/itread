@@ -1,5 +1,6 @@
 package com.example.itread.Util;
 
+import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,6 +29,39 @@ public class HttpUtil {
                 .add("email", email)
                 .add("password", password)
                 .add("repassword", repassword)
+                .build();
+        Request request = new Request.Builder()
+                .url(address)
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
+
+    //获得书记详情页的书籍信息    GET
+    public static void bookWithOkHttp(String address,okhttp3.Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(address)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
+
+    //获得状态     GET
+    public static void getStatusWithOkHttp(String address,okhttp3.Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(address)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
+    //更改图书状态  POST
+    public static void changeStatusWithOkHttp(String address,String status, okhttp3.Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("status",status)
                 .build();
         Request request = new Request.Builder()
                 .url(address)
