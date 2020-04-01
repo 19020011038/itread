@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="50dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="158px"
+                android:id="@+id/head">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="个人中心"
+                    android:layout_centerInParent="true"
+                    android:textStyle="bold"
+                    android:textSize="48px"/>
+                <com.example.itread.Util.RoundPicture
+                    android:id="@+id/to_load"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/shezhi_1"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+    <RelativeLayout
+        android:padding="20px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head"
+        android:background="#bfe786">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/layout1">
+
+                    <com.example.itread.Util.RoundPicture
+                        android:id="@+id/headpic"
+                        android:layout_width="262px"
+                        android:layout_height="262px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="86px"
+                        android:src="@drawable/welcome"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="昵称"
+                        android:layout_below="@+id/headpic"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="48px"
+                        android:textSize="44px"
+                        android:textStyle="bold"/>
+
+
+
+                </RelativeLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="234px"
+                    android:elevation="40dp"
+                    android:id="@+id/layout2"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_below="@+id/layout1"
+                    android:background="#ffffff"
+                    app:cardCornerRadius="10px">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="234px">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我的书评"
+                            android:textSize="40px"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/num1"
+                            android:layout_marginRight="40dp"
+                            >
+
+                        </TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="53"
+                            android:textSize="40px"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/view"
+                            android:layout_marginRight="40dp"
+                            android:id="@+id/num1">
+
+
+                        </TextView>
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:background="#e5e5e5"
+                            android:layout_marginVertical="10dp"
+                            android:id="@+id/view"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我的短评"
+                            android:textSize="40px"
+                            android:layout_toRightOf="@+id/view"
+                            android:layout_marginLeft="40dp"
+                            android:layout_centerVertical="true"
+                            android:id="@+id/text">
+
+                        </TextView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="109"
+                            android:textSize="40px"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/text"
+                            android:layout_marginLeft="40dp">
+
+                        </TextView>
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:elevation="40dp"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_below="@+id/layout2"
+                    android:background="#ffffff"
+                    android:layout_marginTop="42px"
+                    app:cardCornerRadius="10px">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/layout2"
+                        android:background="#ffffff">
+                        <com.google.android.material.tabs.TabLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tabLayout">
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="186px"
+                                android:layout_marginLeft="50dp"
+                                android:layout_height="wrap_content"
+                                android:text="Monday" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="186px"
+                                android:layout_height="wrap_content"
+                                android:text="Tuesday" />
+
+                            <com.google.android.material.tabs.TabItem
+                                android:layout_width="186px"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="50dp"
+                                android:text="Wednesday" />
+                        </com.google.android.material.tabs.TabLayout>
+
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:background="#ffffff"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/tabLayout"
+                            android:id="@+id/viewPager2"/>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+
+
+            </RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+        </ScrollView>
+
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
