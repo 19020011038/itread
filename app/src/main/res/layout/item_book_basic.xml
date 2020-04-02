@@ -198,7 +198,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="50px"
                 android:layout_gravity="right"
-                android:text="展开全部" />
+                android:text="...展开全部" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -209,7 +209,7 @@
             android:layout_width="match_parent"
             android:layout_height="120px"
             android:background="#ffffff"
-            android:text="     全部书评    "
+            android:text="     全部书评   > "
             android:textColor="#bddc8d"
             android:textSize="48px" />
     </LinearLayout>

@@ -69,4 +69,23 @@ public class HttpUtil {
                 .build();
         client.newCall(request).enqueue(callback);
     }
+
+    //修改密码post请求
+    public static void ChangePasswordWithOkHttp(String address, String old_password, String new_password, String renew_password, okhttp3.Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("old_password", old_password)
+                .add("new_password", new_password)
+                .add("re_password", renew_password)
+                .build();
+        Request request = new Request.Builder()
+                .url(address)
+                .header("Cookie",SharedPreferencesUtil.getCookie())
+                .post(body)
+                .build();
+//        client.newCall(request).enqueue(callback);
+        Call call = client.newCall(request);
+        //5.请求加入调度,重写回调方法
+        call.enqueue(callback);
+    }
 }
