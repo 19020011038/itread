@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72px"
+        android:background="#f0f0f0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="158px"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back_from_book_introduction"
+            android:layout_width="42px"
+            android:layout_height="70px"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30px"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/book_label"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="简介详情"
+            android:textColor="#000000"
+            android:textSize="48px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40px"
+        android:background="#f0f0f0" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
+
+                <TextView
+                    android:id="@+id/book_introduction_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32px"
+                    android:layout_marginRight="32px"
+                    android:textSize="32px" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

@@ -62,6 +62,7 @@ public class HttpUtil {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(address)
+                .header("Cookie",SharedPreferencesUtil.getCookie())
                 .build();
         client.newCall(request).enqueue(callback);
     }
@@ -74,6 +75,7 @@ public class HttpUtil {
                 .build();
         Request request = new Request.Builder()
                 .url(address)
+                .header("Cookie",SharedPreferencesUtil.getCookie())
                 .post(body)
                 .build();
         client.newCall(request).enqueue(callback);
@@ -96,5 +98,23 @@ public class HttpUtil {
         Call call = client.newCall(request);
         //5.请求加入调度,重写回调方法
         call.enqueue(callback);
+    }
+
+    //发布评论  POST
+    public static void publishCommentsWithOkHttp(String address, String status,String title,String content,String score, String book_num, okhttp3.Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("status",status)
+                .add("title",title)
+                .add("content",content)
+                .add("score",score)
+                .add("book_num",book_num)
+                .build();
+        Request request = new Request.Builder()
+                .url(address)
+                .header("Cookie",SharedPreferencesUtil.getCookie())
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(callback);
     }
 }

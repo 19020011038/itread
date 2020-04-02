@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,7 +38,7 @@ public class BookActivity extends AppCompatActivity {
     private TextView book_label;
     private ImageView back;
     private RecyclerView recyclerView;
-    private String book_id;
+    private String book_id = "34950090";
     private SharedPreferencesUtil check;
 
     //flag
@@ -65,6 +66,9 @@ public class BookActivity extends AppCompatActivity {
     //图书状态
     private String status;
 
+    //cookie
+    private String header;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +92,8 @@ public class BookActivity extends AppCompatActivity {
         });
 
         //接受书的id
-        Intent intent = getIntent();
-        book_id = intent.getStringExtra("book_id");
+//        Intent intent = getIntent();
+//        book_id = intent.getStringExtra("book_id");
 
 
     }
@@ -102,12 +106,12 @@ public class BookActivity extends AppCompatActivity {
         list.clear();
 
         //联网请求获得图书信息
-        bookWithOkHttp("http://49.233.166.246/AT_read/book/?num="+book_id);
+        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num="+book_id);
 
         //判断用户是否登录以显示想读已读在读按钮的状态
         if(check.isLogin()){
             if(flag_finish_url_book)
-                getStatusWithOkHttp("49.233.166.246/AT_read/status/?num="+book_id);
+                getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num="+book_id);
         }
 
 
@@ -119,18 +123,18 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
-                Toast.makeText(BookActivity.this,"获取图书信息失败，请检查您的网络",Toast.LENGTH_LONG).show();
+
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
                 try {
-
                     //解析book
                     JSONObject jsonObject = new JSONObject(responseData);
                     JSONObject jsonObject1 = jsonObject.getJSONObject("book");
                     title = jsonObject1.getString("title");
+                    Log.d("dddddddddd",title);
                     info = jsonObject1.getString("info");
                     JSONObject jsonObject2 = jsonObject1.getJSONObject("image");
                     image = jsonObject2.getString("img_s");
@@ -190,13 +194,13 @@ public class BookActivity extends AppCompatActivity {
 
                     }
 
-                    //book_url的请求结束
-                    flag_finish_url_book = true;
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
+                            //book_url的请求结束
+                            flag_finish_url_book = true;
+                            recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id,status,check));
                         }
                     });
                 } catch (JSONException e) {
@@ -212,21 +216,26 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
-                Toast.makeText(BookActivity.this,"获取图书状态失败，请检查您的网络",Toast.LENGTH_LONG).show();
+
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
+                header = response.header("set-cookie");
                 try {
                     JSONObject jsonObject = new JSONObject(responseData);
+                    //解析cookie
+                    String JSESSIONID=header.substring(0, 43);
+                    check.setCookie(true);//设置已获得cookie
+                    check.saveCookie(JSESSIONID);//保存获得的cookie
                     status = jsonObject.getString("status");
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));//垂直排列 , Ctrl+P
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id,status,check));//绑定适配器
+                            recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id,status,check));
                         }
                     });
                 } catch (JSONException e) {
