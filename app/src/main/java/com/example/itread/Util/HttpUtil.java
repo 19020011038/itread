@@ -8,6 +8,15 @@ import okhttp3.RequestBody;
 
 public class HttpUtil {
 
+    //新书速递    GET
+    public static void NewbookWithOkHttp(String address,okhttp3.Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(address)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
     //登录
     public static void loginWithOkHttp(String address, String account, String password, okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();

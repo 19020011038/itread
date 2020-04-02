@@ -27,5 +27,8 @@ public class BooklistFragment2 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_booklist2, container, false);
+
+
+
     }
 }

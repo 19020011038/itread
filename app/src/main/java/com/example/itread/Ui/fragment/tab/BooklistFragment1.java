@@ -48,6 +48,7 @@ public class BooklistFragment1 extends Fragment  {
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
+
                 intent.setClass(getActivity(), BookListActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
 
                 getActivity().startActivity(intent);
