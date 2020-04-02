@@ -102,12 +102,12 @@ public class BookActivity extends AppCompatActivity {
         list.clear();
 
         //联网请求获得图书信息
-        bookWithOkHttp("http://49.233.166.246/AT_read/book/?num="+book_id);
+        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num="+book_id);
 
         //判断用户是否登录以显示想读已读在读按钮的状态
         if(check.isLogin()){
             if(flag_finish_url_book)
-                getStatusWithOkHttp("49.233.166.246/AT_read/status/?num="+book_id);
+                getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num="+book_id);
         }
 
 

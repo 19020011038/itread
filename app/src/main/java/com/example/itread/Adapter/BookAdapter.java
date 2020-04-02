@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.itread.BookIntroductionActivity;
 import com.example.itread.HomeActivity;
 import com.example.itread.LoginActivity;
 import com.example.itread.R;
@@ -43,6 +44,12 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Map<String, Object>> list;
     private String book_id;
     private String status;
+    private float book_score;    //书籍评分
+    private float origin_score = (float)0.0;     //短评原始评分
+    private float step_score = (float)0.5;       //短评打分增长步伐
+    private float user_score;                    //用户的短评评分
+    private String user_score_string;            //用户的短评评分的string类型
+    private String user_short_comments;
     private SharedPreferencesUtil check;
     private String result;
     public Context context;
@@ -99,20 +106,20 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     public void onClick(View v) {
                         if (status.equals("3")) {
                             status = "0";
-                            changeStatusWithOkHttp("49.233.166.246/At_read/status/?num=" + book_id, status);
+                            changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status);
                             viewHolder.book_want.setImageResource(R.drawable.xiangdu2);
                             viewHolder.book_want.invalidate();
 
                         } else if (status.equals("1")) {
                             status = "0";
-                            changeStatusWithOkHttp("49.233.166.246/At_read/status/?num=" + book_id, status);
+                            changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status);
                             viewHolder.book_reading.setImageResource(R.drawable.zaidu);
                             viewHolder.book_reading.invalidate();
                             viewHolder.book_want.setImageResource(R.drawable.xiangdu2);
                             viewHolder.book_want.invalidate();
                         } else if(status.equals("2")){
                             status = "0";
-                            changeStatusWithOkHttp("49.233.166.246/At_read/status/?num=" + book_id, status);
+                            changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status);
                             viewHolder.book_done.setImageResource(R.drawable.yidu);
                             viewHolder.book_done.invalidate();
                             viewHolder.book_want.setImageResource(R.drawable.xiangdu2);
@@ -128,20 +135,20 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     public void onClick(View v) {
                         if (status.equals("3")) {
                             status = "1";
-                            changeStatusWithOkHttp("49.233.166.246/At_read/status/?num=" + book_id, status);
+                            changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status);
                             viewHolder.book_reading.setImageResource(R.drawable.zaidu2);
                             viewHolder.book_reading.invalidate();
 
                         } else if (status.equals("2")) {
                             status = "1";
-                            changeStatusWithOkHttp("49.233.166.246/At_read/status/?num=" + book_id, status);
+                            changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status);
                             viewHolder.book_done.setImageResource(R.drawable.yidu);
                             viewHolder.book_done.invalidate();
                             viewHolder.book_reading.setImageResource(R.drawable.zaidu2);
                             viewHolder.book_reading.invalidate();
                         } else if(status.equals("0")){
                             status = "1";
-                            changeStatusWithOkHttp("49.233.166.246/At_read/status/?num=" + book_id, status);
+                            changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status);
                             viewHolder.book_want.setImageResource(R.drawable.xiangdu);
                             viewHolder.book_want.invalidate();
                             viewHolder.book_reading.setImageResource(R.drawable.zaidu2);
@@ -157,20 +164,20 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     public void onClick(View v) {
                         if (status.equals("3")) {
                             status = "2";
-                            changeStatusWithOkHttp("49.233.166.246/At_read/status/?num=" + book_id, status);
+                            changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status);
                             viewHolder.book_done.setImageResource(R.drawable.yidu2);
                             viewHolder.book_reading.invalidate();
 
                         } else if (status.equals("0")) {
                             status = "2";
-                            changeStatusWithOkHttp("49.233.166.246/At_read/status/?num=" + book_id, status);
+                            changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status);
                             viewHolder.book_want.setImageResource(R.drawable.xiangdu);
                             viewHolder.book_want.invalidate();
                             viewHolder.book_done.setImageResource(R.drawable.yidu2);
                             viewHolder.book_reading.invalidate();
                         } else if(status.equals("1")){
                             status = "2";
-                            changeStatusWithOkHttp("49.233.166.246/At_read/status/?num=" + book_id, status);
+                            changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status);
                             viewHolder.book_reading.setImageResource(R.drawable.zaidu);
                             viewHolder.book_reading.invalidate();
                             viewHolder.book_done.setImageResource(R.drawable.yidu2);
@@ -211,15 +218,63 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
             }
-            //该到对rating的操作了
+            //该到对评分的操作了
+            book_score = Float.parseFloat(list.get(position).get("score").toString());
+            viewHolder.book_rating_1.setRating(book_score);
+            viewHolder.book_score.setText(list.get(position).get("score").toString());
+            viewHolder.book_people.setText(list.get(position).get("people").toString());
 
+            //简介
+            viewHolder.book_intro.setText(list.get(position).get("introduce").toString());
+            viewHolder.book_introduction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BookAdapter.this.context, BookIntroductionActivity.class);
+                    intent.putExtra("book_introduction",list.get(position).get("introduce").toString());
+                    context.startActivity(intent);
+                }
+            });
 
-
-
+            //跳转到全部书评的按钮
+            viewHolder.jump_book_book_comments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.putExtra("book_id",book_id);
+                    context.startActivity(intent);
+                }
+            });
         } else if (holder instanceof EmptyViewHolder) {
 
-        } else if (holder instanceof WriteShortCommentsViewHolder) {
+            //空白条
 
+        } else if (holder instanceof WriteShortCommentsViewHolder) {
+            //  item_book_write_short_comments
+            WriteShortCommentsViewHolder viewHolder = (WriteShortCommentsViewHolder) holder;
+            //打分
+            viewHolder.book_rating_2.setRating(origin_score);
+            viewHolder.book_rating_2.setStepSize(step_score);
+            viewHolder.book_rating_2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    user_score = rating;
+                }
+            });
+            //写短评
+            user_short_comments = viewHolder.book_write_short_comments.getText().toString();
+            //发布短评
+            viewHolder.book_publish_short_comments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(user_short_comments.equals(null))
+                        Toast.makeText(BookAdapter.this.context,"请您输入评论后再发布",Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        user_score_string = Float.toString(user_score);
+                        publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num="+book_id+"&type='s'",status," ",user_short_comments,user_score_string,book_id);
+                    }
+                }
+            });
         }else {
 
         }
@@ -261,6 +316,28 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         });
     }
+
+    public void publishCommentsWithOkHttp(String address,String status,String title,String content,String score, String book_num) {
+        HttpUtil.publishCommentsWithOkHttp(address, status,title,content,score,book_num, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+                Toast.makeText(BookAdapter.this.context, "评论发布状态失败，请检查网络", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseData);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }
 
 class BasicViewHolder extends RecyclerView.ViewHolder {
@@ -277,6 +354,7 @@ class BasicViewHolder extends RecyclerView.ViewHolder {
     public TextView book_people;
     public TextView book_intro;
     public Button jump_book_book_comments;
+    public View book_introduction;
 
     BasicViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -293,6 +371,7 @@ class BasicViewHolder extends RecyclerView.ViewHolder {
         book_people = itemView.findViewById(R.id.book_people);
         book_intro = itemView.findViewById(R.id.book_intro);
         jump_book_book_comments = itemView.findViewById(R.id.jump_book_book_comments);
+        book_introduction = itemView.findViewById(R.id.book_introduction);
     }
 }
 
@@ -307,11 +386,13 @@ class WriteShortCommentsViewHolder extends RecyclerView.ViewHolder {
     public EditText book_write_short_comments;
     public Button book_publish_short_comments;
 
+
     WriteShortCommentsViewHolder(@NonNull View itemView) {
         super(itemView);
         book_rating_2 = itemView.findViewById(R.id.book_rating_2);
         book_write_short_comments = itemView.findViewById(R.id.book_write_short_comments);
         book_publish_short_comments = itemView.findViewById(R.id.book_publish_short_comments);
+
     }
 }
 
