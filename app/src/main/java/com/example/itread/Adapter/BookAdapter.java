@@ -58,6 +58,8 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public final int WRITE_SHORT_COMMENTS_VIEW = 3;
     public final int SHORT_COMMENTS_VIEW = 4;
 
+    private String header;
+
     public BookAdapter(Context context, List<Map<String, Object>> list, String book_id, String status, SharedPreferencesUtil check) {
         this.context = context;
         this.list = list;
@@ -276,7 +278,14 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
         }else {
-
+            //    item_book_short_comments
+            final ShortCommentsViewHolder viewHolder = (ShortCommentsViewHolder) holder;
+            Glide.with(context).load(list.get(position).get("s_image").toString()).into(viewHolder.book_short_comments_image);
+            viewHolder.book_short_comments_name.setText(list.get(position).get("s_name").toString());
+            viewHolder.book_short_comments_time.setText(list.get(position).get("s_time").toString());
+            viewHolder.book_rating_3.setRating(Float.parseFloat(list.get(position).get("s_score").toString()));
+            viewHolder.book_show_short_rating.setText(list.get(position).get("s_score").toString());
+            viewHolder.book_short_comments_content.setText(list.get(position).get("s_content").toString());
         }
     }
 
@@ -291,14 +300,19 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
-                Toast.makeText(BookAdapter.this.context, "修改图书状态失败，请检查网络", Toast.LENGTH_LONG).show();
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
+                header = response.header("set-cookie");
                 try {
+                    //解析cookie
+                    String JSESSIONID=header.substring(0, 43);
+                    check.setCookie(true);//设置已获得cookie
+                    check.saveCookie(JSESSIONID);//保存获得的cookie
                     String show = null;
                     if(status.equals("0"))
                         show = "想读";
@@ -322,14 +336,19 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
-                Toast.makeText(BookAdapter.this.context, "评论发布状态失败，请检查网络", Toast.LENGTH_LONG).show();
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
+                header = response.header("set-cookie");
                 try {
+                    //解析cookie
+                    String JSESSIONID=header.substring(0, 43);
+                    check.setCookie(true);//设置已获得cookie
+                    check.saveCookie(JSESSIONID);//保存获得的cookie
                     JSONObject jsonObject = new JSONObject(responseData);
 
                 } catch (JSONException e) {
@@ -402,6 +421,7 @@ class ShortCommentsViewHolder extends RecyclerView.ViewHolder {
     public RatingBar book_rating_3;
     public TextView book_show_short_rating;
     public TextView book_short_comments_content;
+    public TextView book_short_comments_time;
 
     ShortCommentsViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -410,6 +430,7 @@ class ShortCommentsViewHolder extends RecyclerView.ViewHolder {
         book_rating_3 = itemView.findViewById(R.id.book_rating_3);
         book_show_short_rating = itemView.findViewById(R.id.book_show_short_rating);
         book_short_comments_content = itemView.findViewById(R.id.book_short_comments_content);
+        book_short_comments_time = itemView.findViewById(R.id.book_short_comments_time);
     }
 }
 

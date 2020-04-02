@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button login_loginbtn;
     private SharedPreferencesUtil check;
     private String result;
+    private String code;
+    private String header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         login_loginbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //String loginAddress="http://www.tooltool.club/vip/demo?username=123456&password=123456";
-                String loginAddress="http://www.tooltool.club/vip/demo?username=123456&password=123456";
+                String loginAddress="http://47.102.46.161/user/login";
                 String loginAccount = login_username.getText().toString();
                 String loginPassword = login_password.getText().toString();
                 if (TextUtils.isEmpty(loginAccount)){
@@ -88,37 +89,55 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //实现登录
-    public void loginWithOkHttp(String address, final String account, String password){
+    public void loginWithOkHttp(String address, final String account, final String password){
         HttpUtil.loginWithOkHttp(address,account,password, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+                Log.i( "zyr", " name : error");
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
-                try {
-                    JSONObject jsonObject = new JSONObject(responseData);
-                    result = jsonObject.getString("result");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                        if (result.equals("true")){
-                            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                header = response.header("set-cookie");
+//
+                try{
+                    JSONObject object = new JSONObject(responseData);
+                    result = object.getString("result");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.i( "zyr", "LLL"+responseData);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (result.equals("登陆成功")){
+                            String JSESSIONID=header.substring(0, 43);
+                            Log.i("zyr","0");
+                            Log.i("zyr","login_jsessionid:"+JSESSIONID);
+                            check.setCookie(true);//设置已获得cookie
+                            check.saveCookie(JSESSIONID);//保存获得的cookie
                             check.setLogin(true);  //设置登录状态为已登录
+                            Log.i("zyr","islogin:"+check.isLogin());
                             check.setAccountId(account);  //添加账户信息
+                            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                             startActivity(intent);
-                        }else{
-                            Toast.makeText(LoginActivity.this,"登录失败",Toast.LENGTH_SHORT).show();
+                        }else if (result.equals("用户名不存在")){
+                            Toast.makeText(LoginActivity.this,"该用户不存在",Toast.LENGTH_SHORT).show();
+                        }else if (result.equals("用户名或者密码错误")){
+                            Toast.makeText(LoginActivity.this,"用户名或者密码错误",Toast.LENGTH_SHORT).show();
+                        }else if (result.equals("该用户已经被冻结")){
+                            Toast.makeText(LoginActivity.this,"该用户已经被冻结",Toast.LENGTH_SHORT).show();
+                        }else if (result.equals("未提交全部参数")){
+                            Toast.makeText(LoginActivity.this,"用户名或密码为空",Toast.LENGTH_SHORT).show();
+                        }else if (result.equals("未提交POST请求")){
+                            Toast.makeText(LoginActivity.this,"提交请求失败",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+            }//标签页
         });
     }
 

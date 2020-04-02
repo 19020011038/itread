@@ -17,9 +17,6 @@
             android:name=".FindPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BookIntroductionActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".SaverActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -33,9 +30,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".BookCommentsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".BookActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SettingActivity"
@@ -63,7 +57,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".BookActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
