@@ -37,6 +37,7 @@
         android:layout_marginLeft="32px"
         android:layout_marginRight="32px"/>
     <ImageView
+        android:id="@+id/jump_book_comments_write"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/fabushuping"

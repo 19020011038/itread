@@ -1,10 +1,18 @@
 package com.example.itread.Util;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
+
 import okhttp3.Call;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class HttpUtil {
 
@@ -53,7 +61,7 @@ public class HttpUtil {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(address)
-                .header("Cookie",SharedPreferencesUtil.getCookie())
+                .header("Cookie","sessionid=96n2mf0f33ipqqogn6dlgi2ebhzhynwc")
                 .build();
         client.newCall(request).enqueue(callback);
     }
@@ -66,10 +74,11 @@ public class HttpUtil {
                 .build();
         Request request = new Request.Builder()
                 .url(address)
-                .header("Cookie",SharedPreferencesUtil.getCookie())
+                .header("Cookie","sessionid=96n2mf0f33ipqqogn6dlgi2ebhzhynwc")
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(callback);
+        Call call = client.newCall(request);
+        call.enqueue(callback);
     }
 
     //修改密码post请求
@@ -103,9 +112,27 @@ public class HttpUtil {
                 .build();
         Request request = new Request.Builder()
                 .url(address)
-                .header("Cookie",SharedPreferencesUtil.getCookie())
+                .header("Cookie","sessionid=96n2mf0f33ipqqogn6dlgi2ebhzhynwc")
                 .post(body)
                 .build();
         client.newCall(request).enqueue(callback);
     }
+
+    //上传图片获得url   POST
+    public static void postFileWithOkHttp(String address,File file, okhttp3.Callback callback)
+    {
+        OkHttpClient client = new OkHttpClient();
+        MultipartBody multipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", file.getName(), RequestBody.create(MediaType.parse("image/jpeg"), file))
+                .build();
+        Request request = new Request.Builder()
+                .url(address)
+                .post(multipartBody)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+    }
+
+    
 }

@@ -1,9 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WriteBookCommentsActivity">
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="72px"
+        android:background="#f0f0f0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="158px"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back_from_write_book_comments"
+            android:layout_width="42px"
+            android:layout_height="70px"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30px"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="发布书评"
+            android:textColor="#000000"
+            android:textSize="48px" />
+
+        <Button
+            android:id="@+id/write_book_comments_publish"
+            android:layout_width="158px"
+            android:layout_height="106px"
+            android:layout_gravity="center"
+            android:layout_marginRight="42px"
+            android:background="@drawable/fabuduanping"
+            android:text="发布"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40px"
+        android:background="#f0f0f0" />
+
+    <EditText
+        android:id="@+id/write_book_comments_title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="86px"
+        android:layout_marginRight="86px"
+        android:hint="标题"
+        android:textSize="60px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RatingBar
+            android:id="@+id/write_book_comments_rating"
+            style="@style/roomRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="86px"
+            android:gravity="center"
+            android:isIndicator="false"
+            android:numStars="5"
+            android:rating="3.5" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="86px"
+            android:layout_gravity="right"
+            android:text="为这本书打分吧"
+            android:textSize="36px"
+            android:textColor="#7f7f7f"
+            android:gravity="center"/>
+
+    </LinearLayout>
+    <jp.wasabeef.richeditor.RichEditor
+        android:id="@+id/write_book_comments_richeditor"
+        android:layout_width="match_parent"
+        android:layout_height="960px"
+        android:gravity="center"
+        android:layout_marginTop="60px"
+        android:layout_marginBottom="100px"
+        android:layout_marginRight="86px"
+        android:layout_marginLeft="86px"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160px"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/write_book_comments_album"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/album" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/write_book_comments_image"
+                android:src="@drawable/blue"/>
+            <TextView
+                android:id="@+id/write_book_comments_book_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="书名"
+                android:textColor="#434343"
+                android:textSize="36px" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

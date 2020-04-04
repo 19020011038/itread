@@ -64,7 +64,7 @@ public class BookActivity extends AppCompatActivity {
     private String s_time;
 
     //图书状态
-    private String status;
+    private String status = "3";
 
     //cookie
     private String header;
@@ -78,9 +78,9 @@ public class BookActivity extends AppCompatActivity {
             actionBar.hide();
         }
         //绑定控件
-        book_label = (TextView)findViewById(R.id.book_label);
-        back = (ImageView)findViewById(R.id.back_from_book);
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView_book);
+        book_label = (TextView) findViewById(R.id.book_label);
+        back = (ImageView) findViewById(R.id.back_from_book);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_book);
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
 
         //返回按钮的监听
@@ -95,77 +95,90 @@ public class BookActivity extends AppCompatActivity {
 //        Intent intent = getIntent();
 //        book_id = intent.getStringExtra("book_id");
 
+        //联网请求获得图书信息
+        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+
+        //判断用户是否登录以显示想读已读在读按钮的状态
+//        if(check.isLogin()){
+
+        getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
+//        }
+
+
 
     }
+
     //重写onResume方法
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
 
         //清楚列表内容
         list.clear();
 
         //联网请求获得图书信息
-        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num="+book_id);
+        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
 
         //判断用户是否登录以显示想读已读在读按钮的状态
-        if(check.isLogin()){
-            if(flag_finish_url_book)
-                getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num="+book_id);
-        }
+//        if(check.isLogin()){
+
+        getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
+//        }
 
 
     }
 
     //获得图书信息的方法
-    public void bookWithOkHttp(String address){
+    public void bookWithOkHttp(String address) {
         HttpUtil.bookWithOkHttp(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
 
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
+                Log.d("aaaaa", responseData);
                 try {
                     //解析book
                     JSONObject jsonObject = new JSONObject(responseData);
                     JSONObject jsonObject1 = jsonObject.getJSONObject("book");
                     title = jsonObject1.getString("title");
-                    Log.d("dddddddddd",title);
+                    Log.d("dddddddddd", title);
                     info = jsonObject1.getString("info");
-                    JSONObject jsonObject2 = jsonObject1.getJSONObject("image");
-                    image = jsonObject2.getString("img_s");
+                    JSONObject jsonObject2 = jsonObject1.getJSONObject("img");   //image
+                    image = jsonObject2.getString("img_s");               //image
                     introduce = jsonObject1.getString("introduce");
-                    score = jsonObject1.getString("score");
+                    score = jsonObject1.getString("socre");     //score
                     done = jsonObject1.getString("done");
                     progress = jsonObject1.getString("progress");
                     want = jsonObject1.getString("want");
                     people = jsonObject1.getString("people");
 
                     Map map = new HashMap();
-                    map.put("title",title);
-                    map.put("info",info);
-                    map.put("image",image);
-                    map.put("introduce",introduce);
-                    map.put("score",score);
-                    map.put("done",done);
-                    map.put("progress",progress);
-                    map.put("want",want);
-                    map.put("people",people);
-                    map.put("type",1);
+                    map.put("title", title);
+                    map.put("info", info);
+                    map.put("image", image);
+                    map.put("introduce", introduce);
+                    map.put("score", score);
+                    map.put("done", done);
+                    map.put("progress", progress);
+                    map.put("want", want);
+                    map.put("people", people);
+                    map.put("type", 1);
                     list.add(map);
 
                     //添加一行空白间隔
                     Map map1 = new HashMap();
-                    map1.put("type",2);
+                    map1.put("type", 2);
                     list.add(map1);
 
                     //添加输入短评框
                     Map map2 = new HashMap();
-                    map2.put("type",3);
+                    map2.put("type", 3);
                     list.add(map2);
 
                     //添加一行空白间隔
@@ -183,12 +196,12 @@ public class BookActivity extends AppCompatActivity {
                         s_content = jsonObject3.getString("content");
 
                         Map map3 = new HashMap();
-                        map3.put("s_image",s_image);
-                        map3.put("s_name",s_name);
-                        map3.put("s_time",s_time);
-                        map3.put("s_score",s_score);
-                        map3.put("s_content",s_content);
-                        map3.put("type",4);
+                        map3.put("s_image", s_image);
+                        map3.put("s_name", s_name);
+                        map3.put("s_time", s_time);
+                        map3.put("s_score", s_score);
+                        map3.put("s_content", s_content);
+                        map3.put("type", 4);
 
                         list.add(map3);
 
@@ -197,10 +210,8 @@ public class BookActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            //book_url的请求结束
-                            flag_finish_url_book = true;
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id,status,check));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check));
                         }
                     });
                 } catch (JSONException e) {
@@ -211,31 +222,29 @@ public class BookActivity extends AppCompatActivity {
     }
 
     //获得图书状态的方法
-    public void getStatusWithOkHttp(String address){
+    public void getStatusWithOkHttp(String address) {
         HttpUtil.getStatusWithOkHttp(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
 
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
-                header = response.header("set-cookie");
+                Log.d("qqqqqqqqqq", responseData);
                 try {
                     JSONObject jsonObject = new JSONObject(responseData);
-                    //解析cookie
-                    String JSESSIONID=header.substring(0, 43);
-                    check.setCookie(true);//设置已获得cookie
-                    check.saveCookie(JSESSIONID);//保存获得的cookie
                     status = jsonObject.getString("status");
+                    Log.d("lllllllllllllll", status);
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id,status,check));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check));
                         }
                     });
                 } catch (JSONException e) {
