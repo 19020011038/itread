@@ -47,5 +47,8 @@ dependencies {
     //   implementation 'com.google.android.material:material:1.2.0-alpha02'
     implementation 'com.google.android.material:material:1.1.0-beta01'
     implementation 'androidx.cardview:cardview:1.0.0'
+    //照相依赖
+
+    implementation 'com.longsh:OptionFrame:1.0.0'
 
 }

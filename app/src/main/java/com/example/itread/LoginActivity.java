@@ -7,28 +7,40 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.itread.Util.HttpUtil;
 import com.example.itread.Util.SharedPreferencesUtil;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private RelativeLayout login_register;
     private EditText login_username;
     private EditText login_password;
     private Button login_loginbtn;
@@ -42,7 +54,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_login);
 
-        login_register = findViewById(R.id.login_register);
+
+        //别忘了这句！！！！
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
         login_username = findViewById(R.id.login_username);
         login_password = findViewById(R.id.login_password);
@@ -51,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         login_loginbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
                 String loginAddress="http://47.102.46.161/user/login";
                 String loginAccount = login_username.getText().toString();
                 String loginPassword = login_password.getText().toString();
@@ -79,14 +93,20 @@ public class LoginActivity extends AppCompatActivity {
         login_password.setFilters(fArray1);
 
     }
-    public void onClick(View v) {
+
+    public void onClick(View v){
         switch (v.getId()) {
             case R.id.login_register:
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.login_forgetpassword:
+                Intent intent1 = new Intent(LoginActivity.this, FindPasswordActivity.class);
+                startActivity(intent1);
+                break;
         }
     }
+
 
     //实现登录
     public void loginWithOkHttp(String address, final String account, final String password){
@@ -122,14 +142,15 @@ public class LoginActivity extends AppCompatActivity {
                             Log.i("zyr","islogin:"+check.isLogin());
                             check.setAccountId(account);  //添加账户信息
                             Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }else if (result.equals("用户名不存在")){
                             Toast.makeText(LoginActivity.this,"该用户不存在",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("用户名或者密码错误")){
                             Toast.makeText(LoginActivity.this,"用户名或者密码错误",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("该用户已经被冻结")){
-                            Toast.makeText(LoginActivity.this,"该用户已经被冻结",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,"该用户尚未完成注册环节，处于冻结状态",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("未提交全部参数")){
                             Toast.makeText(LoginActivity.this,"用户名或密码为空",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("未提交POST请求")){

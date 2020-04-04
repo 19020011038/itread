@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -12,6 +13,7 @@ import com.example.itread.Base.BaseFragment;
 import com.example.itread.Ui.fragment.guide.BookListFragment;
 import com.example.itread.Ui.fragment.guide.NewBookFragment;
 import com.example.itread.Ui.fragment.guide.PersonFragment;
+import com.example.itread.Util.SharedPreferencesUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import butterknife.BindView;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private PersonFragment personFragment;
     private FragmentManager fm;
     private Unbinder unbinder;
+    private SharedPreferencesUtil check;
 
 
 
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_acitivity);
         unbinder = ButterKnife.bind(this);
+        check = SharedPreferencesUtil.getInstance(getApplicationContext());
 
         initFragments();
         initListener();
@@ -72,7 +76,12 @@ public class MainActivity extends AppCompatActivity {
                     switchFragment(bookListFragment);
                     break;
                 case R.id.person:
-                    switchFragment(personFragment);
+                    if (check.isLogin())
+                        switchFragment(personFragment);
+                    else {
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
                     break;
             }
 
