@@ -1,58 +1,37 @@
 package com.example.itread.Ui.fragment.guide;
 
-import android.os.Bundle;
-import android.util.Base64;
+import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
-
 import com.example.itread.Adapter.NewBookAdapter;
 import com.example.itread.Base.BaseFragment;
-import com.example.itread.BookActivity;
+import com.example.itread.BookListActivity;
 import com.example.itread.R;
-import com.google.android.material.tabs.TabLayout;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import com.example.itread.Adapter.BookAdapter;
 import com.example.itread.Util.HttpUtil;
-import com.example.itread.Util.SharedPreferencesUtil;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class NewBookFragment extends BaseFragment {
 
     private List<Map<String, Object>> list = new ArrayList<>();
     private RecyclerView recyclerView;
-
     private String name;
+
+    private Button button;
 
     @Override
     protected int getRootViewResId() {
@@ -60,8 +39,30 @@ public class NewBookFragment extends BaseFragment {
     }
 
     @Override
+
+
+
     public void onResume() {
         super.onResume();
+
+        button = getActivity().findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BookListActivity.class);
+
+                getActivity().startActivity(intent);
+//                onDestroyView();
+//                onDestroy();
+
+
+            }
+        });
+
+
+
+
+
 
         recyclerView = (RecyclerView)getActivity().findViewById(R.id.recyclerView);
 
@@ -77,7 +78,7 @@ public class NewBookFragment extends BaseFragment {
 
     //获得图书信息的方法
     public void NewbookWithOkHttp(String address){
-        HttpUtil.bookWithOkHttp(address, new Callback() {
+        HttpUtil.NewbookWithOkHttp(address, new Callback() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -94,14 +95,15 @@ public class NewBookFragment extends BaseFragment {
                     JSONObject jsonObject = new JSONObject(responseData);
                     JSONArray jsonArray = jsonObject.getJSONArray("info");
 
-                    for (int i = 0; i < jsonObject.length(); i++) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
                         name = jsonObject1.getString("title");
                         Map map = new HashMap();
+
                         map.put("name",name);
-                        Log.d("hhhh", name);
+
                         list.add(map);
 
 
@@ -126,4 +128,8 @@ public class NewBookFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }

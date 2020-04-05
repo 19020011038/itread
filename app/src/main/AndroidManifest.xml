@@ -11,7 +11,10 @@
         android:label="爱特读书"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity android:name=".GetEmailNumberActivity"></activity>
         <activity
             android:name=".FindPasswordActivity"
@@ -44,9 +47,6 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".BookListAllActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ChangePasswordActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -59,6 +59,8 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait"/>
+
+
 
         <activity
             android:name=".WelcomeActivity"
