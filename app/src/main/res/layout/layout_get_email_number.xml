@@ -58,7 +58,7 @@
             android:layout_marginRight="14dp"
             android:layout_marginTop="140dp"
             android:hint=" 请输入验证码"
-            android:inputType="textEmailAddress"
+            android:inputType="number"
             android:background="@drawable/edittext_shape">
         </EditText>
 

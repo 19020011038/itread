@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <ImageButton
+            android:id="@+id/mybook_comment_del"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/tong1"
+            android:layout_marginRight="30px"
+            android:layout_marginTop="50px">
+        </ImageButton>
+
+        <TextView
+            android:id="@+id/mybook_comment_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mybook_comment_del"
+            android:layout_marginRight="86px"
+            android:text="书评名"
+            android:textSize="48px"
+            android:textColor="#434343"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginLeft="18dip">
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="星星星星"
+            android:layout_below="@id/mybook_comment_name"
+            android:layout_marginTop="5dip"
+            android:layout_marginLeft="18dip">
+        </TextView>
+
+        <TextView
+            android:id="@+id/mybook_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mybook_comment_name"
+            android:layout_marginTop="30dip"
+            android:layout_marginLeft="48px"
+            android:layout_marginRight="86px"
+            android:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
+            android:textSize="40px"
+            android:textColor="#434343"
+            android:lineSpacingExtra="6dip"
+            android:maxLines="3"
+            android:ellipsize="end">
+        </TextView>
+
+        <TextView
+            android:id="@+id/mybook_comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mybook_comment_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="86px"
+            android:layout_marginTop="8dip"
+            android:text="2020.03.11"
+            android:textSize="38px"
+            android:textColor="#b7b7b7">
+        </TextView>
+
+        <RelativeLayout
+            android:id="@+id/mybook_comment_bookall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mybook_comment_time"
+            android:background="#e5e5e5"
+            android:layout_marginTop="10dip"
+            android:layout_marginLeft="30px"
+            android:layout_marginRight="86px">
+
+            <ImageView
+                android:id="@+id/mybook_comment_bookphoto"
+                android:layout_width="130px"
+                android:layout_height="180px"
+                android:background="#c7c7c7"
+                android:layout_marginTop="8dip"
+                android:layout_marginLeft="30px"
+                android:layout_marginBottom="8dip">
+            </ImageView>
+
+            <TextView
+                android:id="@+id/mybook_comment_bookname"
+                android:layout_width="360px"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/mybook_comment_bookphoto"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="56px"
+                android:layout_marginRight="5dip"
+                android:layout_marginTop="56px"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="书名书名"
+                android:textSize="40px"
+                android:textColor="#434343">
+            </TextView>
+
+            <TextView
+                android:id="@+id/mybook_comment_bookstatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="56dip"
+                android:text="已读"
+                android:textSize="40px"
+                android:textColor="#434343"
+                android:layout_centerVertical="true">
+            </TextView>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mybook_comment_bookall"
+            android:text=""
+            android:textSize="48px">
+        </TextView>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="38px"
+        android:textColor="#f0f0f0">
+    </TextView>
+</LinearLayout>

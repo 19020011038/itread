@@ -57,7 +57,9 @@
             android:layout_marginRight="14dp"
             android:layout_marginTop="80dp"
             android:layout_below="@+id/login_imagelogo"
-            android:hint=" 请输入手机号"
+            android:hint=" 请输入用户名"
+            android:inputType="text"
+            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:background="@drawable/edittext_shape">
         </EditText>
 
@@ -70,7 +72,8 @@
             android:layout_below="@+id/login_username"
             android:layout_marginTop="15dp"
             android:background="@drawable/edittext_shape"
-            android:hint=" 请输入密码">
+            android:hint=" 请输入密码"
+            android:inputType="textPassword">
         </EditText>
 
         <Button
@@ -88,10 +91,11 @@
         </Button>
 
         <RelativeLayout
-            android:id="@+id/login_forgitpassword"
+            android:id="@+id/login_forgetpassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#f0f0f0"
+            android:onClick="onClick"
             android:layout_below="@+id/login_password"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="22dp">

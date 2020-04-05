@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="16px"
+        android:background="#f0f0f0">
+    </TextView>
+
+    <RelativeLayout
+        android:id="@+id/myshort_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <ImageButton
+            android:id="@+id/myshort_comment_del"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/tong1"
+            android:layout_marginRight="30px"
+            android:layout_marginTop="50px">
+        </ImageButton>
+
+        <ImageView
+            android:id="@+id/myshort_comment_bookphoto"
+            android:layout_width="100px"
+            android:layout_height="130px"
+            android:background="#c7c7c7"
+            android:layout_marginTop="36px"
+            android:layout_marginLeft="140px">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/myshort_comment_bookname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70px"
+            android:layout_marginRight="70dip"
+            android:layout_toRightOf="@+id/myshort_comment_bookphoto"
+            android:layout_marginLeft="30px"
+            android:text="书名书名书名"
+            android:textSize="40px"
+            android:textStyle="bold"
+            android:textColor="#434343"
+            android:maxLines="1"
+            android:ellipsize="end">
+        </TextView>
+
+        <ImageView
+            android:id="@+id/myshort_2"
+            android:layout_width="70px"
+            android:layout_height="50px"
+            android:background="@drawable/myshort2"
+            android:layout_below="@+id/myshort_comment_bookphoto"
+            android:layout_marginTop="28dip"
+            android:layout_marginLeft="22dip">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/myshort_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myshort_comment_bookphoto"
+            android:layout_toRightOf="@+id/myshort_2"
+            android:layout_marginTop="30dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="86px"
+            android:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
+            android:lineSpacingExtra="6dip"
+            android:textSize="44px"
+            android:textColor="#434343">
+        </TextView>
+
+        <TextView
+            android:id="@+id/myshort_comment_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myshort_comment_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="86px"
+            android:layout_marginTop="40px"
+            android:text="2020.3.8"
+            android:textSize="38px"
+            android:textColor="#7f7f7f">
+        </TextView>
+    </RelativeLayout>
+</LinearLayout>
