@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.itread.Base.BaseFragment;
@@ -32,28 +33,38 @@ public class MainActivity extends AppCompatActivity {
     private Unbinder unbinder;
     private SharedPreferencesUtil check;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_acitivity);
         unbinder = ButterKnife.bind(this);
-        check = SharedPreferencesUtil.getInstance(getApplicationContext());
 
         initFragments();
         initListener();
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+
+
+    }
+
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//
+//    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (unbinder!=null){
-            unbinder.unbind();
-        }
+//        if (unbinder!=null){
+//            unbinder.unbind();
+//        }
     }
 
     private void initFragments() {
@@ -62,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         personFragment = new PersonFragment();
         fm = getSupportFragmentManager();
         switchFragment(newBookFragment);
+        check = SharedPreferencesUtil.getInstance(getApplicationContext());
     }
 
     private void initListener() {
@@ -76,13 +88,15 @@ public class MainActivity extends AppCompatActivity {
                     switchFragment(bookListFragment);
                     break;
                 case R.id.person:
+
                     if (check.isLogin())
-                        switchFragment(personFragment);
+                    switchFragment(personFragment);
                     else {
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                         startActivity(intent);
                     }
                     break;
+
             }
 
             return true;
@@ -90,8 +104,7 @@ public class MainActivity extends AppCompatActivity {
     });
     }
 
-    private void switchFragment(BaseFragment targetFragment) {
-
+    public void switchFragment(BaseFragment targetFragment) {
        FragmentTransaction fragmentTransaction = fm.beginTransaction();
        fragmentTransaction.replace(R.id.book_new_container,targetFragment);
        fragmentTransaction.commit();

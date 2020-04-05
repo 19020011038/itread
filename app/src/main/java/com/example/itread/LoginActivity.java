@@ -176,4 +176,14 @@ public class LoginActivity extends AppCompatActivity {
         };
         editText.setFilters(new InputFilter[]{filter});
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+//        mainActivity.switchFragment(NewBookFragment);
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(intent);
+
+    }
 }

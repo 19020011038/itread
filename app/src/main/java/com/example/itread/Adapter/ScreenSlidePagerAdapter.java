@@ -22,19 +22,14 @@ public class ScreenSlidePagerAdapter extends FragmentStateAdapter {
         {
             case 0:
                 return new BooklistFragment1();
-
             case 1:
                 return new BooklistFragment2();
-
             case 2:
                 return new BooklistFragment3();
-
             case 3:
                 return new BooklistFragment4();
-
             default:
                 return new BooklistFragment5();
-
         }
     }
     @Override

@@ -34,6 +34,9 @@ public abstract class BaseFragment extends Fragment  {
     }
 
     protected void initView(View rootView){
+
+
+
     }
 
     @Override
