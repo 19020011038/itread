@@ -3,6 +3,7 @@ package com.example.itread.Ui.fragment.guide;
 
 
 import com.example.itread.Base.BaseFragment;
+import com.example.itread.BookListActivity;
 import com.example.itread.R;
 import com.example.itread.Ui.fragment.tab.BooklistFragment1;
 import com.example.itread.Ui.fragment.tab.BooklistFragment2;
@@ -15,10 +16,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.itread.Adapter.ScreenSlidePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
@@ -30,6 +33,9 @@ import butterknife.BindView;
 
 public class BookListFragment extends BaseFragment {
 
+    private Button button;
+    private ScreenSlidePagerAdapter screenSlidePagerAdapter;
+
     @BindView(R.id.viewPager2)
     ViewPager2 pager;
 
@@ -39,14 +45,34 @@ public class BookListFragment extends BaseFragment {
     @Override
     protected int getRootViewResId() {
         return R.layout.fragment_booklist;
+
+
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+         screenSlidePagerAdapter = new ScreenSlidePagerAdapter(getActivity());
+
+        button = getActivity().findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BookListActivity.class);
+
+                getActivity().startActivity(intent);
+//                onDestroyView();
+//                onDestroy();
+
+
+            }
+        });
+
         ButterKnife.bind(getActivity());
 
-        pager.setAdapter(new ScreenSlidePagerAdapter(getActivity()));
+        pager.setAdapter(screenSlidePagerAdapter);
         new TabLayoutMediator(tabLayout, pager, true,new TabLayoutMediator.TabConfigurationStrategy(){
 
             @Override

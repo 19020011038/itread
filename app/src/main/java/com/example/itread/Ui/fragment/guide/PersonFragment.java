@@ -64,4 +64,12 @@ public class PersonFragment extends BaseFragment {
         }).attach();
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+
+    }
 }

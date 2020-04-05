@@ -1,97 +1,112 @@
 package com.example.itread.Ui.fragment.tab;
 
-import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.itread.BookListActivity;
-import com.example.itread.MainActivity;
+import com.example.itread.Adapter.BooklistFragmentAdapter.BooklistFragmentAdapter2;
 import com.example.itread.R;
+import com.example.itread.Util.HttpUtil;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class BooklistFragment1 extends Fragment  {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    private Button bt;
-    private TextView tv;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        super.onCreate(savedInstanceState);
+public class BooklistFragment1 extends Fragment {
 
-        InitSetting();
+    private List<Map<String, Object>> list = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private String name;
+    private String image;
 
-        InitEvent();
-
-    }
-
-    private void InitSetting() {
-
-
-
-    }
-
-    private void InitEvent() {
-        Button button = (Button) getActivity().findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), BookListActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
-
-                getActivity().startActivity(intent);
-
-                startActivity(intent);
-            }
-        });
-    }
-
-
-
-//////
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_booklist1, container, false);
-///////
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_booklist1, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        recyclerView = (RecyclerView)getActivity().findViewById(R.id.recyclerView);
+
+        //清除列表内容
+        list.clear();
+
+        //联网请求获得图书信息
+        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list1/?list_id=0");
+
+    }
 
 
-        bt = view.findViewById(R.id.button);
-        bt.setOnClickListener(new View.OnClickListener()
-        {
 
+    //获得图书信息的方法
+    public void NewbookWithOkHttp(String address){
+        HttpUtil.bookWithOkHttp(address, new Callback() {
 
             @Override
-            public void onClick(View v) {
-                Toast.makeText(view.getContext(), "123456", Toast.LENGTH_SHORT).show();
-
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+                //       Toast.makeText(getActivity(),"获取图书信息失败，请检查您的网络",Toast.LENGTH_LONG).show();
             }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+                try {
+
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    JSONArray jsonArray = jsonObject.getJSONArray("info");
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+
+                        name = jsonObject1.getString("title");
+
+                        Log.d("ggg",name);
+
+                        image = jsonObject1.getString("image");
+                        Map map = new HashMap();
+
+                        map.put("name",name);
+                        map.put("image",image);
+
+                        list.add(map);
+
+                    }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
+                            recyclerView.setAdapter(new BooklistFragmentAdapter2(getActivity(), list));//绑定适配器
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
         });
-
-
-
-
-        return view;
     }
-
-    public void SetText(String content){
-        tv.setText(content);
-
-    }
- //   private void initUI() {
-
-  //     bt = bt.findViewById(R.id.button);
- //       bt.setOnClickListener((View.OnClickListener) this);
- //   }
 }
