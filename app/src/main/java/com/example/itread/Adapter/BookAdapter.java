@@ -55,6 +55,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public final int WRITE_SHORT_COMMENTS_VIEW = 3;
     public final int SHORT_COMMENTS_VIEW = 4;
     public final int NONE_COMMENTS_VIEW = 5;
+    private boolean flag_publish_short_comments = false;
 
     private String header;
 
@@ -349,6 +350,11 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         else {
                             user_score_string = Float.toString(user_score);
                             publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num=" + book_id + "&type='s'", " ", user_short_comments, user_score_string, book_id);
+                            if(flag_publish_short_comments)
+                            {
+                                notifyDataSetChanged();
+                                flag_publish_short_comments = false;
+                            }
                         }
                     }
                 }
@@ -421,8 +427,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 try {
 
                     JSONObject jsonObject = new JSONObject(responseData);
-
-                    Log.d("ffffffffffffffffffff", jsonObject.getString("result"));
+                    result = jsonObject.getString("result");
+                    if (result.equals("200"))
+                        flag_publish_short_comments = true;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
