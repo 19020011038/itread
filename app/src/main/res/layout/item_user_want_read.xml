@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:id="@+id/want_read_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/want_read_photo"
+            android:layout_width="248px"
+            android:layout_height="320px"
+            android:layout_marginTop="70px"
+            android:layout_marginLeft="86px"
+            android:background="#c7c7c7">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/want_read_bookname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/want_read_photo"
+            android:layout_marginTop="130px"
+            android:layout_marginLeft="60px"
+            android:layout_marginRight="80px"
+            android:text="书名书名书名"
+            android:textSize="40px"
+            android:textColor="#434343"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end">
+        </TextView>
+
+        <TextView
+            android:id="@+id/want_read_bookinfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/want_read_photo"
+            android:layout_below="@+id/want_read_bookname"
+            android:layout_marginLeft="55px"
+            android:layout_marginTop="56px"
+            android:layout_marginRight="80px"
+            android:text="（国籍）作者/年份/出版社"
+            android:textSize="40px"
+            android:textColor="#7f7f7f"
+            android:maxLines="2"
+            android:ellipsize="end">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="10px"
+            android:layout_below="@id/want_read_photo">
+        </TextView>
+    </RelativeLayout>
+</LinearLayout>
