@@ -69,10 +69,11 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
     //数据
     private String title;
     private String image;
-    private String score;
-    private String html;
+    private String score = "5.0";
+    private String html = " ";
     private String book_name;
     private String book_id;
+    private String user_status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,11 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
         write_book_comments_rating = (RatingBar) findViewById(R.id.write_book_comments_rating);
         write_book_comments_title = (EditText) findViewById(R.id.write_book_comments_title);
 
+        //接受数据
+        Intent intent = getIntent();
+        book_id = intent.getStringExtra("book_id");
+
+
         //返回按钮的监听
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,10 +106,39 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
             }
         });
 
-        
-        //接受数据
-        Intent intent = getIntent();
-        book_id = intent.getStringExtra("book_id");
+        //打分
+        write_book_comments_rating.setStepSize((float) 0.5);
+        write_book_comments_rating.setRating((float)5.0);
+        write_book_comments_rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                score = String.valueOf(rating);
+            }
+        });
+
+        //写评论
+        write_book_comments_richeditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
+            @Override
+            public void onTextChange(String text) {
+                html = text;
+            }
+        });
+        //发布
+        write_book_comments_publish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title = write_book_comments_title.getText().toString();
+                if("".equals(title))
+                    Toast.makeText(WriteBookCommentsActivity.this,"请输入书评标题",Toast.LENGTH_SHORT).show();
+                else {
+                    if(html.equals(" "))
+                        Toast.makeText(WriteBookCommentsActivity.this,"请输入书评内容",Toast.LENGTH_SHORT).show();
+                    else {
+                        publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num="+book_id+"&type='l'",title,html,score,book_id);
+                    }
+                }
+            }
+        });
 
         //点击相册突变的监听
         write_book_comments_album.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +259,7 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
 
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             file = toFile(bitmap);
-            bitmap = reducingBitmapSampleFromPath(file.getPath(),200,200);
+            bitmap = reducingBitmapSampleFromPath(file.getPath(),250,250);
             file = toFile(bitmap);
             postFileWithOkHttp("http://47.102.46.161/user/image_upload",file);
             Log.d("caocaocaocaocao",file.getName());
@@ -371,8 +406,39 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             write_book_comments_richeditor.insertImage(url,"image");
+                            write_book_comments_richeditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
+                                @Override
+                                public void onTextChange(String text) {
+                                    html = text;
+                                }
+                            });
                         }
                     });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //发布评论
+    public void publishCommentsWithOkHttp(String address, String title, String content, String score, String book_num) {
+        HttpUtil.publishCommentsWithOkHttp(address, title, content, score, book_num, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+                try {
+
+                    JSONObject jsonObject = new JSONObject(responseData);
+
+                    Log.d("ffffffffffffffffffff",jsonObject.getString("result"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

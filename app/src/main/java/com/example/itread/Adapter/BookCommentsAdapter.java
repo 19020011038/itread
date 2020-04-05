@@ -2,15 +2,12 @@ package com.example.itread.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,11 +19,13 @@ import com.example.itread.R;
 import java.util.List;
 import java.util.Map;
 
-public class BookCommentsAdapter extends RecyclerView.Adapter<BookCommentsAdapter.ViewHolder>{
+public class BookCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private List<Map<String, Object>> list;
     private Context context;
     private String book_id;
+    public final int None_Comments_View = 2;
+    public final int Book_Comments_View = 1;
 
     public BookCommentsAdapter(Context context, List<Map<String, Object>> list,String book_id) {
         this.context = context;
@@ -34,43 +33,57 @@ public class BookCommentsAdapter extends RecyclerView.Adapter<BookCommentsAdapte
         this.book_id = book_id;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return Integer.valueOf(list.get(position).get("type").toString());
+    }
+
     @NonNull
     @Override
-    public BookCommentsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_book_comments, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
+        if (viewType == None_Comments_View) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_none_comments, parent, false);
+            return new NoCommentsViewHolder(view);
+        } else{
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book_comments, parent, false);
+            return new BookCommentsViewHolder(view);
+        }
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull BookCommentsAdapter.ViewHolder holder, final int position) {
-        Glide.with(BookCommentsAdapter.this.context).load(list.get(position).get("image").toString());
-        holder.name.setText(list.get(position).get("name").toString());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        if(holder instanceof BookCommentsViewHolder){
+            BookCommentsViewHolder viewHolder = (BookCommentsViewHolder)holder;
+            Glide.with(BookCommentsAdapter.this.context).load(list.get(position).get("image").toString());
+            viewHolder.name.setText(list.get(position).get("name").toString());
 //        holder.ratingBar.setRating(Float.parseFloat(list.get(position).get("score").toString()));
-        if(list.get(position).get("status").toString().equals("0")){
-            holder.status.setText("想读");
-        }else if(list.get(position).get("status").toString().equals("1")){
-            holder.status.setText("在读");
-        }else  if(list.get(position).get("status").toString().equals("2")){
-            holder.status.setText("已读");
-        }else {
-            holder.status.setText(" ");
-        }
-        holder.time.setText(list.get(position).get("time").toString());
-        holder.title.setText(list.get(position).get("title").toString());
-        holder.word.setText(list.get(position).get("word").toString());
-        //跳转到书评详情
-        holder.jump_book_comments_detail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BookCommentsAdapter.this.context, BookCommentsDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("book_id",book_id);
-                bundle.putString("position", String.valueOf(position));
-                intent.putExtras(bundle);
-                context.startActivity(intent);
+            if(list.get(position).get("status").toString().equals("0")){
+                viewHolder.status.setText("想读");
+            }else if(list.get(position).get("status").toString().equals("1")){
+                viewHolder.status.setText("在读");
+            }else  if(list.get(position).get("status").toString().equals("2")){
+                viewHolder.status.setText("已读");
+            }else {
+                viewHolder.status.setText(" ");
             }
-        });
+            viewHolder.time.setText(list.get(position).get("time").toString());
+            viewHolder.title.setText(list.get(position).get("title").toString());
+            viewHolder.word.setText(list.get(position).get("word").toString());
+            //跳转到书评详情
+            viewHolder.jump_book_comments_detail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BookCommentsAdapter.this.context, BookCommentsDetailActivity.class);
+                    intent.putExtra("book_id",book_id);
+                    context.startActivity(intent);
+                }
+            });
+
+        }else{
+
+        }
     }
 
     @Override
@@ -78,7 +91,7 @@ public class BookCommentsAdapter extends RecyclerView.Adapter<BookCommentsAdapte
         return list.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class BookCommentsViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView name;
         public RatingBar ratingBar;
@@ -88,7 +101,7 @@ public class BookCommentsAdapter extends RecyclerView.Adapter<BookCommentsAdapte
         public TextView word;
         public View jump_book_comments_detail;
 
-        ViewHolder(@NonNull View itemView) {
+        BookCommentsViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.book_comments_image);
             name = itemView.findViewById(R.id.book_comments_name);
@@ -100,4 +113,17 @@ public class BookCommentsAdapter extends RecyclerView.Adapter<BookCommentsAdapte
             jump_book_comments_detail = itemView.findViewById(R.id.item_book_comments);
         }
     }
+
+
+    class NoCommentsViewHolder extends RecyclerView.ViewHolder {
+
+
+        NoCommentsViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+        }
+
+    }
+
+
 }

@@ -1,8 +1,6 @@
 package com.example.itread.Util;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
 
 import okhttp3.Call;
 import okhttp3.FormBody;
@@ -11,8 +9,6 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class HttpUtil {
 
@@ -61,7 +57,7 @@ public class HttpUtil {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(address)
-                .header("Cookie","sessionid=96n2mf0f33ipqqogn6dlgi2ebhzhynwc")
+                .header("Cookie",SharedPreferencesUtil.getCookie())
                 .build();
         client.newCall(request).enqueue(callback);
     }
@@ -74,7 +70,7 @@ public class HttpUtil {
                 .build();
         Request request = new Request.Builder()
                 .url(address)
-                .header("Cookie","sessionid=96n2mf0f33ipqqogn6dlgi2ebhzhynwc")
+                .header("Cookie",SharedPreferencesUtil.getCookie())
                 .post(body)
                 .build();
         Call call = client.newCall(request);
@@ -101,10 +97,9 @@ public class HttpUtil {
     }
 
     //发布评论  POST
-    public static void publishCommentsWithOkHttp(String address, String status,String title,String content,String score, String book_num, okhttp3.Callback callback){
+    public static void publishCommentsWithOkHttp(String address,String title,String content,String score, String book_num, okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();
         FormBody body = new FormBody.Builder()
-                .add("status",status)
                 .add("title",title)
                 .add("content",content)
                 .add("score",score)
@@ -112,7 +107,7 @@ public class HttpUtil {
                 .build();
         Request request = new Request.Builder()
                 .url(address)
-                .header("Cookie","sessionid=96n2mf0f33ipqqogn6dlgi2ebhzhynwc")
+                .header("Cookie",SharedPreferencesUtil.getCookie())
                 .post(body)
                 .build();
         client.newCall(request).enqueue(callback);

@@ -1,16 +1,16 @@
 package com.example.itread;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.itread.Adapter.BookAdapter;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.itread.Adapter.BookCommentsAdapter;
 import com.example.itread.Util.HttpUtil;
 import com.example.itread.Util.SharedPreferencesUtil;
@@ -35,8 +35,11 @@ public class BookCommentsActivity extends AppCompatActivity {
     private ImageView back;
     private RecyclerView recyclerView;
     private String book_id ;
+    private String user_status;
     private SharedPreferencesUtil check;
     private ImageView jump_book_comments_write;
+    private String number;                           //书评数目
+
 
     //长评的内容
     private String image;
@@ -52,6 +55,11 @@ public class BookCommentsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_book_comments);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+        check = SharedPreferencesUtil.getInstance(getApplicationContext());
         //返回按钮
         back = (ImageView)findViewById(R.id.back_from_book_comments);
         back.setOnClickListener(new View.OnClickListener() {
@@ -62,18 +70,25 @@ public class BookCommentsActivity extends AppCompatActivity {
         });
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView_book_comments);
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
+
         //接受书的id
         Intent intent = getIntent();
         book_id = intent.getStringExtra("book_id");
+
+
 
         //跳转到写书评
         jump_book_comments_write = (ImageView)findViewById(R.id.jump_book_comments_write);
         jump_book_comments_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(BookCommentsActivity.this,WriteBookCommentsActivity.class);
-                intent1.putExtra("book_id",book_id);
-                startActivity(intent1);
+                if(!check.isLogin())
+                    Toast.makeText(BookCommentsActivity.this,"请您登录后再进行此操作",Toast.LENGTH_SHORT).show();
+                else {
+                    Intent intent1 = new Intent(BookCommentsActivity.this,WriteBookCommentsActivity.class);
+                    intent1.putExtra("book_id",book_id);
+                    startActivity(intent1);
+                }
             }
         });
     }
@@ -101,30 +116,38 @@ public class BookCommentsActivity extends AppCompatActivity {
                 final String responseData = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(responseData);
-                    //解析长评
-                    JSONArray jsonArray = jsonObject.getJSONArray("bookcomments");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        image = jsonObject1.getString("image");
-                        name = jsonObject1.getString("name");
-                        status = jsonObject1.getString("status");
-                        content = jsonObject1.getString("content");
-                        word = jsonObject1.getString("word");
-                        title = jsonObject1.getString("title");
-                        score = jsonObject1.getString("score");
-                        time = jsonObject1.getString("time");
+                    JSONObject jsonObject2 = jsonObject.getJSONObject("number");
+                    number = jsonObject2.getString("bookcomments");
+                    if(number.equals("0")){
                         Map map = new HashMap();
-                        map.put("image",image);
-                        map.put("name",name);
-                        map.put("status",status);
-                        map.put("content",content);
-                        map.put("word",word);
-                        map.put("title",title);
-                        map.put("score",score);
-                        map.put("time",time);
+                        map.put("type",2);
                         list.add(map);
+                    }else{
+                        //解析长评
+                        JSONArray jsonArray = jsonObject.getJSONArray("bookcomments");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            image = jsonObject1.getString("image");
+                            name = jsonObject1.getString("name");
+                            status = jsonObject1.getString("status");
+                            content = jsonObject1.getString("content");
+                            word = jsonObject1.getString("word");
+                            title = jsonObject1.getString("title");
+                            score = jsonObject1.getString("score");
+                            time = jsonObject1.getString("time");
+                            Map map = new HashMap();
+                            map.put("image",image);
+                            map.put("name",name);
+                            map.put("status",status);
+                            map.put("content",content);
+                            map.put("word",word);
+                            map.put("title",title);
+                            map.put("score",score);
+                            map.put("time",time);
+                            map.put("type",1);
+                            list.add(map);
+                        }
                     }
-
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

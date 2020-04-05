@@ -1,17 +1,16 @@
 package com.example.itread;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.itread.Adapter.BookAdapter;
 import com.example.itread.Util.HttpUtil;
@@ -38,11 +37,13 @@ public class BookActivity extends AppCompatActivity {
     private TextView book_label;
     private ImageView back;
     private RecyclerView recyclerView;
-    private String book_id = "34950090";
+    private String book_id ;
     private SharedPreferencesUtil check;
+    private String number;      //短评是否为空
+
 
     //flag
-    private boolean flag_finish_url_book = false;
+    private boolean flag = false;
 
 
     //有关书的
@@ -77,11 +78,13 @@ public class BookActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
+
         //绑定控件
         book_label = (TextView) findViewById(R.id.book_label);
         back = (ImageView) findViewById(R.id.back_from_book);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_book);
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
+
 
         //返回按钮的监听
         back.setOnClickListener(new View.OnClickListener() {
@@ -92,41 +95,42 @@ public class BookActivity extends AppCompatActivity {
         });
 
         //接受书的id
-//        Intent intent = getIntent();
-//        book_id = intent.getStringExtra("book_id");
+        Intent intent = getIntent();
+        book_id = intent.getStringExtra("book_id");
 
         //联网请求获得图书信息
+
         bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
 
         //判断用户是否登录以显示想读已读在读按钮的状态
-//        if(check.isLogin()){
 
-        getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
-//        }
+        if (check.isLogin()) {
 
+            getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
 
-
-    }
-
-    //重写onResume方法
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        //清楚列表内容
-        list.clear();
-
-        //联网请求获得图书信息
-        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
-
-        //判断用户是否登录以显示想读已读在读按钮的状态
-//        if(check.isLogin()){
-
-        getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
-//        }
-
+        }
 
     }
+//
+//    //重写onResume方法
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        //清楚列表内容
+//        list.clear();
+//
+//        //联网请求获得图书信息
+//        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+//
+//        //判断用户是否登录以显示想读已读在读按钮的状态
+////        if(check.isLogin()){
+//
+//        getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
+////        }
+//
+//
+//    }
 
     //获得图书信息的方法
     public void bookWithOkHttp(String address) {
@@ -152,7 +156,7 @@ public class BookActivity extends AppCompatActivity {
                     JSONObject jsonObject2 = jsonObject1.getJSONObject("img");   //image
                     image = jsonObject2.getString("img_s");               //image
                     introduce = jsonObject1.getString("introduce");
-                    score = jsonObject1.getString("socre");     //score
+                    score = jsonObject1.getString("score");     //score
                     done = jsonObject1.getString("done");
                     progress = jsonObject1.getString("progress");
                     want = jsonObject1.getString("want");
@@ -184,27 +188,36 @@ public class BookActivity extends AppCompatActivity {
                     //添加一行空白间隔
                     list.add(map1);
 
-                    //解析短评
-                    JSONArray jsonArray = jsonObject.getJSONArray("shortcomments");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-
-                        JSONObject jsonObject3 = jsonArray.getJSONObject(i);
-                        s_image = jsonObject3.getString("image");
-                        s_name = jsonObject3.getString("name");
-                        s_time = jsonObject3.getString("time");
-                        s_score = jsonObject3.getString("score");
-                        s_content = jsonObject3.getString("content");
-
+                    //判断是否有短评
+                    JSONObject jsonObject4 = jsonObject.getJSONObject("number");
+                    number = jsonObject4.getString("shortcomments");
+                    if (number.equals("0")) {
                         Map map3 = new HashMap();
-                        map3.put("s_image", s_image);
-                        map3.put("s_name", s_name);
-                        map3.put("s_time", s_time);
-                        map3.put("s_score", s_score);
-                        map3.put("s_content", s_content);
-                        map3.put("type", 4);
+                        map.put("type", 5);
+                        list.add(map);
+                    } else {
+                        //解析短评
+                        JSONArray jsonArray = jsonObject.getJSONArray("shortcomments");
+                        for (int i = 0; i < jsonArray.length(); i++) {
 
-                        list.add(map3);
+                            JSONObject jsonObject3 = jsonArray.getJSONObject(i);
+                            s_image = jsonObject3.getString("image");
+                            s_name = jsonObject3.getString("name");
+                            s_time = jsonObject3.getString("time");
+                            s_score = jsonObject3.getString("score");
+                            s_content = jsonObject3.getString("content");
 
+                            Map map3 = new HashMap();
+                            map3.put("s_image", s_image);
+                            map3.put("s_name", s_name);
+                            map3.put("s_time", s_time);
+                            map3.put("s_score", s_score);
+                            map3.put("s_content", s_content);
+                            map3.put("type", 4);
+
+                            list.add(map3);
+
+                        }
                     }
 
                     runOnUiThread(new Runnable() {
@@ -212,6 +225,7 @@ public class BookActivity extends AppCompatActivity {
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
                             recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check));
+                            book_label.setText(title);
                         }
                     });
                 } catch (JSONException e) {

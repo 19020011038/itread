@@ -42,21 +42,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-<!--        <ScrollView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="vertical">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
 
 
-<!--                <RelativeLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:descendantFocusability="blocksDescendants">-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerView_book"
@@ -64,10 +64,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="32px"
                         android:layout_marginRight="32px"/>
-<!--                </RelativeLayout>-->
-<!--            </LinearLayout>-->
+                </RelativeLayout>
+            </LinearLayout>
 
-<!--        </ScrollView>-->
+        </ScrollView>
 
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
