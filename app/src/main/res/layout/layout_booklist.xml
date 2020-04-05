@@ -42,7 +42,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="140px"
-                android:layout_marginTop="120px"
+                android:layout_marginTop="80px"
                 android:layout_marginRight="118px"
                 android:layout_toRightOf="@+id/pic">
 
@@ -76,9 +76,10 @@
             android:layout_marginTop="10dp">
 
             <TextView
+                android:id="@+id/list_introduce"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="书的简介"
+                android:text="书单的简介"
                 android:textSize="12dp"/>
         </RelativeLayout>
 
