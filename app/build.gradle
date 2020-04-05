@@ -51,4 +51,9 @@ dependencies {
 
     implementation 'com.longsh:OptionFrame:1.0.0'
 
+    //富文本解析器依赖
+    implementation 'com.zzhoujay.richtext:richtext:3.0.7'
+    //富文本编辑器
+    implementation 'jp.wasabeef:richeditor-android:1.2.2'
+
 }

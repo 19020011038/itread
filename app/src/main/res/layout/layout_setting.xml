@@ -65,7 +65,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:onClick="onClick"
-                android:background="@drawable/icon2"
+                android:src="@drawable/icon2"
                 android:layout_marginTop="50dip"
                 android:layout_centerHorizontal="true">
             </de.hdodenhof.circleimageview.CircleImageView>

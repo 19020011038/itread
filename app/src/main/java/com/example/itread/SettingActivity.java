@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.itread.Util.HttpUtil;
 import com.example.itread.Util.SharedPreferencesUtil;
 import com.longsh.optionframelibrary.OptionBottomDialog;
@@ -51,6 +52,7 @@ public class SettingActivity extends AppCompatActivity {
     private ImageView setting_icon;
     private Button setting_signout;
     private String result;
+    private String icon_string;
 
     private byte[] a = null;
 
@@ -80,8 +82,11 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i("zyr","setting_isLogin:"+check.isLogin());
                 signoutWithOkHttp("http://47.102.46.161/user/logout");
+
             }
         });
+
+        homeNameOkHttp("http://47.102.46.161/user/index");
 
     }
 
@@ -257,7 +262,7 @@ public class SettingActivity extends AppCompatActivity {
                     Bitmap bitmap1 = compressImage(bitmap);
                     File file = getFile(bitmap1);
                     Log.i("zyr", file.toString());
-                    iconWithOkHttp("http://47.102.46.161/user/change_image", file);
+                    iconWithOkHttp("http://47.102.46.161/user/change_image", filePath);
                     //a = getBitmapByte(bitmap1);
 //                    MyDataBaseHelper myDataBaseHelper = new MyDataBaseHelper(Home.this);
 //                    SQLiteDatabase database = myDataBaseHelper.getReadableDatabase();
@@ -358,8 +363,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     //修改头像
-    public void iconWithOkHttp(String address, final File icon_file){
-        HttpUtil.iconWithOkHttp(address, icon_file, new Callback() {
+    public void iconWithOkHttp(String address, File icon_file){
+        HttpUtil.userIconWithOkHttp(address, icon_file, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
@@ -382,9 +387,6 @@ public class SettingActivity extends AppCompatActivity {
                     public void run() {
                         if (result.equals("头像修改成功")){
                             Toast.makeText(SettingActivity.this,"头像修改成功",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(SettingActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            finish();
                         }else if (result.equals("未上传图片")){
                             Toast.makeText(SettingActivity.this,"未上传图片",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("图片格式不正确")){
@@ -429,6 +431,38 @@ public class SettingActivity extends AppCompatActivity {
                         }else if (result.equals("用户未登录")){
                             Toast.makeText(SettingActivity.this,"用户未登录,退出失败",Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+            }//标签页
+        });
+    }
+
+    //展示头像
+    public void homeNameOkHttp(String address){
+        HttpUtil.homeNameOkHttp(address, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+                Log.i( "zyr", " name : error");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+                try{
+                    JSONObject object = new JSONObject(responseData);
+                    JSONObject object1 = object.getJSONObject("user");
+                    icon_string = object1.getString("icon");
+                    Log.i("zyr", "HomeActivity.icon_url:"+icon_string);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.i( "zyr", "LLL"+responseData);
+                }
+               runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(SettingActivity.this).load(icon_string).into(setting_icon);
+//                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
                     }
                 });
             }//标签页

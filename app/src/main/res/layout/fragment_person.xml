@@ -42,9 +42,6 @@
 
         </androidx.cardview.widget.CardView>
 
-
-
-
     <RelativeLayout
         android:padding="20px"
         android:layout_width="match_parent"
@@ -76,13 +73,12 @@
                         android:id="@+id/home_nickname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="昵称"
+                        android:text=""
                         android:layout_below="@+id/home_icon"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="48px"
                         android:textSize="44px"
                         android:textStyle="bold"/>
-
 
 
                 </RelativeLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mycomment_photo"
+            android:layout_width="148dp"
+            android:layout_height="78dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dip"
+            android:background="@drawable/mycommentwhite">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/mycomment_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mycomment_photo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dip"
+            android:text="Σ(っ °Д °;)っ"
+            android:textSize="36px"
+            android:textColor="#c7c7c7"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:id="@+id/mycomment_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mycomment_1"
+            android:layout_marginTop="10dip"
+            android:layout_centerHorizontal="true"
+            android:text="这里一本书都没有呢"
+            android:textSize="36px"
+            android:textColor="#c7c7c7"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:id="@+id/mycomment_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mycomment_2"
+            android:layout_marginTop="10dip"
+            android:layout_centerHorizontal="true"
+            android:text="快去开启你的阅读之旅吧~"
+            android:textSize="36px"
+            android:textColor="#c7c7c7"
+            android:textStyle="bold">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="80px"
+            android:layout_below="@+id/mycomment_3">
+        </TextView>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -23,12 +23,12 @@
             android:id="@+id/book_rating_2"
             style="@style/roomRatingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100px"
             android:layout_gravity="center"
             android:gravity="center"
-            android:isIndicator="true"
+            android:isIndicator="false"
             android:numStars="5"
-            android:rating="3.5" />
+            android:rating="0" />
     </LinearLayout>
 
     <LinearLayout

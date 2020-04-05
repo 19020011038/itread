@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mycomment_photo"
+            android:layout_width="248dp"
+            android:layout_height="118dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dip"
+            android:background="@drawable/mycommentwhite">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/mycomment_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mycomment_photo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dip"
+            android:text="Σ(っ °Д °;)っ"
+            android:textSize="18sp"
+            android:textColor="#c7c7c7">
+        </TextView>
+
+        <TextView
+            android:id="@+id/mycomment_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mycomment_1"
+            android:layout_marginTop="10dip"
+            android:layout_centerHorizontal="true"
+            android:text="居然还没有发表过评论~"
+            android:textSize="18sp"
+            android:textColor="#c7c7c7">
+        </TextView>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -22,6 +22,8 @@ import com.example.itread.Adapter.CollectAdapter;
 import com.example.itread.Adapter.ScreenSlidePagerAdapter;
 import com.example.itread.Base.BaseFragment;
 import com.example.itread.BookListActivity;
+import com.example.itread.MyBookCommentsActivity;
+import com.example.itread.MyShortCommentsActivity;
 import com.example.itread.R;
 import com.example.itread.SettingActivity;
 import com.example.itread.Ui.fragment.collect.ReadedFragment;
@@ -57,6 +59,8 @@ public class PersonFragment extends BaseFragment {
     private String nameAddress;
     private String nickname;
     private String icon;
+    private RelativeLayout home_bookcomment;
+    private RelativeLayout home_shortcomment;
 
     @Override
     protected int getRootViewResId() {
@@ -97,15 +101,37 @@ public class PersonFragment extends BaseFragment {
 
         home_icon = getActivity().findViewById(R.id.home_icon);
         home_nickname = getActivity().findViewById(R.id.home_nickname);
+        home_bookcomment = getActivity().findViewById(R.id.home_bookcomment);
+        home_shortcomment = getActivity().findViewById(R.id.home_shortcomment);
         home_setting = (RelativeLayout) getActivity().findViewById(R.id.home_setting);
         nameAddress = "http://47.102.46.161/user/index";
         homeNameOkHttp(nameAddress);
         home_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), SettingActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
+                getActivity().startActivity(intent);
+            }
+        });
+
+        home_bookcomment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), MyBookCommentsActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
+                getActivity().startActivity(intent);
+            }
+        });
+
+        home_shortcomment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), MyShortCommentsActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
                 getActivity().startActivity(intent);
             }
         });

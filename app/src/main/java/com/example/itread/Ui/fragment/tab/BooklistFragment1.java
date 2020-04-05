@@ -68,14 +68,10 @@ public class BooklistFragment1 extends Fragment  {
 
 
         bt = view.findViewById(R.id.button);
-        bt.setOnClickListener(new View.OnClickListener()
-        {
-
-
+        bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(view.getContext(), "123456", Toast.LENGTH_SHORT).show();
-
             }
         });
 
