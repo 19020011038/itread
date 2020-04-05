@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,8 +34,9 @@ public class BookCommentsActivity extends AppCompatActivity {
     private List<Map<String, Object>> list = new ArrayList<>();
     private ImageView back;
     private RecyclerView recyclerView;
-    private String book_id = "34950090";
+    private String book_id ;
     private SharedPreferencesUtil check;
+    private ImageView jump_book_comments_write;
 
     //长评的内容
     private String image;
@@ -60,11 +62,27 @@ public class BookCommentsActivity extends AppCompatActivity {
         });
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView_book_comments);
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
+        //接受书的id
+        Intent intent = getIntent();
+        book_id = intent.getStringExtra("book_id");
+
+        //跳转到写书评
+        jump_book_comments_write = (ImageView)findViewById(R.id.jump_book_comments_write);
+        jump_book_comments_write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(BookCommentsActivity.this,WriteBookCommentsActivity.class);
+                intent1.putExtra("book_id",book_id);
+                startActivity(intent1);
+            }
+        });
     }
     //重写onResume方法
     @Override
     protected void onResume(){
         super.onResume();
+        //清空列表
+        list.clear();
         //联网请求获得图书信息
         bookWithOkHttp("http://47.102.46.161/AT_read/book/?num="+book_id);
     }
@@ -111,7 +129,7 @@ public class BookCommentsActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookCommentsActivity.this));//垂直排列 , Ctrl+P
-                            recyclerView.setAdapter(new BookCommentsAdapter(BookCommentsActivity.this, list));//绑定适配器
+                            recyclerView.setAdapter(new BookCommentsAdapter(BookCommentsActivity.this, list,book_id));//绑定适配器
                         }
                     });
                 } catch (JSONException e) {

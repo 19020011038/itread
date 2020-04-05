@@ -5,11 +5,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="爱特读书"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
@@ -20,7 +23,13 @@
             android:name=".FindPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".BookCommentsDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".SaverActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".BookIntroductionActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".WriteBookCommentsActivity"
