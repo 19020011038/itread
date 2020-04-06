@@ -74,6 +74,10 @@ public class BookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_book);
+
+        Intent intent = getIntent();
+        book_id = intent.getStringExtra("book_id");
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -95,8 +99,6 @@ public class BookActivity extends AppCompatActivity {
         });
 
         //接受书的id
-        Intent intent = getIntent();
-        book_id = intent.getStringExtra("book_id");
 
         //联网请求获得图书信息
 
