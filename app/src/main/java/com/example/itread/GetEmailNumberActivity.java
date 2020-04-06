@@ -51,7 +51,6 @@ public class GetEmailNumberActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String getemailAddress="http://47.102.46.161/user/check_code";
                 String getemail_string = getemail.getText().toString();
-                int getemail_int = Integer.valueOf(getemail_string);
                 if (TextUtils.isEmpty(getemail_string)){
                     Toast.makeText(GetEmailNumberActivity.this,"验证码为空", Toast.LENGTH_SHORT).show();
                 }else {

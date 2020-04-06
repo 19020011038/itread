@@ -59,7 +59,7 @@ public class MyBookCommentsActivity extends AppCompatActivity {
             }
         });
 
-        mybookCommentWithOkHttp("http://47.102.46.161/AT_read/u/book_review");
+        mybookCommentWithOkHttp("http://47.102.46.161/user/comment_request");
     }
 
     public void mybookCommentWithOkHttp(String address){

@@ -73,6 +73,7 @@ public class ReadedFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
+                Log.i("zyr", "wantread:responseData:"+responseData);
                 try{
                     JSONObject object = new JSONObject(responseData);
                     JSONArray jsonArray = object.getJSONArray("want_read");
@@ -108,7 +109,7 @@ public class ReadedFragment extends Fragment {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.i( "zyr", "LLL"+responseData);
+                    Log.i( "zyr", "LLLfragment"+responseData);
                 }
 //                getActivity().runOnUiThread(new Runnable() {
 //                    @Override
