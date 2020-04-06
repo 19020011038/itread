@@ -64,12 +64,12 @@
                 android:src="@drawable/shadow"
                 android:layout_marginVertical="32px"
                 android:layout_marginLeft="82px"
-                android:id="@+id/pic"/>
+                android:id="@+id/image"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/pic"
+                android:layout_toRightOf="@+id/image"
                 android:layout_marginLeft="70px"
                 android:layout_centerVertical="true">
                 <TextView
@@ -102,6 +102,7 @@
                         android:layout_height="wrap_content"
                         android:text="7.8"
                         android:layout_toRightOf="@+id/book_rating"
+                        android:id="@+id/score"
                         android:layout_marginLeft="5dp"/>
 
                 </RelativeLayout>
@@ -113,11 +114,12 @@
                     android:text="作者名字"
                     android:id="@+id/authorname1"/>
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/relative"
                     android:text="作者名字"
-                    android:id="@+id/authorname2"/>
+                    android:id="@+id/author"/>
 
             </RelativeLayout>
             <RelativeLayout
@@ -163,6 +165,7 @@
             android:background="@drawable/side_dark"
             android:padding="10dp">
             <TextView
+                android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="书的简介"
