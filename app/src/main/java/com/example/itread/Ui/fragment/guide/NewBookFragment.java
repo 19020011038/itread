@@ -30,6 +30,11 @@ public class NewBookFragment extends BaseFragment {
     private List<Map<String, Object>> list = new ArrayList<>();
     private RecyclerView recyclerView;
     private String name;
+    private String image;
+    private String content;
+    private String author;
+    private String book_id;
+    private String score;
 
     private Button button;
 
@@ -70,7 +75,7 @@ public class NewBookFragment extends BaseFragment {
         list.clear();
 
         //联网请求获得图书信息
-        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list1/?list_id=0");
+        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
 
 
 
@@ -93,16 +98,29 @@ public class NewBookFragment extends BaseFragment {
 
 
                     JSONObject jsonObject = new JSONObject(responseData);
-                    JSONArray jsonArray = jsonObject.getJSONArray("info");
+                    JSONArray jsonArray = jsonObject.getJSONArray("book");
 
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
                         name = jsonObject1.getString("title");
+                        image = jsonObject1.getString("image");
+                        author = jsonObject1.getString("author");
+                        content = jsonObject1.getString("content");
+                        book_id = jsonObject1.getString("num");
+                        score = jsonObject1.getString("score");
+
+
                         Map map = new HashMap();
 
                         map.put("name",name);
+                        map.put("image",image);
+                        map.put("author",author);
+                        map.put("content",content);
+                        map.put("book_id",book_id);
+                        map.put("score",score);
+
 
                         list.add(map);
 
