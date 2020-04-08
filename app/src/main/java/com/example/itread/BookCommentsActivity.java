@@ -125,7 +125,7 @@ public class BookCommentsActivity extends AppCompatActivity {
                     }else{
                         //解析长评
                         JSONArray jsonArray = jsonObject.getJSONArray("bookcomments");
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                        for (int i = jsonArray.length()-1; i >=0; i--) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             image = jsonObject1.getString("image");
                             name = jsonObject1.getString("name");

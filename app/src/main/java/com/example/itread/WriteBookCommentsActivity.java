@@ -12,6 +12,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -75,6 +77,9 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
     private String book_id;
     private String user_status;
 
+    private String result;
+    private Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +139,12 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                     if(html.equals(" "))
                         Toast.makeText(WriteBookCommentsActivity.this,"请输入书评内容",Toast.LENGTH_SHORT).show();
                     else {
-                        publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num="+book_id+"&type='l'",title,html,score,book_id);
+                        Log.d("book_id",book_id);
+                        Log.d("title",title);
+                        Log.d("html",html);
+                        Log.d("score",score);
+
+                        publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num="+book_id+"&type=l",title,html,score,book_id);
                     }
                 }
             }
@@ -259,13 +269,12 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
 
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             file = toFile(bitmap);
-            bitmap = reducingBitmapSampleFromPath(file.getPath(),250,250);
+            bitmap = reducingBitmapSampleFromPath(file.getPath(),300,300);
             file = toFile(bitmap);
             postFileWithOkHttp("http://47.102.46.161/user/image_upload",file);
             Log.d("caocaocaocaocao",file.getName());
             Log.d("pppppppppppp",file.getPath());
 
-            //
         } else {
             Toast.makeText(this, "获取图片失败！", Toast.LENGTH_SHORT).show();
         }
@@ -437,12 +446,26 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                 try {
 
                     JSONObject jsonObject = new JSONObject(responseData);
-
-                    Log.d("ffffffffffffffffffff",jsonObject.getString("result"));
+                    result = jsonObject.getString("result");
+                    if(result.equals("200"));{
+                        Message message = new Message();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                    Log.d("长评的返回结果:",jsonObject.getString("result"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+        handler = new Handler(WriteBookCommentsActivity.this.getMainLooper()) {
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                if (true) {
+                    WriteBookCommentsActivity.this.finish();
+                    Toast.makeText(WriteBookCommentsActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
     }
 }

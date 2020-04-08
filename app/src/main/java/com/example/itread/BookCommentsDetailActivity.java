@@ -100,6 +100,7 @@ public class BookCommentsDetailActivity extends AppCompatActivity {
                     //解析book
                     JSONObject jsonObject = new JSONObject(responseData);
                     JSONArray jsonArray = jsonObject.getJSONArray("bookcomments");
+                    Log.d("qiuqiunile",position);
                     JSONObject jsonObject1 = jsonArray.getJSONObject(Integer.parseInt(position));
                     image = jsonObject1.getString("image");
                     name = jsonObject1.getString("name");
@@ -111,7 +112,7 @@ public class BookCommentsDetailActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             book_comments_detail_title.setText(title);
-                            Glide.with(BookCommentsDetailActivity.this).load(image).into(book_comments_detail_image);
+                            Glide.with(BookCommentsDetailActivity.this).load("http://47.102.46.161/media/"+image).into(book_comments_detail_image);
                             book_comments_detail_name.setText(name);
                             book_comments_detail_score.setText(score);
                             book_comments_detail_time.setText(time);

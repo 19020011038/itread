@@ -39,6 +39,8 @@
         android:background="#f0f0f0" />
 
     <TextView
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
         android:id="@+id/book_comments_detail_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +51,8 @@
         android:textSize="20sp" />
 
     <LinearLayout
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -60,7 +64,7 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/book_comments_detail_image"
-                android:layout_width="80dp"
+                android:layout_width="40dp"
                 android:layout_height="80dp"
                 android:layout_gravity="left"
                 android:scaleType="centerCrop"
@@ -85,6 +89,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:maxLength="10"
                     android:id="@+id/book_comments_detail_time"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -95,7 +100,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:gravity="center"
@@ -103,7 +108,7 @@
 
                 <RatingBar
                     android:id="@+id/book_comments_detail_rating"
-                    style="@style/roomRatingBar"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -129,6 +134,8 @@
         android:layout_height="40px"
         android:background="#f0f0f0" />
     <TextView
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/book_comments_detail_richtext"/>

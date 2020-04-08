@@ -3,6 +3,8 @@ package com.example.itread.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +26,12 @@ import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
 import com.example.itread.Util.SharedPreferencesUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,27 +48,43 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private float book_score;    //书籍评分
     private float origin_score = (float) 5.0;     //短评原始评分
     private float step_score = (float) 0.5;       //短评打分增长步伐
-    private float user_score;                    //用户的短评评分
+    private float user_score = (float) 5.0;                    //用户的短评评分
     private String user_score_string = "5.0";            //用户的短评评分的string类型
     private String user_short_comments;
     private SharedPreferencesUtil check;
     private String result;
+    private boolean flag_publish_finish = false;
+    private int want_number;
+    private int reading_number;
+    private int done_number;
+
     public Context context;
     public final int BASIC_VIEW = 1;
     public final int EMPTY_VIEW = 2;
     public final int WRITE_SHORT_COMMENTS_VIEW = 3;
     public final int SHORT_COMMENTS_VIEW = 4;
     public final int NONE_COMMENTS_VIEW = 5;
-    private boolean flag_publish_short_comments = false;
+    private String s_image;
+    private String s_name;
+    private String s_time;
+    private String s_score;
+    private String s_content;
+    private String number;
+    private Map map3 = new HashMap();
+    private Handler handler;
+    private Handler handler1;
+    private RecyclerView.ViewHolder holder2;
+    private int all_people = 0;
+    private float all_score = (float)0.0;
 
-    private String header;
 
-    public BookAdapter(Context context, List<Map<String, Object>> list, String book_id, String status, SharedPreferencesUtil check) {
+    public BookAdapter(Context context, List<Map<String, Object>> list, String book_id, String status, SharedPreferencesUtil check, String number) {
         this.context = context;
         this.list = list;
         this.book_id = book_id;
         this.status = status;
         this.check = check;
+        this.number = number;
     }
 
     @Override
@@ -85,7 +105,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (viewType == WRITE_SHORT_COMMENTS_VIEW) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book_write_short_comments, parent, false);
             return new WriteShortCommentsViewHolder(view);
-        } else if (viewType == WRITE_SHORT_COMMENTS_VIEW) {
+        } else if (viewType == SHORT_COMMENTS_VIEW) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_book_short_comments, parent, false);
             return new ShortCommentsViewHolder(view);
         } else {
@@ -101,6 +121,13 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             final BasicViewHolder viewHolder = (BasicViewHolder) holder;
             Glide.with(context).load(list.get(position).get("image").toString()).into(viewHolder.book_image);
             viewHolder.book_info.setText(list.get(position).get("info").toString());
+            //   显示想读在读已读的人数
+            want_number = Integer.valueOf(list.get(position).get("want").toString());
+            reading_number = Integer.valueOf(list.get(position).get("progress").toString());
+            done_number = Integer.valueOf(list.get(position).get("done").toString());
+            viewHolder.book_want_number.setText("想读人数：" + list.get(position).get("want").toString());
+            viewHolder.book_reading_number.setText("在读人数：" + list.get(position).get("progress").toString());
+            viewHolder.book_done_number.setText("已读人数：" + list.get(position).get("done").toString());
 
             //初始化想读在读已读,并设置监听
             if (check.isLogin()) {
@@ -117,19 +144,20 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
                 //想读按钮
                 viewHolder.book_want.setOnClickListener(new View.OnClickListener() {
+                    private String want_string;
+                    private String reading_string;
+                    private String done_string;
+
                     @Override
                     public void onClick(View v) {
-                        int temp;
-                        String t;
                         if (status.equals("3")) {
                             status = "0";
                             changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id, status);
                             viewHolder.book_want.setImageResource(R.drawable.xiangdu2);
                             viewHolder.book_want.invalidate();
-                            temp = Integer.valueOf(list.get(position).get("want").toString());
-                            temp++;
-                            t = String.valueOf(temp);
-                            viewHolder.book_want_number.setText("想读人数：" + t);
+                            want_number++;
+                            want_string = String.valueOf(want_number);
+                            viewHolder.book_want_number.setText("想读人数：" + want_string);
 
                         } else if (status.equals("1")) {
                             status = "0";
@@ -138,14 +166,12 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             viewHolder.book_reading.invalidate();
                             viewHolder.book_want.setImageResource(R.drawable.xiangdu2);
                             viewHolder.book_want.invalidate();
-                            temp = Integer.valueOf(list.get(position).get("progress").toString());
-                            temp--;
-                            t = String.valueOf(temp);
-                            viewHolder.book_reading_number.setText("在读人数：" + t);
-                            temp = Integer.valueOf(list.get(position).get("want").toString());
-                            temp++;
-                            t = String.valueOf(temp);
-                            viewHolder.book_want_number.setText("想读人数：" + t);
+                            reading_number--;
+                            reading_string = String.valueOf(reading_number);
+                            viewHolder.book_reading_number.setText("在读人数：" + reading_string);
+                            want_number++;
+                            want_string = String.valueOf(want_number);
+                            viewHolder.book_want_number.setText("想读人数：" + want_string);
 
                         } else if (status.equals("2")) {
                             status = "0";
@@ -154,14 +180,12 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             viewHolder.book_done.invalidate();
                             viewHolder.book_want.setImageResource(R.drawable.xiangdu2);
                             viewHolder.book_want.invalidate();
-                            temp = Integer.valueOf(list.get(position).get("want").toString());
-                            temp++;
-                            t = String.valueOf(temp);
-                            viewHolder.book_want_number.setText("想读人数：" + t);
-                            temp = Integer.valueOf(list.get(position).get("done").toString());
-                            temp--;
-                            t = String.valueOf(temp);
-                            viewHolder.book_done_number.setText("已读人数：" + t);
+                            want_number++;
+                            want_string = String.valueOf(want_number);
+                            viewHolder.book_want_number.setText("想读人数：" + want_string);
+                            done_number--;
+                            done_string = String.valueOf(done_number);
+                            viewHolder.book_done_number.setText("已读人数：" + done_string);
                         } else {
                             Toast.makeText(BookAdapter.this.context, "您已将该书添加至想读", Toast.LENGTH_SHORT).show();
                         }
@@ -169,19 +193,20 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 });
                 //在读按钮
                 viewHolder.book_reading.setOnClickListener(new View.OnClickListener() {
+                    private String want_string;
+                    private String reading_string;
+                    private String done_string;
+
                     @Override
                     public void onClick(View v) {
-                        int temp;
-                        String t;
                         if (status.equals("3")) {
                             status = "1";
                             changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id, status);
                             viewHolder.book_reading.setImageResource(R.drawable.zaidu2);
                             viewHolder.book_reading.invalidate();
-                            temp = Integer.valueOf(list.get(position).get("progress").toString());
-                            temp++;
-                            t = String.valueOf(temp);
-                            viewHolder.book_reading_number.setText("在读人数：" + t);
+                            reading_number++;
+                            reading_string = String.valueOf(reading_number);
+                            viewHolder.book_reading_number.setText("在读人数：" + reading_string);
 
                         } else if (status.equals("2")) {
                             status = "1";
@@ -190,14 +215,12 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             viewHolder.book_done.invalidate();
                             viewHolder.book_reading.setImageResource(R.drawable.zaidu2);
                             viewHolder.book_reading.invalidate();
-                            temp = Integer.valueOf(list.get(position).get("progress").toString());
-                            temp++;
-                            t = String.valueOf(temp);
-                            viewHolder.book_reading_number.setText("在读人数：" + t);
-                            temp = Integer.valueOf(list.get(position).get("done").toString());
-                            temp--;
-                            t = String.valueOf(temp);
-                            viewHolder.book_done_number.setText("已读人数：" + t);
+                            reading_number++;
+                            reading_string = String.valueOf(reading_number);
+                            viewHolder.book_reading_number.setText("在读人数：" + reading_string);
+                            done_number--;
+                            done_string = String.valueOf(done_number);
+                            viewHolder.book_done_number.setText("已读人数：" + done_string);
                         } else if (status.equals("0")) {
                             status = "1";
                             changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id, status);
@@ -205,14 +228,12 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             viewHolder.book_want.invalidate();
                             viewHolder.book_reading.setImageResource(R.drawable.zaidu2);
                             viewHolder.book_reading.invalidate();
-                            temp = Integer.valueOf(list.get(position).get("progress").toString());
-                            temp++;
-                            t = String.valueOf(temp);
-                            viewHolder.book_reading_number.setText("在读人数：" + t);
-                            temp = Integer.valueOf(list.get(position).get("want").toString());
-                            temp--;
-                            t = String.valueOf(temp);
-                            viewHolder.book_want_number.setText("想读人数：" + t);
+                            reading_number++;
+                            reading_string = String.valueOf(reading_number);
+                            viewHolder.book_reading_number.setText("在读人数：" + reading_string);
+                            want_number--;
+                            want_string = String.valueOf(want_number);
+                            viewHolder.book_want_number.setText("想读人数：" + want_string);
                         } else {
                             Toast.makeText(BookAdapter.this.context, "您已将该书添加至在读", Toast.LENGTH_SHORT).show();
                         }
@@ -220,19 +241,20 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 });
                 //已读按钮
                 viewHolder.book_done.setOnClickListener(new View.OnClickListener() {
+                    private String want_string;
+                    private String reading_string;
+                    private String done_string;
+
                     @Override
                     public void onClick(View v) {
-                        int temp;
-                        String t;
                         if (status.equals("3")) {
                             status = "2";
                             changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id, status);
                             viewHolder.book_done.setImageResource(R.drawable.yidu2);
                             viewHolder.book_reading.invalidate();
-                            temp = Integer.valueOf(list.get(position).get("done").toString());
-                            temp++;
-                            t = String.valueOf(temp);
-                            viewHolder.book_done_number.setText("已读人数：" + t);
+                            done_number++;
+                            done_string = String.valueOf(done_number);
+                            viewHolder.book_done_number.setText("已读人数：" + done_string);
 
                         } else if (status.equals("0")) {
                             status = "2";
@@ -241,14 +263,12 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             viewHolder.book_want.invalidate();
                             viewHolder.book_done.setImageResource(R.drawable.yidu2);
                             viewHolder.book_reading.invalidate();
-                            temp = Integer.valueOf(list.get(position).get("done").toString());
-                            temp++;
-                            t = String.valueOf(temp);
-                            viewHolder.book_done_number.setText("已读人数：" + t);
-                            temp = Integer.valueOf(list.get(position).get("want").toString());
-                            temp--;
-                            t = String.valueOf(temp);
-                            viewHolder.book_want_number.setText("想读人数：" + t);
+                            done_number++;
+                            done_string = String.valueOf(done_number);
+                            viewHolder.book_done_number.setText("已读人数：" + done_string);
+                            want_number--;
+                            want_string = String.valueOf(want_number);
+                            viewHolder.book_want_number.setText("想读人数：" + want_string);
                         } else if (status.equals("1")) {
                             status = "2";
                             changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id, status);
@@ -256,14 +276,12 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             viewHolder.book_reading.invalidate();
                             viewHolder.book_done.setImageResource(R.drawable.yidu2);
                             viewHolder.book_reading.invalidate();
-                            temp = Integer.valueOf(list.get(position).get("done").toString());
-                            temp++;
-                            t = String.valueOf(temp);
-                            viewHolder.book_done_number.setText("已读人数：" + t);
-                            temp = Integer.valueOf(list.get(position).get("progress").toString());
-                            temp--;
-                            t = String.valueOf(temp);
-                            viewHolder.book_reading_number.setText("在读人数：" + t);
+                            done_number++;
+                            done_string = String.valueOf(done_number);
+                            viewHolder.book_done_number.setText("已读人数：" + done_string);
+                            reading_number--;
+                            reading_string = String.valueOf(reading_number);
+                            viewHolder.book_reading_number.setText("在读人数：" + reading_string);
                         } else {
                             Toast.makeText(BookAdapter.this.context, "您已将该书添加至在读", Toast.LENGTH_SHORT).show();
                         }
@@ -290,10 +308,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 });
             }
-            //   显示想读在读已读的人数
-            viewHolder.book_want_number.setText("想读人数：" + list.get(position).get("want").toString());
-            viewHolder.book_reading_number.setText("在读人数：" + list.get(position).get("progress").toString());
-            viewHolder.book_done_number.setText("已读人数：" + list.get(position).get("done").toString());
+
             //该到对评分的操作了
             book_score = Float.parseFloat(list.get(position).get("score").toString());
             viewHolder.book_rating_1.setRating(book_score);
@@ -336,25 +351,25 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     user_score = rating;
                 }
             });
-            //写短评
-            user_short_comments = viewHolder.book_write_short_comments.getText().toString();
             //发布短评
             viewHolder.book_publish_short_comments.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!check.isLogin()){
-                        Toast.makeText(BookAdapter.this.context,"请您登录后再进行此操作",Toast.LENGTH_SHORT).show();
-                    }else{
-                        if (user_short_comments.equals(null))
+                    if (!check.isLogin()) {
+                        Toast.makeText(BookAdapter.this.context, "请您登录后再进行此操作", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //写短评
+                        user_short_comments = viewHolder.book_write_short_comments.getText().toString();
+                        if ("".equals(user_short_comments))
                             Toast.makeText(BookAdapter.this.context, "请您输入评论后再发布", Toast.LENGTH_SHORT).show();
                         else {
                             user_score_string = Float.toString(user_score);
-                            publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num=" + book_id + "&type='s'", " ", user_short_comments, user_score_string, book_id);
-                            if(flag_publish_short_comments)
-                            {
-                                notifyDataSetChanged();
-                                flag_publish_short_comments = false;
-                            }
+                            String title = "short_comments_title";
+                            Log.d("book_id", book_id);
+                            Log.d("title", title);
+                            Log.d("content", user_short_comments);
+                            Log.d("score", user_score_string);
+                            publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num=" + book_id + "&type=s", title, user_short_comments, user_score_string, book_id);
                         }
                     }
                 }
@@ -362,10 +377,10 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else if (holder instanceof ShortCommentsViewHolder) {
             //    item_book_short_comments
             ShortCommentsViewHolder viewHolder = (ShortCommentsViewHolder) holder;
-            Glide.with(context).load(list.get(position).get("s_image").toString()).into(viewHolder.book_short_comments_image);
+            Glide.with(context).load("http://47.102.46.161/media/" + list.get(position).get("s_image").toString()).into(viewHolder.book_short_comments_image);
             viewHolder.book_short_comments_name.setText(list.get(position).get("s_name").toString());
             viewHolder.book_short_comments_time.setText(list.get(position).get("s_time").toString());
-//            viewHolder.book_rating_3.setRating(Float.parseFloat(list.get(position).get("s_score").toString()));
+            viewHolder.book_rating_3.setRating(Float.parseFloat(list.get(position).get("s_score").toString()));
             viewHolder.book_show_short_rating.setText(list.get(position).get("s_score").toString());
             viewHolder.book_short_comments_content.setText(list.get(position).get("s_content").toString());
         } else {
@@ -389,10 +404,10 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("mmmmmmmmm", status);
+                Log.d("要改变为的改变图书状态：", status);
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
-                Log.d("zzzzzzzzzz", responseData);
+                Log.d("改变图书状态的返回结果", responseData);
                 try {
                     String show = null;
                     if (status.equals("0"))
@@ -405,6 +420,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                     }
                     JSONObject jsonObject = new JSONObject(responseData);
+                    Log.d("改变后的图书状态：", status);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -427,14 +443,107 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 try {
 
                     JSONObject jsonObject = new JSONObject(responseData);
-                    result = jsonObject.getString("result");
-                    if (result.equals("200"))
-                        flag_publish_short_comments = true;
+                    String result = jsonObject.getString("result");
+                    if (result.equals("200")) {
+                        flag_publish_finish = true;
+                        if (flag_publish_finish) {
+                            bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+                            flag_publish_finish = false;
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    //获得图书信息的方法
+    public void bookWithOkHttp(String address) {
+        HttpUtil.bookWithOkHttp(address, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    //解析短评
+                    JSONArray jsonArray = jsonObject.getJSONArray("shortcomments");
+                    JSONObject jsonObject3 = jsonArray.getJSONObject(jsonArray.length() - 1);
+                    s_image = jsonObject3.getString("image");
+                    s_name = jsonObject3.getString("name");
+                    s_time = jsonObject3.getString("time");
+                    s_score = jsonObject3.getString("score");
+                    s_content = jsonObject3.getString("content");
+                    map3.put("s_image", s_image);
+                    map3.put("s_name", s_name);
+                    map3.put("s_time", s_time);
+                    map3.put("s_score", s_score);
+                    map3.put("s_content", s_content);
+                    map3.put("type", 4);
+                    list.add(map3);
+                    //判断是否有短评
+                    Log.d("有无短评", number);
+                    //判断是否有短评从而选择是否删除占位图
+                    if (number.equals("0")) {
+                        Log.d("1号位置",number);
+                        Message message1 = new Message();
+                        message1.what = 1;
+                        handler1.sendMessage(message1);
+                    } else {
+                        //添加评论
+                        Log.d("2号位置",number);
+                        Message message2 = new Message();
+                        message2.what = 2;
+                        handler.sendMessage(message2);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        if(number.equals("0")){
+            handler1 = new Handler(context.getMainLooper()) {
+                public void handleMessage(Message message3) {
+                    super.handleMessage(message3);
+                    if (true) {
+                        number = "1";
+                        Log.d("3号位置",number);
+                        list.remove(4);
+                        notifyItemRemoved(4);
+//                    //添加评论
+//                    Message message3 = new Message();
+//                    message3.what = 1;
+//                    handler.sendMessage(message3);
+                    }
+                }
+            };
+        }
+        handler = new Handler(context.getMainLooper()
+
+        ) {
+            public void handleMessage(Message message4) {
+                super.handleMessage(message4);
+                if (true) {
+                    Log.d("4号位置",number);
+                    addItem(4, map3);
+                }
+            }
+        };
+    }
+
+    //添加数据
+    public void addItem(int position, Map data) {
+        list.add(position, data);
+        list.remove(list.size()-1);
+        notifyItemInserted(position);//通知演示插入动画
+        Log.d("调用了我",book_id);
     }
 }
 
@@ -488,7 +597,7 @@ class WriteShortCommentsViewHolder extends RecyclerView.ViewHolder {
     WriteShortCommentsViewHolder(@NonNull View itemView) {
         super(itemView);
         book_rating_2 = itemView.findViewById(R.id.book_rating_2);
-        book_write_short_comments = itemView.findViewById(R.id.book_write_short_comments);
+        book_write_short_comments = itemView.findViewById(R.id.book_get_short_comments);
         book_publish_short_comments = itemView.findViewById(R.id.book_publish_short_comments);
 
     }

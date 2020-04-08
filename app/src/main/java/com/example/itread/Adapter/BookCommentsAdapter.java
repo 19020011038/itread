@@ -2,6 +2,8 @@ package com.example.itread.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +58,9 @@ public class BookCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof BookCommentsViewHolder){
             BookCommentsViewHolder viewHolder = (BookCommentsViewHolder)holder;
-            Glide.with(BookCommentsAdapter.this.context).load(list.get(position).get("image").toString());
+            Glide.with(BookCommentsAdapter.this.context).load("http://47.102.46.161/media/"+list.get(position).get("image").toString()).into(viewHolder.image);
             viewHolder.name.setText(list.get(position).get("name").toString());
-//        holder.ratingBar.setRating(Float.parseFloat(list.get(position).get("score").toString()));
+            viewHolder.ratingBar.setRating(Float.parseFloat(list.get(position).get("score").toString()));
             if(list.get(position).get("status").toString().equals("0")){
                 viewHolder.status.setText("想读");
             }else if(list.get(position).get("status").toString().equals("1")){
@@ -76,7 +78,11 @@ public class BookCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(BookCommentsAdapter.this.context, BookCommentsDetailActivity.class);
-                    intent.putExtra("book_id",book_id);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("book_id",book_id);
+                    bundle.putString("position", String.valueOf(list.size()-position-1));
+                    Log.d("posi",String.valueOf(list.size()-position-1));
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             });
