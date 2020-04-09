@@ -72,6 +72,19 @@ public class BookActivity extends AppCompatActivity {
     //图书状态
     private String status = "3";
 
+    //加载数据
+    private int array_size = 0;
+    private int now_position = 0;
+    private BookAdapter bookAdapter;
+
+    //计算分数
+    private int all_number = 0;
+    private float all_score = (float) 0.0;
+    private String flag_short_comments;
+    private String flag_book_comments;
+    private float final_score = (float)0.0;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +119,10 @@ public class BookActivity extends AppCompatActivity {
 
         bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
 
+        //计算书籍评分
+        bookScoreWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+
+
         //判断用户是否登录以显示想读已读在读按钮的状态
 
         if (check.isLogin()) {
@@ -120,9 +137,14 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 list.clear();
+                all_number = 0;
+                all_score = (float)0.0;
+                final_score = (float)0.0;
                 bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+                //计算书籍评分
+                bookScoreWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
                 recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number));
+                recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(final_score)));
                 refreshLayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
         });
@@ -215,6 +237,7 @@ public class BookActivity extends AppCompatActivity {
                     } else {
                         //解析短评
                         JSONArray jsonArray = jsonObject.getJSONArray("shortcomments");
+                        array_size = jsonArray.length();
                         for (int i = jsonArray.length() - 1; i >= 0; i--) {
 
                             JSONObject jsonObject3 = jsonArray.getJSONObject(i);
@@ -241,7 +264,7 @@ public class BookActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(final_score)));
                             book_label.setText(title);
                         }
                     });
@@ -278,7 +301,85 @@ public class BookActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(final_score)));
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //计算书籍得分的方法
+    public void bookScoreWithOkHttp(String address) {
+        HttpUtil.bookWithOkHttp(address, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+                Log.d("aaaaa", responseData);
+                try {
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    //判断是否有短评
+                    JSONObject jsonObject4 = jsonObject.getJSONObject("number");
+                    flag_short_comments = jsonObject4.getString("shortcomments");
+                    flag_book_comments = jsonObject4.getString("bookcomments");
+                    if(flag_short_comments.equals("0") && flag_book_comments.equals("0"))
+                        final_score = (float)5.0;
+                    else if(flag_book_comments.equals("0") && flag_short_comments.equals("1")){
+                        String temp;
+                        JSONArray jsonArray = jsonObject.getJSONArray("shortcomments");
+                        for(int i = 0; i < jsonArray.length() ; i ++){
+                            all_number ++;
+                            JSONObject jsonObject3 = jsonArray.getJSONObject(i);
+                            temp = jsonObject3.getString("score");
+                            all_score += Float.valueOf(temp);
+                        }
+                        final_score = all_score / all_number;
+                    }else if(flag_book_comments.equals("1") && flag_short_comments.equals("0")){
+                        String temp;
+                        JSONArray jsonArray = jsonObject.getJSONArray("bookcomments");
+                        for(int i = 0; i < jsonArray.length() ; i ++){
+                            all_number ++;
+                            JSONObject jsonObject3 = jsonArray.getJSONObject(i);
+                            temp = jsonObject3.getString("score");
+                            all_score += Float.valueOf(temp);
+                        }
+                        final_score = all_score / all_number;
+                    }else {
+                        String temp;
+                        JSONArray jsonArray = jsonObject.getJSONArray("shortcomments");
+                        for(int i = 0; i < jsonArray.length() ; i ++){
+                            all_number ++;
+                            JSONObject jsonObject3 = jsonArray.getJSONObject(i);
+                            temp = jsonObject3.getString("score");
+                            all_score += Float.valueOf(temp);
+                        }
+                        JSONArray jsonArray1 = jsonObject.getJSONArray("bookcomments");
+                        int len2 = jsonArray1.length();
+                        for(int i = 0; i < len2 ; i ++){
+                            all_number ++;
+                            JSONObject jsonObject7 = jsonArray1.getJSONObject(i);
+                            temp = jsonObject7.getString("score");
+                            all_score += Float.valueOf(temp);
+                        }
+                        final_score = all_score / all_number;
+                    }
+
+
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(final_score)));
                         }
                     });
                 } catch (JSONException e) {

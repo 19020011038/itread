@@ -124,6 +124,7 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
 
         //写评论
         write_book_comments_richeditor.setPadding(30,0,30,0);
+        write_book_comments_richeditor.setPlaceholder("点击此处输入您的评论...");
         write_book_comments_richeditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override
             public void onTextChange(String text) {
@@ -160,7 +161,11 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(WriteBookCommentsActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
-                    openAlbum();
+                    if(write_book_comments_richeditor.isFocused())
+                        openAlbum();
+                    else {
+                        Toast.makeText(WriteBookCommentsActivity.this,"请您先选择评论输入框",Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -271,8 +276,11 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
 
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             file = toFile(bitmap);
-//            bitmap = reducingBitmapSampleFromPath(file.getPath(),300,300);
-//            file = toFile(bitmap);
+//            Double neicun = FileSizeUtil.getFileOrFilesSize(imagePath,3);
+//            if(neicun>3.46){
+//                bitmap = reducingBitmapSampleFromPath(file.getPath(),300,300);
+//                file = toFile(bitmap);
+//            }
             postFileWithOkHttp("http://47.102.46.161/user/image_upload",file);
             Log.d("caocaocaocaocao",file.getName());
             Log.d("pppppppppppp",file.getPath());
@@ -395,7 +403,7 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
             }
         });
     }
-//上传文件
+    //上传文件
     public void postFileWithOkHttp(String address,File file) {
         HttpUtil.postFileWithOkHttp(address,file, new Callback() {
             @Override
