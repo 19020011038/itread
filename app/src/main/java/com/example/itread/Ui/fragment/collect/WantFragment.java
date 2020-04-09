@@ -1,18 +1,16 @@
 package com.example.itread.Ui.fragment.collect;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.itread.Adapter.HaveReadAdapter;
-import com.example.itread.Adapter.ReadingAdapter;
 import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
 
@@ -35,29 +33,34 @@ import okhttp3.Response;
  */
 public class WantFragment extends Fragment {
 
-    public WantFragment() {
-        // Required empty public constructor
+    public static WantFragment newInstance(int index) {
+        WantFragment fragment = new WantFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(ARG_SECTION_NUMBER, index);
+//        fragment.setArguments(bundle);
+        return fragment;
     }
+
     private RecyclerView recyclerView;
     private Map map;
     List<Map<String, Object>> list = new ArrayList<>();
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_readed, container, false);
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        recyclerView = getActivity().findViewById(R.id.haveread_recyclerview);
 
+        View view = inflater.inflate(R.layout.fragment_readed, container, false);
+
+        recyclerView = view.findViewById(R.id.haveread_recyclerview);
+//        list.clear();
         HaveReadWithOkHttp("http://47.102.46.161/user/index");
+
+        return view;
     }
+
 
     //获得在读
     public void HaveReadWithOkHttp(String address){

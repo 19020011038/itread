@@ -7,7 +7,8 @@
     android:background="#f0f0f0">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="644px"
+        android:layout_height="wrap_content"
+        android:id="@+id/relative"
         android:background="#ffffff">
         <ImageView
             android:id="@+id/image"
@@ -56,11 +57,12 @@
         <TextView
             android:id="@+id/comment"
             android:layout_width="match_parent"
-            android:layout_height="162px"
+            android:layout_height="wrap_content"
             android:background="#f0f0f0"
             android:layout_below="@+id/image"
             android:layout_marginTop="50px"
-            android:layout_marginHorizontal="20px"/>
+            android:layout_marginHorizontal="20px"
+            android:layout_marginBottom="10dp"/>
     </RelativeLayout>
 
 </LinearLayout>

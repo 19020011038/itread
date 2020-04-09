@@ -1,18 +1,16 @@
 package com.example.itread.Ui.fragment.tab;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.itread.Adapter.BooklistFragmentAdapter.BooklistFragmentAdapter2;
+import com.example.itread.Adapter.BooklistFragmentAdapter.BooklistFragmentAdapter1;
 import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
 
@@ -36,26 +34,45 @@ public class BooklistFragment2 extends Fragment {
     private RecyclerView recyclerView;
     private String name;
     private String image;
+    private String number;
+    private String num;
 
+    public static BooklistFragment2 newInstance(int index) {
+        BooklistFragment2 fragment = new BooklistFragment2();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(ARG_SECTION_NUMBER, index);
+//        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_booklist2, container, false);
+    public View onCreateView(
+            @NonNull LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_booklist2, container, false);
+//        final TextView textView = root.findViewById(R.id.section_label);
+//        pageViewModel.getText().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
+        recyclerView = (RecyclerView)root.findViewById(R.id.recyclerView);
+        list.clear();
+
+        //联网请求获得图书信息
+        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list2/?list_class=2");
+        return root;
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
 
-        recyclerView = (RecyclerView)getActivity().findViewById(R.id.recyclerView);
 
-        //清除列表内容
-        list.clear();
 
-        //联网请求获得图书信息
-        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list1/?list_id=0");
+
     }
 
     //获得图书信息的方法
@@ -73,35 +90,34 @@ public class BooklistFragment2 extends Fragment {
                 final String responseData = response.body().string();
                 try {
 
-
                     JSONObject jsonObject = new JSONObject(responseData);
-                    JSONArray jsonArray = jsonObject.getJSONArray("info");
+                    JSONArray jsonArray = jsonObject.getJSONArray("book");
 
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
-                        name = jsonObject1.getString("title");
-
-                        Log.d("ggg",name);
-
+                        name = jsonObject1.getString("name");
+                        num = jsonObject1.getString("num");
+                        number = jsonObject1.getString("number");
                         image = jsonObject1.getString("image");
                         Map map = new HashMap();
 
                         map.put("name",name);
                         map.put("image",image);
+                        map.put("num",num);
+                        map.put("number",number);
 
                         list.add(map);
-
-
 
                     }
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
-                            recyclerView.setAdapter(new BooklistFragmentAdapter2(getActivity(), list));//绑定适配器
+                            recyclerView.setAdapter(new BooklistFragmentAdapter1(getActivity(), list));//绑定适配器
                         }
                     });
 
@@ -110,10 +126,6 @@ public class BooklistFragment2 extends Fragment {
                 }
             }
 
-//            private void runOnUiThread(Runnable runnable) {
-//            }
         });
     }
-
-
 }

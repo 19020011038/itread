@@ -16,7 +16,9 @@
             android:layout_centerInParent="true"
             android:textSize="20dp"/>
     </RelativeLayout>
-
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="687dp"
@@ -41,9 +43,10 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="140px"
-                android:layout_marginTop="80px"
-                android:layout_marginRight="118px"
+                android:layout_marginLeft="90px"
+                android:layout_marginTop="60px"
+                android:layout_marginRight="90px"
+                android:layout_marginBottom="0dp"
                 android:layout_toRightOf="@+id/pic">
 
                 <TextView
@@ -85,14 +88,15 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_below="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50px"/>
-
+            android:layout_below="@+id/body"
+            android:layout_marginTop="12dp" />
 
 
     </RelativeLayout>
+</ScrollView>
+
 
 
 </LinearLayout>
