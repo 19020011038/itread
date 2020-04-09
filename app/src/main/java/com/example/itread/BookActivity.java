@@ -2,6 +2,7 @@ package com.example.itread;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -74,10 +75,6 @@ public class BookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_book);
-
-        Intent intent = getIntent();
-        book_id = intent.getStringExtra("book_id");
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -99,6 +96,8 @@ public class BookActivity extends AppCompatActivity {
         });
 
         //接受书的id
+        Intent intent = getIntent();
+        book_id = intent.getStringExtra("book_id");
 
         //联网请求获得图书信息
 
@@ -108,17 +107,19 @@ public class BookActivity extends AppCompatActivity {
 
         if (check.isLogin()) {
 
+            String a = SharedPreferencesUtil.getCookie();
+            Log.d("cookie",a);
             getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
 
         }
 
     }
-//
-//    //重写onResume方法
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
+
+    //重写onResume方法
+    @Override
+    protected void onResume() {
+        super.onResume();
+
 //        //清楚列表内容
 //        list.clear();
 //
@@ -130,9 +131,9 @@ public class BookActivity extends AppCompatActivity {
 //
 //        getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
 ////        }
-//
-//
-//    }
+
+
+    }
 
     //获得图书信息的方法
     public void bookWithOkHttp(String address) {
@@ -153,7 +154,6 @@ public class BookActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(responseData);
                     JSONObject jsonObject1 = jsonObject.getJSONObject("book");
                     title = jsonObject1.getString("title");
-                    Log.d("dddddddddd", title);
                     info = jsonObject1.getString("info");
                     JSONObject jsonObject2 = jsonObject1.getJSONObject("img");   //image
                     image = jsonObject2.getString("img_s");               //image
@@ -193,14 +193,15 @@ public class BookActivity extends AppCompatActivity {
                     //判断是否有短评
                     JSONObject jsonObject4 = jsonObject.getJSONObject("number");
                     number = jsonObject4.getString("shortcomments");
+                    Log.d("是否有短评",number);
                     if (number.equals("0")) {
                         Map map3 = new HashMap();
-                        map.put("type", 5);
-                        list.add(map);
+                        map3.put("type", 5);
+                        list.add(map3);
                     } else {
                         //解析短评
                         JSONArray jsonArray = jsonObject.getJSONArray("shortcomments");
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                        for (int i = jsonArray.length()-1; i >= 0; i-- ) {
 
                             JSONObject jsonObject3 = jsonArray.getJSONObject(i);
                             s_image = jsonObject3.getString("image");
@@ -226,7 +227,7 @@ public class BookActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check,number));
                             book_label.setText(title);
                         }
                     });
@@ -249,18 +250,21 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
-                final String responseData = response.body().string();
-                Log.d("qqqqqqqqqq", responseData);
+                String responseData = response.body().string();
+//                responseData = removeBOM(responseData);
+//                if(responseData != null && responseData.startsWith("\ufeff"))
+//                    responseData = responseData.substring(1);
+                Log.d("获取图书状态：", responseData);
                 try {
                     JSONObject jsonObject = new JSONObject(responseData);
-                    status = jsonObject.getString("status");
-                    Log.d("lllllllllllllll", status);
+                    status = jsonObject.getString("result");
+                    Log.d("图书状态：", status);
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check,number));
                         }
                     });
                 } catch (JSONException e) {
@@ -269,4 +273,26 @@ public class BookActivity extends AppCompatActivity {
             }
         });
     }
+    public static final String removeBOM(String data) {
+
+        if (TextUtils.isEmpty(data)) {
+
+            return data;
+
+        }
+
+
+
+        if (data.startsWith("\ufeff")) {
+
+            return data.substring(1);
+
+        } else {
+
+            return data;
+
+        }
+
+    }
+
 }

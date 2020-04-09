@@ -36,12 +36,13 @@
         android:layout_height="100px"
         android:orientation="horizontal">
 
+
         <EditText
-            android:id="@+id/book_write_short_comments"
-            android:layout_width="0px"
+            android:id="@+id/book_get_short_comments"
+            android:layout_width="0dp"
+            android:layout_weight="4"
             android:layout_height="match_parent"
             android:layout_marginLeft="30px"
-            android:layout_weight="4"
             android:background="@drawable/shuruduanping"
             android:gravity="center"
             android:hint="请输入100字以内短评"
