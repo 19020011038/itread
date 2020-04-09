@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.itread.Adapter.BookAdapter;
 import com.example.itread.Util.HttpUtil;
 import com.example.itread.Util.SharedPreferencesUtil;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,9 +41,10 @@ public class BookActivity extends AppCompatActivity {
     private TextView book_label;
     private ImageView back;
     private RecyclerView recyclerView;
-    private String book_id ;
+    private String book_id;
     private SharedPreferencesUtil check;
     private String number;      //短评是否为空
+    private RefreshLayout refreshLayout;
 
 
     //flag
@@ -68,8 +72,6 @@ public class BookActivity extends AppCompatActivity {
     //图书状态
     private String status = "3";
 
-    //cookie
-    private String header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class BookActivity extends AppCompatActivity {
         back = (ImageView) findViewById(R.id.back_from_book);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView_book);
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
+        refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
 
 
         //返回按钮的监听
@@ -108,10 +111,21 @@ public class BookActivity extends AppCompatActivity {
         if (check.isLogin()) {
 
             String a = SharedPreferencesUtil.getCookie();
-            Log.d("cookie",a);
+            Log.d("cookie", a);
             getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
 
         }
+        //刷新的监听
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                list.clear();
+                bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+                recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
+                recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number));
+                refreshLayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            }
+        });
 
     }
 
@@ -193,7 +207,7 @@ public class BookActivity extends AppCompatActivity {
                     //判断是否有短评
                     JSONObject jsonObject4 = jsonObject.getJSONObject("number");
                     number = jsonObject4.getString("shortcomments");
-                    Log.d("是否有短评",number);
+                    Log.d("是否有短评", number);
                     if (number.equals("0")) {
                         Map map3 = new HashMap();
                         map3.put("type", 5);
@@ -201,7 +215,7 @@ public class BookActivity extends AppCompatActivity {
                     } else {
                         //解析短评
                         JSONArray jsonArray = jsonObject.getJSONArray("shortcomments");
-                        for (int i = jsonArray.length()-1; i >= 0; i-- ) {
+                        for (int i = jsonArray.length() - 1; i >= 0; i--) {
 
                             JSONObject jsonObject3 = jsonArray.getJSONObject(i);
                             s_image = jsonObject3.getString("image");
@@ -227,7 +241,7 @@ public class BookActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check,number));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number));
                             book_label.setText(title);
                         }
                     });
@@ -264,7 +278,7 @@ public class BookActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check,number));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number));
                         }
                     });
                 } catch (JSONException e) {
@@ -273,6 +287,7 @@ public class BookActivity extends AppCompatActivity {
             }
         });
     }
+
     public static final String removeBOM(String data) {
 
         if (TextUtils.isEmpty(data)) {
@@ -280,7 +295,6 @@ public class BookActivity extends AppCompatActivity {
             return data;
 
         }
-
 
 
         if (data.startsWith("\ufeff")) {

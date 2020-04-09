@@ -84,15 +84,20 @@
             android:gravity="center"/>
 
     </LinearLayout>
-    <jp.wasabeef.richeditor.RichEditor
-        android:id="@+id/write_book_comments_richeditor"
-        android:layout_width="match_parent"
-        android:layout_height="960px"
-        android:gravity="center"
-        android:layout_marginTop="60px"
-        android:layout_marginBottom="100px"
-        android:layout_marginRight="86px"
-        android:layout_marginLeft="86px"/>
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+        <jp.wasabeef.richeditor.RichEditor
+            android:id="@+id/write_book_comments_richeditor"
+            android:layout_width="match_parent"
+            android:layout_height="960px"
+            android:gravity="center"
+            android:layout_marginTop="60px"
+            android:layout_marginBottom="100px"
+            android:layout_marginRight="86px"
+            android:layout_marginLeft="86px"/>
+
+<!--    </ScrollView>-->
 
 
     <LinearLayout

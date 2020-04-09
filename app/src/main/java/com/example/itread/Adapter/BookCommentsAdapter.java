@@ -3,7 +3,6 @@ package com.example.itread.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +80,7 @@ public class BookCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Bundle bundle = new Bundle();
                     bundle.putString("book_id",book_id);
                     bundle.putString("position", String.valueOf(list.size()-position-1));
-                    Log.d("posi",String.valueOf(list.size()-position-1));
+
                     intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
