@@ -74,40 +74,46 @@ public class MyBookCommentsActivity extends AppCompatActivity {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
                 try{
+                    list.clear();
                     JSONObject object = new JSONObject(responseData);
-                    JSONArray jsonArray = object.getJSONArray("bookcomments");
+                    JSONArray jsonArray = object.getJSONArray("long");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 //                int news_id = jsonObject1.getInt("news_id");
-                        String status = jsonObject1.getString("status");
+//                        String status = jsonObject1.getString("status");
                         String content = jsonObject1.getString("content");  //头像
                         String score = jsonObject1.getString("score");
-                        String time = jsonObject1.getString("time");
-                        String book_num = jsonObject1.getString("book_num");
-                        String book_name = jsonObject1.getString("book_name");
-                        String book_photo = jsonObject1.getString("book_photo");
+                        String time1 = jsonObject1.getString("create_time");
+                        String book_num = jsonObject1.getString("num");
+                        String book_name = jsonObject1.getString("title");
+                        String book_photo = jsonObject1.getString("image");
+                        String time = time1.substring(0, 10);
+                        String comment_id = jsonObject1.getString("id");
+                        String comment_title = jsonObject1.getString("long_title");
                         map = new HashMap();
 
-                        map.put("status", status);
+//                        map.put("status", status);
                         map.put("content", content);
                         map.put("score", score);
                         map.put("time", time);
                         map.put("book_name", book_name);
                         map.put("book_num", book_num);
                         map.put("book_photo", book_photo);
+                        map.put("comment_id", comment_id);
+                        map.put("comment_title", comment_title);
 
                         list.add(map);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                recyclerView.setLayoutManager(new LinearLayoutManager(MyBookCommentsActivity.this));//纵向
-                                recyclerView.setAdapter(new MyBookCommentsAdapter(MyBookCommentsActivity.this, list));
-                                recyclerView.setNestedScrollingEnabled(false);
-                            }
-                        });
                     }
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            recyclerView.setLayoutManager(new LinearLayoutManager(MyBookCommentsActivity.this));//纵向
+                            recyclerView.setAdapter(new MyBookCommentsAdapter(MyBookCommentsActivity.this, list));
+                            recyclerView.setNestedScrollingEnabled(false);
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.i( "zyr", "LLL"+responseData);

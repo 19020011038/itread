@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                         }else if (result.equals("用户名或者密码错误")){
                             Toast.makeText(LoginActivity.this,"用户名或者密码错误",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("该用户已经被冻结")){
-                            Toast.makeText(LoginActivity.this,"该用户尚未完成注册环节，处于冻结状态",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,"该用户尚未完成注册环节或找回密码，处于冻结状态",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("未提交全部参数")){
                             Toast.makeText(LoginActivity.this,"用户名或密码为空",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("未提交POST请求")){
