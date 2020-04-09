@@ -2,10 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="72px"
-        android:background="#f0f0f0"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="158px"
@@ -43,10 +40,9 @@
             android:id="@+id/jump_book_comments_write"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/fabushuping"
-            android:layout_gravity="bottom|end"/>
+            android:layout_marginTop="250dp"
+            android:src="@drawable/fabushuping" />
 
     </RelativeLayout>
 </LinearLayout>

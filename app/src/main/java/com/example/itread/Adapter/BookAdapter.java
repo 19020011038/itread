@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -73,18 +74,21 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Map map3 = new HashMap();
     private Handler handler;
     private Handler handler1;
+    private Handler handler_fail;
     private RecyclerView.ViewHolder holder2;
-    private int all_people = 0;
-    private float all_score = (float)0.0;
+    private String show;
+    private String result_change;
+    private String final_score;
 
 
-    public BookAdapter(Context context, List<Map<String, Object>> list, String book_id, String status, SharedPreferencesUtil check, String number) {
+    public BookAdapter(Context context, List<Map<String, Object>> list, String book_id, String status, SharedPreferencesUtil check, String number,String final_score) {
         this.context = context;
         this.list = list;
         this.book_id = book_id;
         this.status = status;
         this.check = check;
         this.number = number;
+        this.final_score = final_score;
     }
 
     @Override
@@ -310,10 +314,18 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
             //该到对评分的操作了
-            book_score = Float.parseFloat(list.get(position).get("score").toString());
-            viewHolder.book_rating_1.setRating(book_score);
-            viewHolder.book_score.setText(list.get(position).get("score").toString());
-            viewHolder.book_people.setText("评分人数：" + list.get(position).get("people").toString());
+            viewHolder.book_rating_1.setStepSize((float)0.1);
+            book_score = Float.parseFloat(final_score);
+            final_score = String.format("%.1f",book_score);
+            if(book_score == (float) 5.0 ){
+                viewHolder.book_people.setText("尚未有用户评分");
+                viewHolder.book_rating_1.setRating(book_score);
+                viewHolder.book_score.setText("");
+            }else {
+                viewHolder.book_rating_1.setRating(book_score);
+                viewHolder.book_score.setText(final_score);
+                viewHolder.book_people.setText("评论人数：" + list.get(position).get("people").toString());
+            }
 
             //简介
             viewHolder.book_intro.setText(list.get(position).get("introduce").toString());
@@ -370,6 +382,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             Log.d("content", user_short_comments);
                             Log.d("score", user_score_string);
                             publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num=" + book_id + "&type=s", title, user_short_comments, user_score_string, book_id);
+                            closeSoftInput(context, v);
+                            viewHolder.book_write_short_comments.setText("");
+                            viewHolder.book_write_short_comments.clearFocus();
                         }
                     }
                 }
@@ -409,7 +424,8 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 final String responseData = response.body().string();
                 Log.d("改变图书状态的返回结果", responseData);
                 try {
-                    String show = null;
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    result = jsonObject.getString("result");
                     if (status.equals("0"))
                         show = "想读";
                     else if (status.equals("1"))
@@ -419,7 +435,6 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     else {
 
                     }
-                    JSONObject jsonObject = new JSONObject(responseData);
                     Log.d("改变后的图书状态：", status);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -443,19 +458,38 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 try {
 
                     JSONObject jsonObject = new JSONObject(responseData);
-                    String result = jsonObject.getString("result");
+                    result = jsonObject.getString("result");
                     if (result.equals("200")) {
                         flag_publish_finish = true;
                         if (flag_publish_finish) {
                             bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
                             flag_publish_finish = false;
                         }
+                    } else {
+                        Message message = new Message();
+                        message.what = 1;
+                        handler_fail.sendMessage(message);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+        handler_fail = new Handler(context.getMainLooper()) {
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                if (true) {
+                    if (result.equals("200"))
+                        Toast.makeText(BookAdapter.this.context, "评论成功", Toast.LENGTH_SHORT).show();
+                    else if (result.equals("402"))
+                        Toast.makeText(BookAdapter.this.context, "请求有误", Toast.LENGTH_SHORT).show();
+                    else if(result.equals("400"))
+                        Toast.makeText(BookAdapter.this.context, "参数有误", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(BookAdapter.this.context, "用户未登录", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
     }
 
     //获得图书信息的方法
@@ -492,13 +526,13 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     Log.d("有无短评", number);
                     //判断是否有短评从而选择是否删除占位图
                     if (number.equals("0")) {
-                        Log.d("1号位置",number);
+                        Log.d("1号位置", number);
                         Message message1 = new Message();
                         message1.what = 1;
                         handler1.sendMessage(message1);
                     } else {
                         //添加评论
-                        Log.d("2号位置",number);
+                        Log.d("2号位置", number);
                         Message message2 = new Message();
                         message2.what = 2;
                         handler.sendMessage(message2);
@@ -508,13 +542,13 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
-        if(number.equals("0")){
+        if (number.equals("0")) {
             handler1 = new Handler(context.getMainLooper()) {
                 public void handleMessage(Message message3) {
                     super.handleMessage(message3);
                     if (true) {
                         number = "1";
-                        Log.d("3号位置",number);
+                        Log.d("3号位置", number);
                         list.remove(4);
                         notifyItemRemoved(4);
 //                    //添加评论
@@ -531,7 +565,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public void handleMessage(Message message4) {
                 super.handleMessage(message4);
                 if (true) {
-                    Log.d("4号位置",number);
+                    Log.d("4号位置", number);
                     addItem(4, map3);
                 }
             }
@@ -541,10 +575,20 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //添加数据
     public void addItem(int position, Map data) {
         list.add(position, data);
-        list.remove(list.size()-1);
+        list.remove(list.size() - 1);
         notifyItemInserted(position);//通知演示插入动画
-        Log.d("调用了我",book_id);
+        Log.d("调用了我", book_id);
     }
+
+
+    // 关闭键盘输入法
+    public static void closeSoftInput(Context context, View v) {
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+    }
+
 }
 
 class BasicViewHolder extends RecyclerView.ViewHolder {

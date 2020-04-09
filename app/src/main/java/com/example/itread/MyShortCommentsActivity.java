@@ -74,7 +74,7 @@ public class MyShortCommentsActivity extends AppCompatActivity {
                     list.clear();
                     JSONObject object = new JSONObject(responseData);
                     JSONArray jsonArray = object.getJSONArray("short");
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                    for (int i = jsonArray.length() - 1; i >= 0; i--) {
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 //                int news_id = jsonObject1.getInt("news_id");
 //                        String status = jsonObject1.getString("status");

@@ -93,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     //实现登录
     public void loginWithOkHttp(String address, final String account, final String password){
         HttpUtil.loginWithOkHttp(address,account,password, new Callback() {
