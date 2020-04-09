@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,9 +61,12 @@ public class HaveReadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof RecyclerViewHolder) {
             RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) holder;
             recyclerViewHolder.wantread_book_name.setText(list.get(position).get("bookname").toString());
-            recyclerViewHolder.wantread_book_info.setText(list.get(position).get("author").toString());
+            recyclerViewHolder.wantread_book_info.setText(list.get(position).get("info").toString());
+            recyclerViewHolder.wantread_score.setText(list.get(position).get("score").toString());
             final String bookphoto_url = list.get(position).get("bookphoto").toString(); //这个非常重要
             final String book_id = list.get(position).get("book_num").toString(); //这个非常重要
+            final Float score = Float.parseFloat(list.get(position).get("score").toString());
+            recyclerViewHolder.wantread_ratingbar.setRating(score / 2);
             Glide.with(context).load(bookphoto_url).into(recyclerViewHolder.wantread_book_photo);
 
             recyclerViewHolder.wantread_all.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +87,8 @@ public class HaveReadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private TextView wantread_book_info;
         private ImageView wantread_book_photo;
         private RelativeLayout wantread_all;
+        private RatingBar wantread_ratingbar;
+        private TextView wantread_score;
 
         RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,6 +97,8 @@ public class HaveReadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             wantread_book_info = itemView.findViewById(R.id.want_read_bookinfo);
             wantread_book_photo = itemView.findViewById(R.id.want_read_photo);
             wantread_all = itemView.findViewById(R.id.want_read_all);
+            wantread_ratingbar = itemView.findViewById(R.id.want_read_rating);
+            wantread_score = itemView.findViewById(R.id.want_read_score);
         }
     }
 
