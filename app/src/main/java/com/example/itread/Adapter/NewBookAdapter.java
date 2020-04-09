@@ -2,16 +2,19 @@ package com.example.itread.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,7 +23,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.itread.BookActivity;
 import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
+import com.example.itread.Util.SharedPreferencesUtil;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -30,18 +35,20 @@ import java.util.Map;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import android.os.Handler;
-import android.os.Message;
-
 public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHolder>{
 
     private List<Map<String, Object>> list;
     private Context context;
-
+    private Handler mHandler;
+    private Handler mHandler_f;
+    private Handler mHandler_e;
+    private String result;
+    private SharedPreferencesUtil check;
 
     public NewBookAdapter(Context context, List<Map<String, Object>> list) {
         this.context = context;
         this.list = list;
+        check = SharedPreferencesUtil.getInstance(context.getApplicationContext());
     }
 
 
@@ -54,7 +61,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         return new NewBookAdapter.ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(@NonNull NewBookAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         String title = list.get(position).get("name").toString();
         String image = list.get(position).get("image").toString();
         String author = list.get(position).get("author").toString();
@@ -63,10 +70,12 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         String score = list.get(position).get("score").toString();
 
 
+        holder.ratingBar.setRating(Float.valueOf(score)/2);
         holder.name.setText(title);
         holder.score.setText(score);
         holder.content.setText(content);
         holder.author.setText(author);
+        holder.textView.setText(position+1+"");
 
         String picture_1 = image.replace("\\","");
         String picture_2 = picture_1.replace("\"","");
@@ -91,8 +100,101 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
                 context.startActivity(intent);
             }
         });
+        holder.relativeLayout2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (check.isLogin()) {
+
+                    HttpUtil.changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, "0", new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            //在这里对异常情况进行处理
+                            Log.i("qqqq", " name : error");
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            //得到服务器返回的具体内容
+                            final String responseData = response.body().string();
+
+
+//
+                            try {
+                                JSONObject object = new JSONObject(responseData);
+                                result = object.getString("result");
+                                Log.i("zyr", "short,result:" + result);
+                                if (result.equals("200")) {
+                                    Message message = new Message();
+                                    message.what = 1;
+                                    //发送信息给handler
+                                    mHandler.sendMessage(message);
+                                } else if (result.equals("请求失败")) {
+                                    Message message = new Message();
+                                    message.what = 1;
+                                    //发送信息给handler
+                                    mHandler_f.sendMessage(message);
+                                } else {
+                                    Message message = new Message();
+                                    message.what = 1;
+                                    //发送信息给handler
+                                    mHandler_e.sendMessage(message);
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.i("zyr", "LLL" + responseData);
+                            }
+                        }//标签页
+                    });
+
+                    mHandler = new Handler() {
+
+                        //handleMessage为处理消息的方法
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            if (true) {
+                                Toast.makeText(context, "已想读", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    };
+                    mHandler_f = new Handler() {
+
+                        //handleMessage为处理消息的方法
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            if (true) {
+                                Toast.makeText(context, "请求失败，请稍后重试", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    };
+                    mHandler_e = new Handler() {
+
+                        //handleMessage为处理消息的方法
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            if (true) {
+                                Toast.makeText(context, "用户未登陆", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    };
+                }
+                else
+                {
+                    Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+                });
+
+
+
+
 
     }
+
+
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -104,6 +206,9 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         private  TextView content;
         private TextView score;
         private RelativeLayout relativeLayout;
+        private RelativeLayout relativeLayout2;
+        private TextView textView;
+        private RatingBar ratingBar;
 
 
         ViewHolder(@NonNull View itemView) {
@@ -115,9 +220,14 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             content = itemView.findViewById(R.id.content);
             score = itemView.findViewById(R.id.score);
             relativeLayout = itemView.findViewById(R.id.layout2);
+            relativeLayout2 = itemView.findViewById(R.id.newbook_want);
+            textView = itemView.findViewById(R.id.ididid);
+            ratingBar = itemView.findViewById(R.id.book_rating);
+
 
 
         }
 
     }
+
 }

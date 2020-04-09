@@ -4,8 +4,8 @@
     android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="855px"
-        android:paddingHorizontal="50px"
+        android:layout_height="700px"
+        android:paddingHorizontal="30px"
         android:background="#f0f0f0">
 
         <RelativeLayout
@@ -31,6 +31,7 @@
                             android:background="#aaaaaa"
                             android:layout_alignParentLeft="true"/>
                         <TextView
+                            android:id="@+id/ididid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="01"
@@ -53,30 +54,31 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="396px"
+            android:layout_height="320px"
             android:id="@+id/layout2"
             android:layout_below="@+id/layout1"
             android:background="@drawable/side_dark"
             >
             <ImageView
-                android:layout_width="250px"
+                android:layout_width="200px"
                 android:layout_height="332px"
                 android:src="@drawable/shadow"
-                android:layout_marginVertical="32px"
-                android:layout_marginLeft="82px"
+                android:layout_marginVertical="18px"
+                android:layout_marginLeft="40px"
                 android:id="@+id/image"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/image"
-                android:layout_marginLeft="70px"
-                android:layout_centerVertical="true">
+                android:layout_marginLeft="45px"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/newbook_want">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="书名"
-                    android:textSize="22dp"
+                    android:textSize="20dp"
                     android:id="@+id/name"
                     android:textStyle="bold"/>
                 <RelativeLayout
@@ -90,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:isIndicator="false"
+                        android:isIndicator="true"
                         android:numStars="5"
                         style="?android:attr/ratingBarStyleSmall"
                         android:rating="0"
@@ -107,18 +109,14 @@
 
                 </RelativeLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/relative"
-                    android:text="作者名字"
-                    android:id="@+id/authorname1"/>
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/relative"
                     android:text="作者名字"
+                    android:textSize="13dp"
                     android:id="@+id/author"/>
 
             </RelativeLayout>
@@ -148,7 +146,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100px"
+            android:layout_height="60px"
             android:layout_below="@+id/layout2"
             android:paddingHorizontal="85px"
             android:id="@+id/layout3">
@@ -160,7 +158,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="234px"
+            android:layout_height="200px"
             android:layout_below="@id/layout3"
             android:background="@drawable/side_dark"
             android:padding="10dp">

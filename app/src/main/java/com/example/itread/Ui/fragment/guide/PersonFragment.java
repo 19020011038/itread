@@ -6,51 +6,39 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.example.itread.Adapter.CollectAdapter;
-import com.example.itread.Adapter.ScreenSlidePagerAdapter;
-import com.example.itread.Base.BaseFragment;
-import com.example.itread.BookListActivity;
+import com.example.itread.Adapter.ScreenSlidePagerAdapter2;
 import com.example.itread.MyBookCommentsActivity;
 import com.example.itread.MyShortCommentsActivity;
 import com.example.itread.R;
 import com.example.itread.SettingActivity;
-import com.example.itread.Ui.fragment.collect.ReadedFragment;
-import com.example.itread.Ui.fragment.collect.ReadingFragment;
-import com.example.itread.Ui.fragment.collect.WantFragment;
 import com.example.itread.Util.HttpUtil;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class PersonFragment extends BaseFragment {
+public class PersonFragment extends Fragment {
 
-    @BindView(R.id.viewPager2)
-    ViewPager2 pager;
-
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
+//    @BindView(R.id.viewPager2)
+//    ViewPager2 pager;
+//
+//    @BindView(R.id.tabLayout)
+//    TabLayout tabLayout;
 
     private RelativeLayout home_setting;
     private ImageView home_icon;
@@ -62,38 +50,39 @@ public class PersonFragment extends BaseFragment {
     private RelativeLayout home_bookcomment;
     private RelativeLayout home_shortcomment;
 
-    @Override
-    protected int getRootViewResId() {
-        return R.layout.fragment_person;
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+//        notificationsViewModel =
+//                ViewModelProviders.of(this).get(NotificationsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_person, container, false);
+
+//        final TextView textView = root.findViewById(R.id.text_notifications);
+//
+//        notificationsViewModel.getText().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+        ScreenSlidePagerAdapter2 sectionsPagerAdapter = new ScreenSlidePagerAdapter2(getActivity(), getChildFragmentManager());
+        ViewPager viewPager = root.findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = root.findViewById(R.id.tabLayout);
+        tabs.setupWithViewPager(viewPager);
+        //    FloatingActionButton fab = root.findViewById(R.id.tabLayout);
+
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+//            }
+//        });
+
+        return root;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        ButterKnife.bind(getActivity());
 
-        pager.setAdapter(new CollectAdapter(getActivity()));
-        new TabLayoutMediator(tabLayout, pager, true,new TabLayoutMediator.TabConfigurationStrategy(){
-
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                switch (position)
-                {
-                    case 0:
-                        tab.setText("想读");
-                        break;
-                    case 1:
-                        tab.setText("在读");
-                        break;
-                    default:
-                        tab.setText("读过");
-
-                }
-
-            }
-        }).attach();
-
-    }
 
     @Override
     public void onResume() {

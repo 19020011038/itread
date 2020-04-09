@@ -1,16 +1,15 @@
 package com.example.itread;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-
-import com.example.itread.Base.BaseFragment;
 import com.example.itread.Ui.fragment.guide.BookListFragment;
 import com.example.itread.Ui.fragment.guide.NewBookFragment;
 import com.example.itread.Ui.fragment.guide.PersonFragment;
@@ -38,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_acitivity);
         unbinder = ButterKnife.bind(this);
-
+        check = SharedPreferencesUtil.getInstance(getApplicationContext());
+        check.setLogin(false);
         initFragments();
         initListener();
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         personFragment = new PersonFragment();
         fm = getSupportFragmentManager();
         switchFragment(newBookFragment);
-        check = SharedPreferencesUtil.getInstance(getApplicationContext());
+//        check = SharedPreferencesUtil.getInstance(getApplicationContext());
     }
 
     private void initListener() {
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     switchFragment(bookListFragment);
                     break;
                 case R.id.person:
-
+//                    switchFragment(personFragment);
                     if (check.isLogin())
                     switchFragment(personFragment);
                     else {
@@ -104,12 +104,10 @@ public class MainActivity extends AppCompatActivity {
     });
     }
 
-    public void switchFragment(BaseFragment targetFragment) {
+    public void switchFragment(Fragment targetFragment) {
        FragmentTransaction fragmentTransaction = fm.beginTransaction();
        fragmentTransaction.replace(R.id.book_new_container,targetFragment);
        fragmentTransaction.commit();
 
     }
-
-
 }

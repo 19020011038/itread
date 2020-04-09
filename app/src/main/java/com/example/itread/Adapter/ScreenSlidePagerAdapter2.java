@@ -11,15 +11,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.itread.R;
-import com.example.itread.Ui.fragment.tab.BooklistFragment1;
-import com.example.itread.Ui.fragment.tab.BooklistFragment2;
-import com.example.itread.Ui.fragment.tab.BooklistFragment3;
-import com.example.itread.Ui.fragment.tab.BooklistFragment4;
-import com.example.itread.Ui.fragment.tab.BooklistFragment5;
+import com.example.itread.Ui.fragment.collect.ReadedFragment;
+import com.example.itread.Ui.fragment.collect.WantFragment;
 
-public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
+public class ScreenSlidePagerAdapter2 extends FragmentPagerAdapter {
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3, R.string.tab_text_4, R.string.tab_text_5};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_6, R.string.tab_text_7, R.string.tab_text_8};
     private final Context mContext;
 //    private BooklistFragment1 booklistFragment1;
 //    private BooklistFragment2 booklistFragment2;
@@ -27,8 +24,8 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
 //    private BooklistFragment4 booklistFragment4;
 //    private BooklistFragment5 booklistFragment5;
 
-    private int NUM_PAGES = 5;
-    public ScreenSlidePagerAdapter(Context context, FragmentManager fa) {
+    private int NUM_PAGES = 3;
+    public ScreenSlidePagerAdapter2(Context context, FragmentManager fa) {
         super(fa);
         mContext = context;
     }
@@ -48,23 +45,15 @@ public class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
             case 0:
                 String p = position+"";
                 Log.d("qsh1",p);
-                return BooklistFragment1.newInstance(position);
+                return WantFragment.newInstance(position);
             case 1:
                 String p1 = position+"";
                 Log.d("qsh2",p1);
-                return BooklistFragment2.newInstance(position);
-            case 2:
-                String p2 = position+"";
-                Log.d("qsh3",p2);
-                return BooklistFragment3.newInstance(position);
-            case 3:
-                String p3 = position+"";
-                Log.d("qsh4",p3);
-                return BooklistFragment4.newInstance(position);
+                return ReadedFragment.newInstance(position);
             default:
                 String p4 = position+"";
                 Log.d("qsh5",p4);
-                return BooklistFragment5.newInstance(position);
+                return ReadedFragment.newInstance(position);
         }
 //        if (position == 0){
 //            String p = position+"";

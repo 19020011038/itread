@@ -1,31 +1,35 @@
 package com.example.itread.Ui.fragment.guide;
 
-import android.content.Intent;
-import android.util.Log;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.itread.Adapter.NewBookAdapter;
-import com.example.itread.Base.BaseFragment;
-import com.example.itread.BookListActivity;
 import com.example.itread.R;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import com.example.itread.Util.HttpUtil;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class NewBookFragment extends BaseFragment {
+public class NewBookFragment extends Fragment {
 
     private List<Map<String, Object>> list = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -35,12 +39,32 @@ public class NewBookFragment extends BaseFragment {
     private String author;
     private String book_id;
     private String score;
+    private String result;
 
     private Button button;
 
     @Override
-    protected int getRootViewResId() {
-        return R.layout.fragment_newbook;
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+//        notificationsViewModel =
+//                ViewModelProviders.of(this).get(NotificationsViewModel.class);
+
+
+        //清除列表内容
+        list.clear();
+
+        //联网请求获得图书信息
+        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
+        View root = inflater.inflate(R.layout.fragment_newbook, container, false);
+//        final TextView textView = root.findViewById(R.id.text_notifications);
+//
+//        notificationsViewModel.getText().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
+        return root;
     }
 
     @Override
@@ -50,32 +74,13 @@ public class NewBookFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
 
-        button = getActivity().findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), BookListActivity.class);
-
-                getActivity().startActivity(intent);
-//                onDestroyView();
-//                onDestroy();
-
-
-            }
-        });
-
-
-
-
-
-
         recyclerView = (RecyclerView)getActivity().findViewById(R.id.recyclerView);
 
         //清除列表内容
-        list.clear();
-
-        //联网请求获得图书信息
-        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
+//        list.clear();
+//
+//        //联网请求获得图书信息
+//        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
 
 
 

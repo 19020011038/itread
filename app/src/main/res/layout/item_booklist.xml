@@ -35,6 +35,7 @@
                 android:layout_below="@+id/text1"
                 android:text="75本"
                 android:layout_marginTop="5dp"
+                android:id="@+id/number1"
                 android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>
@@ -63,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text2"
                 android:text="75本"
+                android:id="@+id/number2"
                 android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"/>
         </RelativeLayout>
@@ -91,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text3"
                 android:text="75本"
+                android:id="@+id/number3"
                 android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"/>
         </RelativeLayout>

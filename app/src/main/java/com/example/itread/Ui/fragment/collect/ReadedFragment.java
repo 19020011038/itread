@@ -1,20 +1,16 @@
 package com.example.itread.Ui.fragment.collect;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.example.itread.Adapter.MyBookCommentsAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.itread.Adapter.WantReadAdapter;
-import com.example.itread.MyBookCommentsActivity;
 import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
 
@@ -37,9 +33,14 @@ import okhttp3.Response;
  */
 public class ReadedFragment extends Fragment {
 
-    public ReadedFragment() {
-        // Required empty public constructor
+    public static ReadedFragment newInstance(int index) {
+       ReadedFragment fragment = new ReadedFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(ARG_SECTION_NUMBER, index);
+//        fragment.setArguments(bundle);
+        return fragment;
     }
+
     private RecyclerView recyclerView;
     private Map map;
     List<Map<String, Object>> list = new ArrayList<>();
@@ -48,7 +49,15 @@ public class ReadedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
+
         View view = inflater.inflate(R.layout.fragment_want, container, false);
+
+        recyclerView = view.findViewById(R.id.wantread_recyclerview);
+//        list.clear();
+        WantReadWithOkHttp("http://47.102.46.161/user/index");
+
         return view;
     }
 
@@ -56,9 +65,7 @@ public class ReadedFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        recyclerView = getActivity().findViewById(R.id.wantread_recyclerview);
 
-        WantReadWithOkHttp("http://47.102.46.161/user/index");
     }
 
     //获得想读

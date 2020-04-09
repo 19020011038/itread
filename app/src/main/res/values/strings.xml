@@ -6,4 +6,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tab_text_1">推荐</string>
+    <string name="tab_text_2">都市</string>
+    <string name="tab_text_3">历史</string>
+    <string name="tab_text_4">经典</string>
+    <string name="tab_text_5">生活</string>
+    <string name="tab_text_6">想读</string>
+    <string name="tab_text_7">在读</string>
+    <string name="tab_text_8">读过</string>
 </resources>

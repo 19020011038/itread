@@ -1,27 +1,19 @@
 package com.example.itread.Adapter.BooklistFragmentAdapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.itread.BookListActivity;
 import com.example.itread.R;
-import com.example.itread.Ui.fragment.tab.BooklistFragment1;
-import com.example.itread.Ui.fragment.tab.BooklistFragment2;
 
 import java.util.List;
 import java.util.Map;
