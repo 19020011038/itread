@@ -51,6 +51,8 @@ public class BookCommentsActivity extends AppCompatActivity {
     private String score;
     private String time;
 
+    private boolean flag =false;      //判断是否从写书评页面返回的
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,21 +87,27 @@ public class BookCommentsActivity extends AppCompatActivity {
                 if(!check.isLogin())
                     Toast.makeText(BookCommentsActivity.this,"请您登录后再进行此操作",Toast.LENGTH_SHORT).show();
                 else {
+                    flag = true;
                     Intent intent1 = new Intent(BookCommentsActivity.this,WriteBookCommentsActivity.class);
                     intent1.putExtra("book_id",book_id);
                     startActivity(intent1);
                 }
             }
         });
+        //联网请求获得图书信息
+        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num="+book_id);
     }
     //重写onResume方法
     @Override
     protected void onResume(){
         super.onResume();
-        //清空列表
-        list.clear();
-        //联网请求获得图书信息
-        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num="+book_id);
+        if(flag){
+            //清空列表
+            list.clear();
+            //联网请求获得图书信息
+            bookWithOkHttp("http://47.102.46.161/AT_read/book/?num="+book_id);
+            flag = false;
+        }
     }
 
     //获得图书信息的方法

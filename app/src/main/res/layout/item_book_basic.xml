@@ -156,7 +156,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50px"
             android:layout_gravity="left"
-            android:layout_marginLeft="90px"
+            android:layout_marginLeft="60px"
             android:layout_marginBottom="20px"
             android:gravity="center"
             android:text="评分人数"

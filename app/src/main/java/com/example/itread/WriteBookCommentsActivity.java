@@ -3,6 +3,7 @@ package com.example.itread;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -17,7 +18,9 @@ import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,8 +51,6 @@ import jp.wasabeef.richeditor.RichEditor;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-
-import static com.example.itread.tool.ImageScalingUtil.reducingBitmapSampleFromPath;
 
 
 public class WriteBookCommentsActivity extends AppCompatActivity {
@@ -122,6 +123,8 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
         });
 
         //写评论
+        write_book_comments_richeditor.setPadding(30,0,30,0);
+        write_book_comments_richeditor.setPlaceholder("点击此处输入您的评论...");
         write_book_comments_richeditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override
             public void onTextChange(String text) {
@@ -158,7 +161,11 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(WriteBookCommentsActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
-                    openAlbum();
+                    if(write_book_comments_richeditor.isFocused())
+                        openAlbum();
+                    else {
+                        Toast.makeText(WriteBookCommentsActivity.this,"请您先选择评论输入框",Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -269,8 +276,11 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
 
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             file = toFile(bitmap);
-            bitmap = reducingBitmapSampleFromPath(file.getPath(),300,300);
-            file = toFile(bitmap);
+//            Double neicun = FileSizeUtil.getFileOrFilesSize(imagePath,3);
+//            if(neicun>3.46){
+//                bitmap = reducingBitmapSampleFromPath(file.getPath(),300,300);
+//                file = toFile(bitmap);
+//            }
             postFileWithOkHttp("http://47.102.46.161/user/image_upload",file);
             Log.d("caocaocaocaocao",file.getName());
             Log.d("pppppppppppp",file.getPath());
@@ -393,7 +403,7 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
             }
         });
     }
-//上传文件
+    //上传文件
     public void postFileWithOkHttp(String address,File file) {
         HttpUtil.postFileWithOkHttp(address,file, new Callback() {
             @Override
@@ -414,7 +424,7 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            write_book_comments_richeditor.insertImage(url,"image");
+                            write_book_comments_richeditor.insertImage(url,"picvision\"style =\"max-width:100%");
                             write_book_comments_richeditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
                                 @Override
                                 public void onTextChange(String text) {
@@ -468,4 +478,24 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
             }
         };
     }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        closeKeyBoard();
+        return super.onTouchEvent(event);
+    }
+
+    public void closeKeyBoard() {
+        if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
+            View v = getCurrentFocus();
+            closeSoftInput(this, v);
+        }
+    }
+    // 关闭键盘输入法
+    public static void closeSoftInput(Context context, View v) {
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+    }
+
 }
