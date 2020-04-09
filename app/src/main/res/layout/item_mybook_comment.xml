@@ -27,10 +27,11 @@
             android:layout_marginRight="86px"
             android:text="书评名"
             android:textSize="48px"
+            android:textStyle="bold"
             android:textColor="#434343"
             android:maxLines="1"
             android:ellipsize="end"
-            android:layout_marginLeft="18dip">
+            android:layout_marginLeft="24dip">
         </TextView>
 
         <RatingBar
@@ -43,7 +44,7 @@
             android:rating="4.6"
             android:stepSize="0.1"
             android:layout_below="@id/mybook_comment_name"
-            android:layout_marginLeft="18dip"
+            android:layout_marginLeft="22dip"
             android:layout_marginTop="5dip"
             />
 
@@ -66,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/mybook_comment_name"
             android:layout_marginTop="30dip"
-            android:layout_marginLeft="48px"
+            android:layout_marginLeft="22dip"
             android:layout_marginRight="86px"
             android:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
             android:textSize="40px"
@@ -96,7 +97,7 @@
             android:layout_below="@+id/mybook_comment_time"
             android:background="#e5e5e5"
             android:layout_marginTop="10dip"
-            android:layout_marginLeft="30px"
+            android:layout_marginLeft="22dip"
             android:layout_marginRight="86px">
 
             <ImageView
