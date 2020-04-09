@@ -6,7 +6,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="16px"
+        android:layout_height="12px"
         android:background="#f0f0f0">
     </TextView>
 
@@ -88,5 +88,17 @@
             android:textSize="38px"
             android:textColor="#7f7f7f">
         </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35px"
+            android:layout_below="@+id/myshort_comment_time">
+        </TextView>
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="28px"
+        android:background="#f0f0f0">
+    </TextView>
 </LinearLayout>

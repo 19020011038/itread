@@ -35,19 +35,60 @@
             android:ellipsize="end">
         </TextView>
 
+        <RatingBar
+            android:id="@+id/want_read_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+            style="?android:attr/ratingBarStyleSmall"
+            android:rating="4.6"
+            android:stepSize="0.1"
+            android:layout_below="@id/want_read_bookname"
+            android:layout_toRightOf="@+id/want_read_photo"
+            android:layout_marginLeft="60px"
+            android:layout_marginTop="6dip"
+            />
+
         <TextView
-            android:id="@+id/want_read_bookinfo"
-            android:layout_width="match_parent"
+            android:id="@+id/want_read_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/want_read_rating"
+            android:layout_below="@+id/want_read_bookname"
+            android:layout_marginLeft="4dip"
+            android:text="3.8"
+            android:textSize="38px"
+            android:textColor="#434343"
+            android:layout_marginTop="4dip">
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/want_read_photo"
             android:layout_below="@+id/want_read_bookname"
             android:layout_marginLeft="55px"
-            android:layout_marginTop="56px"
-            android:layout_marginRight="80px"
+            android:layout_marginTop="85px"
+            android:text="作者："
+            android:textSize="40px"
+            android:textColor="#7f7f7f">
+        </TextView>
+
+        <TextView
+            android:id="@+id/want_read_bookinfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_1"
+            android:layout_below="@+id/want_read_bookname"
+            android:layout_marginLeft="5px"
+            android:layout_marginTop="85px"
+            android:layout_marginRight="40px"
             android:text="（国籍）作者/年份/出版社"
             android:textSize="40px"
             android:textColor="#7f7f7f"
-            android:maxLines="2"
+            android:maxLines="1"
             android:ellipsize="end">
         </TextView>
 

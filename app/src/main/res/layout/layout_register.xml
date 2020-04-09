@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#f0f0f0">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -58,6 +59,7 @@
             android:layout_marginRight="14dp"
             android:layout_marginTop="60dp"
             android:hint=" 请输入用户名"
+            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:inputType="textEmailAddress"
             android:background="@drawable/edittext_shape">
         </EditText>
@@ -71,6 +73,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="14dp"
             android:hint=" 请输入邮箱"
+            android:inputType="textEmailAddress"
             android:background="@drawable/edittext_shape">
         </EditText>
 
@@ -116,6 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#bddc8d"
+            android:onClick="onClick"
             android:layout_below="@+id/register_repassword"
             android:layout_marginTop="70dp"
             android:layout_marginLeft="15dp"
@@ -125,5 +129,4 @@
             android:textColor="#ffffff">
         </Button>
     </RelativeLayout>
-
 </LinearLayout>

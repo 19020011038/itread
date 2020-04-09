@@ -3,6 +3,8 @@ package com.example.itread.Adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,6 +51,8 @@ public class MyShortCommentsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private List<Map<String, Object>> list;
     private Context context;
     private String result;
+    private Handler mHandler;
+    private Handler mHandler_f;
     public static final int ONE_ITEM = 1;
     public static final int TWO_ITEM = 2;
 
@@ -91,6 +95,7 @@ public class MyShortCommentsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             final String bookphoto_url = list.get(position).get("book_photo").toString(); //这个非常重要
             final String score = list.get(position).get("score").toString(); //这个非常重要
             final String book_id = list.get(position).get("book_num").toString(); //这个非常重要
+            final String comment_id = list.get(position).get("comment_id").toString();
             Glide.with(context).load(bookphoto_url).into(recyclerViewHolder.myshort_comment_bookphoto);
 
 
@@ -123,13 +128,68 @@ public class MyShortCommentsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 //                        Toast.makeText(Home.this, "相机相机相册相册", Toast.LENGTH_SHORT).show();
-                            String reole = loginWithOkHttp(bookphoto_url,score,book_id);
-                            if (result.equals("删除成功")) {
-                                Toast.makeText(context,"删除成功",Toast.LENGTH_SHORT);
-                            } else {
-                                Toast.makeText(context,"删除失败",Toast.LENGTH_SHORT);
+                            HttpUtil.WantReadWithOkHttp("http://47.102.46.161/user/delete_comment?comment_id="+comment_id+"&type=short", new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    //在这里对异常情况进行处理
+                                    Log.i( "zyr", " name : error");
+                                }
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    //得到服务器返回的具体内容
+                                    final String responseData = response.body().string();
+//                String header = response.header("set-cookie");
+                                    Log.i("zyr","comment_id:"+comment_id);
+//
+                                    try{
+                                        JSONObject object = new JSONObject(responseData);
+                                        result = object.getString("result");
+                                        Log.i("zyr","short,result:"+result);
+                                        if (result.equals("评论删除成功")){
+                                            Message message = new Message();
+                                            message.what = 1;
+                                            //发送信息给handler
+                                            mHandler.sendMessage(message);
+                                        } else {
+                                            Message message = new Message();
+                                            message.what = 1;
+                                            //发送信息给handler
+                                            mHandler_f.sendMessage(message);
+                                        }} catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Log.i( "zyr", "LLL"+responseData);
+                                    }
+                                }//标签页
+                            });
+                            Log.i("zyr","commnt_id"+comment_id);
+                            mHandler = new Handler(){
+                                //handleMessage为处理消息的方法
+                                public void handleMessage(Message msg) {
+                                    super.handleMessage(msg);
+                                    if(true) {
+                                        Log.i("zyr","mHandler");
+//                                notifyDataSetChanged();
+                                        list.remove(position);//集合移除该条
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position,list.size()-position);
+                                        //                tv.setText(msg.arg1 + "");
+                                    }
+                                }
+                            };
+                            mHandler_f = new Handler(){
+
+                                //handleMessage为处理消息的方法
+                                public void handleMessage(Message msg) {
+                                    super.handleMessage(msg);
+                                    if(true) {
+                                        Log.i("zyr","mHandler_f");
+//                                notifyDataSetChanged();
+                                        Toast.makeText(context,"删除失败",Toast.LENGTH_SHORT).show();
+                                        //                tv.setText(msg.arg1 + "");
+                                    }
+                                }
+                            };
                             }
-                        }
                     });
                     dialog.show();
                 }
@@ -182,60 +242,5 @@ public class MyShortCommentsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else {
             return 1;
         }
-    }
-
-    public String loginWithOkHttp(String address, final String account, final String password){
-        HttpUtil.loginWithOkHttp(address,account,password, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                //在这里对异常情况进行处理
-                Log.i( "zyr", " name : error");
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                //得到服务器返回的具体内容
-                final String responseData = response.body().string();
-//                String header = response.header("set-cookie");
-//
-                try{
-                    JSONObject object = new JSONObject(responseData);
-                    result = object.getString("result");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.i( "zyr", "LLL"+responseData);
-                }
-
-//                recyclerViewHolder.runOnUiThread(new Runnable() {
-////                    @Override
-////                    public void run() {
-////                        if (result.equals("登陆成功")){
-////                            String JSESSIONID=header.substring(0, 43);
-////                            Log.i( "zyr","0");
-////                            Log.i("zyr","login_jsessionid:"+JSESSIONID);
-////                            check.setCookie(true);//设置已获得cookie
-////                            check.saveCookie(JSESSIONID);//保存获得的cookie
-////                            check.setLogin(true);  //设置登录状态为已登录
-////                            Log.i("zyr","islogin:"+check.isLogin());
-////                            check.setAccountId(account);  //添加账户信息
-////                            Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-////                            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-////                            startActivity(intent);
-////                            finish();
-////                        }else if (result.equals("用户名不存在")){
-////                            Toast.makeText(LoginActivity.this,"该用户不存在",Toast.LENGTH_SHORT).show();
-////                        }else if (result.equals("用户名或者密码错误")){
-////                            Toast.makeText(LoginActivity.this,"用户名或者密码错误",Toast.LENGTH_SHORT).show();
-////                        }else if (result.equals("该用户已经被冻结")){
-////                            Toast.makeText(LoginActivity.this,"该用户尚未完成注册环节，处于冻结状态",Toast.LENGTH_SHORT).show();
-////                        }else if (result.equals("未提交全部参数")){
-////                            Toast.makeText(LoginActivity.this,"用户名或密码为空",Toast.LENGTH_SHORT).show();
-////                        }else if (result.equals("未提交POST请求")){
-////                            Toast.makeText(LoginActivity.this,"提交请求失败",Toast.LENGTH_SHORT).show();
-////                        }
-////                    }
-////                });
-            }//标签页
-        });
-        return result;
     }
 }

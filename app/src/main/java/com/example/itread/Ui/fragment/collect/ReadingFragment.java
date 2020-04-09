@@ -72,6 +72,7 @@ public class ReadingFragment extends Fragment {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
                 try{
+                    list.clear();
                     JSONObject object = new JSONObject(responseData);
                     JSONArray jsonArray = object.getJSONArray("reading");
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -79,31 +80,32 @@ public class ReadingFragment extends Fragment {
 //                int news_id = jsonObject1.getInt("news_id");
                         String bookname = jsonObject1.getString("bookname");
                         String bookphoto = jsonObject1.getString("bookphoto");  //头像
-                        String author = jsonObject1.getString("author");
-                        String publish = jsonObject1.getString("publish");
-                        String book_num = jsonObject1.getString("book_num");
-                        String publish_time = jsonObject1.getString("publish_time");
+                        String info1 = jsonObject1.getString("info");
+                        String info = info1.substring(8);
+                        String score = jsonObject1.getString("score");
+                        String book_num = jsonObject1.getString("num");
                         map = new HashMap();
 
                         map.put("bookname", bookname);
                         map.put("bookphoto", bookphoto);
-                        map.put("author", author);
-                        map.put("publish", publish);
-                        map.put("publish_time", publish_time);
+                        map.put("info", info);
+                        map.put("score", score);
                         map.put("book_num", book_num);
 
                         list.add(map);
 
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
 
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//纵向
-                                recyclerView.setAdapter(new ReadingAdapter(getActivity(), list));
-                                recyclerView.setNestedScrollingEnabled(false);
-                            }
-                        });
                     }
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//纵向
+                            recyclerView.setAdapter(new ReadingAdapter(getActivity(), list));
+                            recyclerView.setNestedScrollingEnabled(false);
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.i( "zyr", "LLL"+responseData);

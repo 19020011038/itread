@@ -33,13 +33,31 @@
             android:layout_marginLeft="18dip">
         </TextView>
 
-        <TextView
+        <RatingBar
+            android:id="@+id/mybook_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="星星星星"
+            android:isIndicator="true"
+            android:numStars="5"
+            style="?android:attr/ratingBarStyleSmall"
+            android:rating="4.6"
+            android:stepSize="0.1"
             android:layout_below="@id/mybook_comment_name"
+            android:layout_marginLeft="18dip"
             android:layout_marginTop="5dip"
-            android:layout_marginLeft="18dip">
+            />
+
+        <TextView
+            android:id="@+id/mybook_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/mybook_rating"
+            android:layout_below="@+id/mybook_comment_name"
+            android:layout_marginLeft="4dip"
+            android:text="3.8"
+            android:textSize="38px"
+            android:textColor="#434343"
+            android:layout_marginTop="3dip">
         </TextView>
 
         <TextView
@@ -97,8 +115,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/mybook_comment_bookphoto"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="56px"
-                android:layout_marginRight="5dip"
+                android:layout_marginLeft="106px"
+                android:layout_marginRight="1dip"
                 android:layout_marginTop="56px"
                 android:maxLines="2"
                 android:ellipsize="end"
@@ -113,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="56dip"
-                android:text="已读"
+                android:text=""
                 android:textSize="40px"
                 android:textColor="#434343"
                 android:layout_centerVertical="true">
