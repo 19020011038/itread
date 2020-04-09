@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,7 +61,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         return new NewBookAdapter.ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(@NonNull NewBookAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         String title = list.get(position).get("name").toString();
         String image = list.get(position).get("image").toString();
         String author = list.get(position).get("author").toString();
@@ -69,6 +70,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         String score = list.get(position).get("score").toString();
 
 
+        holder.ratingBar.setRating(Float.valueOf(score)/2);
         holder.name.setText(title);
         holder.score.setText(score);
         holder.content.setText(content);
@@ -206,6 +208,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         private RelativeLayout relativeLayout;
         private RelativeLayout relativeLayout2;
         private TextView textView;
+        private RatingBar ratingBar;
 
 
         ViewHolder(@NonNull View itemView) {
@@ -219,6 +222,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             relativeLayout = itemView.findViewById(R.id.layout2);
             relativeLayout2 = itemView.findViewById(R.id.newbook_want);
             textView = itemView.findViewById(R.id.ididid);
+            ratingBar = itemView.findViewById(R.id.book_rating);
 
 
 
