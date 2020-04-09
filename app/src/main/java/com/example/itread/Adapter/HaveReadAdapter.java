@@ -62,11 +62,13 @@ public class HaveReadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) holder;
             recyclerViewHolder.wantread_book_name.setText(list.get(position).get("bookname").toString());
             recyclerViewHolder.wantread_book_info.setText(list.get(position).get("info").toString());
-            recyclerViewHolder.wantread_score.setText(list.get(position).get("score").toString());
+//            recyclerViewHolder.wantread_score.setText(list.get(position).get("score").toString());
             final String bookphoto_url = list.get(position).get("bookphoto").toString(); //这个非常重要
             final String book_id = list.get(position).get("book_num").toString(); //这个非常重要
             final Float score = Float.parseFloat(list.get(position).get("score").toString());
             recyclerViewHolder.wantread_ratingbar.setRating(score / 2);
+            final String score22 = score.toString();
+            recyclerViewHolder.wantread_score.setText(score22);
             Glide.with(context).load(bookphoto_url).into(recyclerViewHolder.wantread_book_photo);
 
             recyclerViewHolder.wantread_all.setOnClickListener(new View.OnClickListener() {

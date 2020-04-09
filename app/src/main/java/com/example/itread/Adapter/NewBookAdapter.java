@@ -19,15 +19,24 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.itread.BookActivity;
 import com.example.itread.R;
+import com.example.itread.Util.HttpUtil;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import android.os.Handler;
+import android.os.Message;
 
 public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHolder>{
 
     private List<Map<String, Object>> list;
     private Context context;
-
 
 
     public NewBookAdapter(Context context, List<Map<String, Object>> list) {
@@ -83,8 +92,6 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             }
         });
 
-
-
     }
     @Override
     public int getItemCount() {
@@ -108,7 +115,6 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             content = itemView.findViewById(R.id.content);
             score = itemView.findViewById(R.id.score);
             relativeLayout = itemView.findViewById(R.id.layout2);
-
 
 
         }
