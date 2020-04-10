@@ -55,16 +55,21 @@ public class WantFragment extends Fragment {
 
 
 
-        View view = inflater.inflate(R.layout.fragment_want, container, false);
+        View view = inflater.inflate(R.layout.fragment_readed, container, false);
 
-        recyclerView = view.findViewById(R.id.wantread_recyclerview);
+        recyclerView = view.findViewById(R.id.haveread_recyclerview);
         list.clear();
 
-        WantReadWithOkHttp("http://47.102.46.161/user/index");
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        WantReadWithOkHttp("http://47.102.46.161/user/index");
+
+    }
 
     //获得在读
     public void WantReadWithOkHttp(String address){

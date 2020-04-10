@@ -56,7 +56,7 @@ public class ReadedFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.haveread_recyclerview);
 //        list.clear();
-        WantReadWithOkHttp("http://47.102.46.161/user/index");
+
 
         return view;
     }
@@ -64,7 +64,7 @@ public class ReadedFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        WantReadWithOkHttp("http://47.102.46.161/user/index");
 
     }
 

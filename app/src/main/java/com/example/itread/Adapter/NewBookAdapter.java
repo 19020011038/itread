@@ -37,17 +37,24 @@ import okhttp3.Response;
 public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHolder>{
 
     private List<Map<String, Object>> list;
+    private List<Map<String, Object>> list2;
     private Context context;
     private Handler mHandler;
     private Handler mHandler_f;
     private Handler mHandler_e;
     private String result;
     private SharedPreferencesUtil check;
-    private String status = "0";
+    private String status ;
+    private Handler handler;
+    private String status2;
+    private boolean flag = true;
 
-    public NewBookAdapter(Context context, List<Map<String, Object>> list) {
+
+
+    public NewBookAdapter(Context context, List<Map<String, Object>> list,List<Map<String, Object>> list2) {
         this.context = context;
         this.list = list;
+        this.list2 = list2;
         check = SharedPreferencesUtil.getInstance(context.getApplicationContext());
     }
 
@@ -67,15 +74,71 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         String author = list.get(position).get("author").toString();
         String content = list.get(position).get("content").toString();
         String book_id = list.get(position).get("book_id").toString();
-        String score = list.get(position).get("score").toString();
+//        String score = list.get(position).get("score").toString();
 
+//
 
-        holder.ratingBar.setRating(Float.valueOf(score)/2);
+//        holder.ratingBar.setRating(Float.valueOf(score)/2);
         holder.name.setText(title);
-        holder.score.setText(score);
+//        holder.score.setText(score);
         holder.content.setText(content);
         holder.author.setText(author);
         holder.textView.setText(position+1+"");
+
+
+        if (check.isLogin())
+        {
+            status = list2.get(position).get("status").toString();
+            if (status.equals("0"))
+                        {
+                            holder.like.setImageResource(R.drawable.like2);
+                            holder.like.invalidate();
+                        }
+            else
+            {
+                holder.like.setImageResource(R.drawable.newbook_want);
+                holder.like.invalidate();
+            }
+        }
+
+
+
+//        if (check.isLogin())
+//        {
+//            if(flag){
+//                getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num="+book_id);
+//                flag = false;
+//            }
+
+
+
+
+
+////            handler = new Handler(context.getMainLooper()
+////
+////            ) {
+////                public void handleMessage(Message message4) {
+////                    super.handleMessage(message4);
+////                    if (true) {
+////
+////                        if (status.equals("0"))
+////                        {
+////
+////                            holder.like.setImageResource(R.drawable.like2);
+////                            holder.like.invalidate();
+////                            flag = true;
+////
+////                        }
+////
+////                    }
+////                }
+////            };
+//
+//
+//        }
+
+
+
 
         String picture_1 = image.replace("\\","");
         String picture_2 = picture_1.replace("\"","");
@@ -92,6 +155,8 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
                 .apply(options)
                 .into(holder.image);
 
+
+
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,81 +170,23 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             public void onClick(View view) {
 
                 if (check.isLogin()) {
-                    changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id, status);
-//                    String status = "0";
-//
-//                    HttpUtil.changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status, new Callback() {
-//                        @Override
-//                        public void onFailure(Call call, IOException e) {
-//                            //在这里对异常情况进行处理
-//                            Log.i("qqqq", " name : error");
-//                        }
-//
-//                        @Override
-//                        public void onResponse(Call call, Response response) throws IOException {
-//                            //得到服务器返回的具体内容
-//                            final String responseData = response.body().string();
-//
-//
-////
-//                            try {
-//                                JSONObject object = new JSONObject(responseData);
-//                                result = object.getString("result");
-//                                Log.i("zyr", "short,result:" + result);
-//                                if (result.equals("200")) {
-//                                    Message message = new Message();
-//                                    message.what = 1;
-//                                    //发送信息给handler
-//                                    mHandler.sendMessage(message);
-//                                } else if (result.equals("请求失败")) {
-//                                    Message message = new Message();
-//                                    message.what = 1;
-//                                    //发送信息给handler
-//                                    mHandler_f.sendMessage(message);
-//                                } else {
-//                                    Message message = new Message();
-//                                    message.what = 1;
-//                                    //发送信息给handler
-//                                    mHandler_e.sendMessage(message);
-//                                }
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                                Log.i("zyr", "LLL" + responseData);
-//                            }
-//                        }//标签页
-//                    });
-//
-//                    mHandler = new Handler() {
-//
-//                        //handleMessage为处理消息的方法
-//                        public void handleMessage(Message msg) {
-//                            super.handleMessage(msg);
-//                            if (true) {
-//                                Toast.makeText(context, "已想读", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    };
-//                    mHandler_f = new Handler() {
-//
-//                        //handleMessage为处理消息的方法
-//                        public void handleMessage(Message msg) {
-//                            super.handleMessage(msg);
-//                            if (true) {
-//                                Toast.makeText(context, "请求失败，请稍后重试", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    };
-//                    mHandler_e = new Handler() {
-//
-//                        //handleMessage为处理消息的方法
-//                        public void handleMessage(Message msg) {
-//                            super.handleMessage(msg);
-//                            if (true) {
-//                                Toast.makeText(context, "用户未登陆", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    };
+                    if (!status.equals("0"))
+                    {
+                        status = "0";
+                        changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id,status);
+
+                        holder.like.setImageResource(R.drawable.like2);
+                        holder.like.invalidate();
+                        Toast.makeText(context, "已成功加入想读", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        status = "1";
+                        changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id,status);
+
+                        holder.like.setImageResource(R.drawable.newbook_want);
+                        holder.like.invalidate();
+                        Toast.makeText(context, "已取消想读", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
@@ -210,6 +217,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         private RelativeLayout relativeLayout;
         private RelativeLayout relativeLayout2;
         private TextView textView;
+        private ImageView like;
         private RatingBar ratingBar;
 
 
@@ -220,19 +228,22 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             image = itemView.findViewById(R.id.image);
             author = itemView.findViewById(R.id.author);
             content = itemView.findViewById(R.id.content);
-            score = itemView.findViewById(R.id.score);
+//            score = itemView.findViewById(R.id.score);
             relativeLayout = itemView.findViewById(R.id.layout2);
             relativeLayout2 = itemView.findViewById(R.id.newbook_want);
             textView = itemView.findViewById(R.id.ididid);
-            ratingBar = itemView.findViewById(R.id.book_rating);
+            like = itemView.findViewById(R.id.book_want);
+//            ratingBar = itemView.findViewById(R.id.book_rating);
 
 
 
         }
 
     }
-    public void changeStatusWithOkHttp(String address, final String status) {
-        HttpUtil.changeStatusWithOkHttp(address, status, new Callback() {
+
+    //获得图书状态的方法
+    public void getStatusWithOkHttp(String address) {
+        HttpUtil.getStatusWithOkHttp(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
@@ -241,14 +252,45 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.d("要改变为的改变图书状态：", status);
+                //得到服务器返回的具体内容
+                String responseData = response.body().string();
+//                responseData = removeBOM(responseData);
+//                if(responseData != null && responseData.startsWith("\ufeff"))
+//                    responseData = responseData.substring(1);
+                Log.d("获取图书状态：", responseData);
+                try {
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    status = jsonObject.getString("result");
+                    Log.d("获得图书状态请求的返回结果",status);
+//                    Message message = new Message();
+//                    message.what = 1;
+//                    handler.sendMessage(message);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+
+    public void changeStatusWithOkHttp(String address, final String status) {
+        HttpUtil.changeStatusWithOkHttp(address, status, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
                 Log.d("改变图书状态的返回结果", responseData);
                 try {
                     JSONObject jsonObject = new JSONObject(responseData);
                     result = jsonObject.getString("result");
-                    Log.d("改变后的图书状态：", status);
+                    Log.d("改变图书状态请求的返回结果",result);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

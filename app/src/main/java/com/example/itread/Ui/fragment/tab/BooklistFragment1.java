@@ -69,9 +69,6 @@ public class BooklistFragment1 extends Fragment {
     public void onResume() {
         super.onResume();
 
-
-
-
     }
 
 

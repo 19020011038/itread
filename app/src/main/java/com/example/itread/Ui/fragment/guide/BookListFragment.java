@@ -20,45 +20,19 @@ public class BookListFragment extends Fragment  {
     private Button button;
     private ScreenSlidePagerAdapter screenSlidePagerAdapter;
 
-//    @BindView(R.id.viewPager2)
-//    ViewPager2 pager;
-//
-//    @BindView(R.id.tabLayout)
-//    TabLayout tabLayout;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        notificationsViewModel =
-//                ViewModelProviders.of(this).get(NotificationsViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_booklist, container, false);
 
-//        final TextView textView = root.findViewById(R.id.text_notifications);
-//
-//        notificationsViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
         ScreenSlidePagerAdapter sectionsPagerAdapter = new ScreenSlidePagerAdapter(getActivity(), getChildFragmentManager());
         ViewPager viewPager = root.findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = root.findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(viewPager);
-        //    FloatingActionButton fab = root.findViewById(R.id.tabLayout);
-
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-//            }
-//        });
-
         return root;
+
     }
-
-
 }
 
 
