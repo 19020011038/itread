@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.itread.R;
 import com.example.itread.Ui.fragment.collect.ReadedFragment;
+import com.example.itread.Ui.fragment.collect.ReadingFragment;
 import com.example.itread.Ui.fragment.collect.WantFragment;
 
 public class ScreenSlidePagerAdapter2 extends FragmentPagerAdapter {
@@ -45,15 +46,15 @@ public class ScreenSlidePagerAdapter2 extends FragmentPagerAdapter {
             case 0:
                 String p = position+"";
                 Log.d("qsh1",p);
-                return WantFragment.newInstance(position);
+                return ReadedFragment.newInstance(position);
             case 1:
                 String p1 = position+"";
                 Log.d("qsh2",p1);
-                return ReadedFragment.newInstance(position);
+                return ReadingFragment.newInstance(position);
             default:
                 String p4 = position+"";
                 Log.d("qsh5",p4);
-                return ReadedFragment.newInstance(position);
+                return WantFragment.newInstance(position);
         }
 //        if (position == 0){
 //            String p = position+"";

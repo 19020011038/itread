@@ -124,7 +124,6 @@ public class LoginActivity extends AppCompatActivity {
                             check.setCookie(true);//设置已获得cookie
                             check.saveCookie(JSESSIONID);//保存获得的cookie
                             check.setLogin(true);  //设置登录状态为已登录
-                            Log.i("zyr","islogin:"+check.isLogin());
                             check.setAccountId(account);  //添加账户信息
                             Toast.makeText(LoginActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

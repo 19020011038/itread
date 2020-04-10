@@ -187,7 +187,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
                 }
             }
 
-                });
+        });
 
 
 
