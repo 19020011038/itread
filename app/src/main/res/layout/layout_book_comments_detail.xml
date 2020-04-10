@@ -13,7 +13,7 @@
 
         <ImageView
             android:id="@+id/back_from_book_comments_detail"
-            android:layout_width="42px"
+            android:layout_width="70px"
             android:layout_height="70px"
             android:layout_gravity="center"
             android:layout_marginLeft="30px"
@@ -22,6 +22,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginRight="100px"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="书评详情"
