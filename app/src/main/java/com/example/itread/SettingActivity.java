@@ -369,6 +369,12 @@ public class SettingActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " settingActivity : icon_error");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SettingActivity.this, "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -407,6 +413,12 @@ public class SettingActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " signoutActivity : error");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SettingActivity.this, "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -428,8 +440,11 @@ public class SettingActivity extends AppCompatActivity {
                             Intent intent = new Intent(SettingActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             check.setLogin(false);
                             startActivity(intent);
+                            finish();
                         }else if (result.equals("用户未登录")){
                             Toast.makeText(SettingActivity.this,"用户未登录,退出失败",Toast.LENGTH_SHORT).show();
+                            Intent intent1 = new Intent(SettingActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent1);
                         }
                     }
                 });
@@ -444,6 +459,12 @@ public class SettingActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " name : error");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(SettingActivity.this, "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {

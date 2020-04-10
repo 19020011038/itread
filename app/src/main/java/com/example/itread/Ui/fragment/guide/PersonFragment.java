@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -34,7 +35,11 @@ import okhttp3.Response;
 
 public class PersonFragment extends Fragment {
 
-
+//    @BindView(R.id.viewPager2)
+//    ViewPager2 pager;
+//
+//    @BindView(R.id.tabLayout)
+//    TabLayout tabLayout;
 
     private RelativeLayout home_setting;
     private ImageView home_icon;
@@ -56,46 +61,19 @@ public class PersonFragment extends Fragment {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = root.findViewById(R.id.tabLayout);
         tabs.setupWithViewPager(viewPager);
-        if (!getActivity().equals(null)){
-            home_icon = root.findViewById(R.id.home_icon);
-            home_nickname = root.findViewById(R.id.home_nickname);
-            home_bookcomment = root.findViewById(R.id.home_bookcomment);
-            home_shortcomment = root.findViewById(R.id.home_shortcomment);
-            home_setting = (RelativeLayout) root.findViewById(R.id.home_setting);
-            home_setting.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent();
-                    intent.setClass(getActivity(), SettingActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
-                    getActivity().startActivity(intent);
-                }
-            });
+        //    FloatingActionButton fab = root.findViewById(R.id.tabLayout);
 
-            home_bookcomment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent();
-                    intent.setClass(getActivity(), MyBookCommentsActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
-                    getActivity().startActivity(intent);
-                }
-            });
-
-            home_shortcomment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent();
-                    intent.setClass(getActivity(), MyShortCommentsActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
-                    getActivity().startActivity(intent);
-                }
-            });
-
-
-        }
-
-
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+//            }
+//        });
+//        nameAddress = "http://47.102.46.161/user/index";
+//        homeNameOkHttp(nameAddress);
         return root;
     }
 
@@ -108,7 +86,40 @@ public class PersonFragment extends Fragment {
         nameAddress = "http://47.102.46.161/user/index";
         homeNameOkHttp(nameAddress);
 
+        home_icon = getActivity().findViewById(R.id.home_icon);
+        home_nickname = getActivity().findViewById(R.id.home_nickname);
+        home_bookcomment = getActivity().findViewById(R.id.home_bookcomment);
+        home_shortcomment = getActivity().findViewById(R.id.home_shortcomment);
+        home_setting = (RelativeLayout) getActivity().findViewById(R.id.home_setting);
+        home_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), SettingActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
+                getActivity().startActivity(intent);
+            }
+        });
 
+        home_bookcomment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), MyBookCommentsActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
+                getActivity().startActivity(intent);
+            }
+        });
+
+        home_shortcomment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), MyShortCommentsActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     //获得头像昵称
@@ -118,6 +129,12 @@ public class PersonFragment extends Fragment {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " name : error");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -129,20 +146,32 @@ public class PersonFragment extends Fragment {
                     nickname = object1.getString("nickname");
                     icon = object1.getString("icon");
                     Log.i("zyr", "HomeActivity.icon_url:"+icon);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            home_nickname.setText(nickname);
+                            Glide.with(getActivity()).load(icon).into(home_icon);
+//                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.i( "zyr", "LLL"+responseData);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "网络好像出现了问题...", Toast.LENGTH_SHORT);
+                        }
+                    });
                 }
-                if (!getActivity().equals(null))
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        home_nickname.setText(nickname);
-                        if (!getActivity().equals(null))
-                        Glide.with(getActivity()).load(icon).into(home_icon);
-//                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        home_nickname.setText(nickname);
+//                        Glide.with(getActivity()).load(icon).into(home_icon);
+////                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }//标签页
         });
     }

@@ -97,6 +97,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " error : ChangePasswordError");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ChangePasswordActivity.this, "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
@@ -114,8 +120,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     public void run() {
                         if (result.equals("密码修改成功")){
                             Toast.makeText(ChangePasswordActivity.this,"密码修改成功",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(ChangePasswordActivity.this, SettingActivity.class);
-                            startActivity(intent);
                             finish();
                         }else if (result.equals("原密码不正确")){
                             Toast.makeText(ChangePasswordActivity.this,"原密码不正确",Toast.LENGTH_SHORT).show();

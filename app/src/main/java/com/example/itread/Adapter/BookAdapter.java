@@ -3,6 +3,7 @@ package com.example.itread.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -329,7 +330,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 final_score_string = "";
                 viewHolder.book_people.setText(text_people);
                 viewHolder.book_score.setText(final_score_string);
-                viewHolder.book_rating_1.setRating((float)0.0);
+                viewHolder.book_rating_1.setRating((float)5.0);
             }else {
                 viewHolder.book_people.setText("评论人数：" + list.get(position).get("people").toString());
                 final_score_float = Float.valueOf(all_score) / Float.valueOf(all_number) ;
@@ -354,7 +355,11 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(BookAdapter.this.context, BookCommentsActivity.class);
-                    intent.putExtra("book_id", book_id);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("book_id",book_id);
+                    bundle.putString("all_score",all_score);
+                    bundle.putString("all_number",all_number);
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             });
@@ -365,6 +370,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     super.handleMessage(message);
                     if (true) {
                         new_score = String.format("%.1f",Float.valueOf(new_score));
+                        Log.d("新的评分",new_score);
                         viewHolder.book_score.setText(new_score);
                         viewHolder.book_rating_1.setRating(Float.valueOf(new_score));
                         bookWithOkHttp2("http://47.102.46.161/AT_read/book/?num=" + book_id);
@@ -478,7 +484,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //修改图书评分的方法
     public void changeScoreWithOkHttp(String address,String score) {
-        HttpUtil.changeStatusWithOkHttp(address, score, new Callback() {
+        HttpUtil.changeScoreWithOkHttp(address, score, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
@@ -548,7 +554,10 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (true) {
                     if (result.equals("200")){
                         Toast.makeText(BookAdapter.this.context, "评论成功", Toast.LENGTH_SHORT).show();
-                        new_score = String.valueOf((Float.valueOf(user_score_string)+Float.valueOf(all_score))/(Float.valueOf(all_number)+(float)1.0));
+                        all_score = String.valueOf((Float.valueOf(user_score_string)+Float.valueOf(all_score)));
+                        all_number = String.valueOf((Float.valueOf(all_number)+(float)1.0));
+                        new_score = String.valueOf(Float.valueOf(all_score) / Float.valueOf(all_number));
+                        Log.d("计算的出的评分",new_score);
                         changeScoreWithOkHttp("http://47.102.46.161/AT_read/score/?num=" + book_id,new_score );
                     }
                     else if (result.equals("402"))
@@ -586,34 +595,6 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
-        if (number.equals("0")) {
-            handler1 = new Handler(context.getMainLooper()) {
-                public void handleMessage(Message message3) {
-                    super.handleMessage(message3);
-                    if (true) {
-                        number = "1";
-                        Log.d("3号位置", number);
-                        list.remove(4);
-                        notifyItemRemoved(4);
-//                    //添加评论
-//                    Message message3 = new Message();
-//                    message3.what = 1;
-//                    handler.sendMessage(message3);
-                    }
-                }
-            };
-        }
-        handler = new Handler(context.getMainLooper()
-
-        ) {
-            public void handleMessage(Message message4) {
-                super.handleMessage(message4);
-                if (true) {
-                    Log.d("4号位置", number);
-                    addItem(4, map3);
-                }
-            }
-        };
     }
 
     //获得图书信息的方法

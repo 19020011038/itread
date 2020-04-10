@@ -64,7 +64,7 @@ public class HttpUtil {
                 .add("username", account)
                 .add("email", email)
                 .add("password", password)
-                .add("repassword", repassword)
+//                .add("repassword", repassword)
                 .build();
         Request request = new Request.Builder()
                 .url(address)
@@ -129,7 +129,7 @@ public class HttpUtil {
         FormBody body = new FormBody.Builder()
                 .add("old_password", old_password)
                 .add("new_password", new_password)
-                .add("re_password", renew_password)
+//                .add("re_password", renew_password)
                 .build();
         Request request = new Request.Builder()
                 .url(address)
@@ -197,7 +197,7 @@ public class HttpUtil {
                 .add("username", account)
                 .add("email", email)
                 .add("new_password", password)
-                .add("re_password", repassword)
+//                .add("re_password", repassword)
                 .build();
         Request request = new Request.Builder()
                 .url(address)

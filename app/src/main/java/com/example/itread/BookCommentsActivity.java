@@ -53,6 +53,9 @@ public class BookCommentsActivity extends AppCompatActivity {
 
     private boolean flag =false;      //判断是否从写书评页面返回的
 
+    private String all_score;
+    private String all_number;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +77,10 @@ public class BookCommentsActivity extends AppCompatActivity {
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
 
         //接受书的id
-        Intent intent = getIntent();
-        book_id = intent.getStringExtra("book_id");
+        Bundle bundle = getIntent().getExtras();
+        book_id = bundle.getString("book_id");
+        all_score = bundle.getString("all_score");
+        all_number = bundle.getString("all_number");
 
 
 
@@ -89,7 +94,11 @@ public class BookCommentsActivity extends AppCompatActivity {
                 else {
                     flag = true;
                     Intent intent1 = new Intent(BookCommentsActivity.this,WriteBookCommentsActivity.class);
-                    intent1.putExtra("book_id",book_id);
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString("book_id",book_id);
+                    bundle1.putString("all_score",all_score);
+                    bundle1.putString("all_number",all_number);
+                    intent1.putExtras(bundle1);
                     startActivity(intent1);
                 }
             }

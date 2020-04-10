@@ -116,7 +116,7 @@ public class BookCommentsDetailActivity extends AppCompatActivity {
                             book_comments_detail_name.setText(name);
                             book_comments_detail_score.setText(score);
                             book_comments_detail_time.setText(time);
-//                            book_comments_detail_ratingBar.setRating(Float.parseFloat(score));
+                            book_comments_detail_ratingBar.setRating(Float.parseFloat(score));
                             RichText.from(richtext).into(book_comments_detail_richtext);
                         }
                     });

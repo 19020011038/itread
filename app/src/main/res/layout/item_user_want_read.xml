@@ -16,7 +16,7 @@
             android:layout_height="320px"
             android:layout_marginTop="70px"
             android:layout_marginLeft="86px"
-            android:background="#c7c7c7">
+            android:background="#ffffff">
         </ImageView>
 
         <TextView

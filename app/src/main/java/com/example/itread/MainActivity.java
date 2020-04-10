@@ -82,18 +82,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()){
                 case R.id.book_new:
-//                    if (newBookFragment.isAdded())
-                    {
-                        switchFragment(newBookFragment);
-                    }
-
+             switchFragment(newBookFragment);
                     break;
                 case R.id.book_list:
-//                    if (bookListFragment.isAdded())
-                    {
-                        switchFragment(bookListFragment);
-                    }
-
+                    switchFragment(bookListFragment);
                     break;
                 case R.id.person:
 
@@ -120,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     public void switchFragment(Fragment targetFragment) {
        FragmentTransaction fragmentTransaction = fm.beginTransaction();
        fragmentTransaction.replace(R.id.book_new_container,targetFragment);
-       fragmentTransaction.commitAllowingStateLoss();
+       fragmentTransaction.commit();
 
     }
 }

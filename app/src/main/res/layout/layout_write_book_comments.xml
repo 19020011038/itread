@@ -13,7 +13,7 @@
 
         <ImageView
             android:id="@+id/back_from_write_book_comments"
-            android:layout_width="42px"
+            android:layout_width="70px"
             android:layout_height="70px"
             android:layout_gravity="center"
             android:layout_marginLeft="30px"

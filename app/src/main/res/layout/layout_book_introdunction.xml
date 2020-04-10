@@ -12,13 +12,14 @@
 
         <ImageView
             android:id="@+id/back_from_book_introduction"
-            android:layout_width="42px"
+            android:layout_width="70px"
             android:layout_height="70px"
             android:layout_gravity="center"
             android:layout_marginLeft="30px"
             android:src="@drawable/back" />
 
         <TextView
+            android:layout_marginRight="100px"
             android:id="@+id/book_label"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

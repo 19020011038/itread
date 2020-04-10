@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.itread.Adapter.HaveReadAdapter;
+import com.example.itread.Adapter.WantReadAdapter;
 import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
 
@@ -52,11 +53,11 @@ public class ReadedFragment extends Fragment {
 
 
 
-        View view = inflater.inflate(R.layout.fragment_readed, container, false);
+        View view = inflater.inflate(R.layout.fragment_want, container, false);
 
-        recyclerView = view.findViewById(R.id.haveread_recyclerview);
-//        list.clear();
-
+//        recyclerView = view.findViewById(R.id.wantread_recyclerview);
+////        list.clear();
+//        WantReadWithOkHttp("http://47.102.46.161/user/index");
 
         return view;
     }
@@ -64,8 +65,10 @@ public class ReadedFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        WantReadWithOkHttp("http://47.102.46.161/user/index");
 
+        recyclerView = getActivity().findViewById(R.id.wantread_recyclerview);
+//        list.clear();
+        WantReadWithOkHttp("http://47.102.46.161/user/index");
     }
 
     //获得想读
@@ -75,6 +78,15 @@ public class ReadedFragment extends Fragment {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " mywantread : error");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//纵向
+                        recyclerView.setAdapter(new WantReadAdapter(getActivity(), list));
+                        recyclerView.setNestedScrollingEnabled(false);
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -85,7 +97,7 @@ public class ReadedFragment extends Fragment {
                     list.clear();
                     JSONObject object = new JSONObject(responseData);
                     JSONArray jsonArray = object.getJSONArray("want_read");
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                    for (int i = jsonArray.length() - 1; i >=0; i--) {
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 //                int news_id = jsonObject1.getInt("news_id");
                         String bookname = jsonObject1.getString("bookname");
@@ -113,8 +125,8 @@ public class ReadedFragment extends Fragment {
                         public void run() {
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//纵向
-                            recyclerView.setAdapter(new HaveReadAdapter(getActivity(), list));
-//                            recyclerView.setNestedScrollingEnabled(false);
+                            recyclerView.setAdapter(new WantReadAdapter(getActivity(), list));
+                            recyclerView.setNestedScrollingEnabled(false);
                         }
                     });
                 } catch (JSONException e) {

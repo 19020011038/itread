@@ -81,6 +81,12 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
     private String result;
     private Handler handler;
 
+    private String all_score;
+    private String all_number;
+    private String result_change_score;
+    private String new_score;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,8 +106,10 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
         write_book_comments_title = (EditText) findViewById(R.id.write_book_comments_title);
 
         //接受数据
-        Intent intent = getIntent();
-        book_id = intent.getStringExtra("book_id");
+        Bundle bundle = getIntent().getExtras();
+        book_id = bundle.getString("book_id");
+        all_score = bundle.getString("all_score");
+        all_number = bundle.getString("all_number");
 
 
         //返回按钮的监听
@@ -474,10 +482,44 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                 if (true) {
                     WriteBookCommentsActivity.this.finish();
                     Toast.makeText(WriteBookCommentsActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
+                    all_score = String.valueOf((Float.valueOf(score)+Float.valueOf(all_score)));
+                    all_number = String.valueOf((Float.valueOf(all_number)+(float)1.0));
+                    new_score = String.valueOf(Float.valueOf(all_score) / Float.valueOf(all_number));
+                    Log.d("计算的出的评分",new_score);
+                    changeScoreWithOkHttp("http://47.102.46.161/AT_read/score/?num=" + book_id,new_score );
                 }
             }
         };
     }
+    //修改图书评分的方法
+    public void changeScoreWithOkHttp(String address,String score) {
+        HttpUtil.changeScoreWithOkHttp(address, score, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    result_change_score = jsonObject.getString("result");
+                    Log.d("result_change_score",result_change_score);
+                    if(result_change_score.equals("200")){
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         closeKeyBoard();
