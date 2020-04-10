@@ -55,6 +55,9 @@ public class NewBookFragment extends Fragment {
         check = SharedPreferencesUtil.getInstance(getActivity());
         View root = inflater.inflate(R.layout.fragment_newbook, container, false);
         recyclerView = (RecyclerView)root.findViewById(R.id.recyclerView5);
+        list.clear();
+        //联网请求获得图书信息
+        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
 
 
 //asdasdasdasdasdasdasdsadasdasdasdasd
@@ -70,9 +73,7 @@ public class NewBookFragment extends Fragment {
             list2.clear();
             NewBookStatus("http://47.102.46.161/AT_read/20/");
         }
-        list.clear();
-        //联网请求获得图书信息
-        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
+
 
     }
 
@@ -108,6 +109,8 @@ public class NewBookFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
+                            recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
 
                         }
                     });
@@ -168,8 +171,7 @@ public class NewBookFragment extends Fragment {
 
                             if (!getActivity().equals(null))
                             {
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
-                                recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
+
                             }
 
 
