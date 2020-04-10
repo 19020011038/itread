@@ -114,8 +114,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     public void run() {
                         if (result.equals("密码修改成功")){
                             Toast.makeText(ChangePasswordActivity.this,"密码修改成功",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(ChangePasswordActivity.this, SettingActivity.class);
-                            startActivity(intent);
                             finish();
                         }else if (result.equals("原密码不正确")){
                             Toast.makeText(ChangePasswordActivity.this,"原密码不正确",Toast.LENGTH_SHORT).show();

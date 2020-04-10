@@ -54,9 +54,7 @@ public class ReadedFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_want, container, false);
 
-        recyclerView = view.findViewById(R.id.wantread_recyclerview);
-//        list.clear();
-        WantReadWithOkHttp("http://47.102.46.161/user/index");
+
 
         return view;
     }
@@ -65,7 +63,9 @@ public class ReadedFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-
+        recyclerView = getActivity().findViewById(R.id.wantread_recyclerview);
+//        list.clear();
+        WantReadWithOkHttp("http://47.102.46.161/user/index");
     }
 
     //获得想读
