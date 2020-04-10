@@ -2,6 +2,7 @@ package com.example.itread;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -33,6 +34,7 @@ public class FindPasswordActivity extends AppCompatActivity {
     private String header;
     private String result;
     private SharedPreferencesUtil check;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,12 @@ public class FindPasswordActivity extends AppCompatActivity {
                             Log.i("zyr","Registerpassword:"+findPassword);
                             Log.i("zyr","Registerrepassword:"+findRepassword);
                             findWithOkHttp(findAddress,findAccount,findEmail,findPassword,findRepassword);
+                            progressDialog = new ProgressDialog(FindPasswordActivity.this);
+                            progressDialog.setTitle("加载中");
+                            progressDialog.setMessage("正在加载中......");
+                            progressDialog.setCancelable(true);
+                            progressDialog.show();
+
                         }
                     }
                 }
@@ -110,6 +118,13 @@ public class FindPasswordActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i("zyr","regiser.error");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                        Toast.makeText(FindPasswordActivity.this, "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -118,10 +133,8 @@ public class FindPasswordActivity extends AppCompatActivity {
                 try{
                     JSONObject object = new JSONObject(responseData);
                     result = object.getString("result");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.i( "zyr", "find.error2okhttp:"+responseData);
-                }
+
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -132,26 +145,50 @@ public class FindPasswordActivity extends AppCompatActivity {
                             check.setCookie(true);//设置已获得cookie
                             check.saveCookie(JSESSIONID);//保存获得的cookie
                             Toast.makeText(FindPasswordActivity.this, "验证码发送成功", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                             Intent intent = new Intent(FindPasswordActivity.this, GetEmailNumberActivity.class);
                             startActivity(intent);
                         }else if (result.equals("该用户已经被冻结")) {
+                            progressDialog.dismiss();
                             Toast.makeText(FindPasswordActivity.this, "该用户已经被冻结", Toast.LENGTH_SHORT).show();
                         }else if (result.equals("两次密码不一致'")) {
+                            progressDialog.dismiss();
                             Toast.makeText(FindPasswordActivity.this, "两次密码不一致'", Toast.LENGTH_SHORT).show();
                         }else if (result.equals("新密码格式不正确")) {
+                            progressDialog.dismiss();
                             Toast.makeText(FindPasswordActivity.this, "新密码格式不正确", Toast.LENGTH_SHORT).show();
                         }else if (result.equals("用户名与邮箱不匹配")) {
+                            progressDialog.dismiss();
                             Toast.makeText(FindPasswordActivity.this, "用户名与邮箱不匹配", Toast.LENGTH_SHORT).show();
                         }else if (result.equals("用户名不存在")) {
+                            progressDialog.dismiss();
                             Toast.makeText(FindPasswordActivity.this, "用户名不存在", Toast.LENGTH_SHORT).show();
                             Log.i("zyr","register.error:"+result);
                         }else if (result.equals("未提交全部参数")) {
+                            progressDialog.dismiss();
                             Toast.makeText(FindPasswordActivity.this, "未提交全部参数", Toast.LENGTH_SHORT).show();
                         }else if (result.equals("未提交POST请求")) {
+                            progressDialog.dismiss();
                             Toast.makeText(FindPasswordActivity.this, "提交请求失败", Toast.LENGTH_SHORT).show();
+                        }else if (result.equals("邮箱发送失败")) {
+                            progressDialog.dismiss();
+                            Toast.makeText(FindPasswordActivity.this, "邮箱发送失败", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.i( "zyr", "find.error2okhttp:"+responseData);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            Toast.makeText(FindPasswordActivity.this, "服务器连接失败", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
             }
         });
     }

@@ -80,6 +80,15 @@ public class WantFragment extends Fragment {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " mywantread : error");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//纵向
+                        recyclerView.setAdapter(new HaveReadAdapter(getActivity(), list));
+                        recyclerView.setNestedScrollingEnabled(false);
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -89,7 +98,7 @@ public class WantFragment extends Fragment {
                     list.clear();
                     JSONObject object = new JSONObject(responseData);
                     JSONArray jsonArray = object.getJSONArray("have_read");
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                    for (int i = jsonArray.length() - 1; i >=0; i--) {
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 //                int news_id = jsonObject1.getInt("news_id");
                         String bookname = jsonObject1.getString("bookname");

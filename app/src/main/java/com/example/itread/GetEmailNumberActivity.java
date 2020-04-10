@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class GetEmailNumberActivity extends AppCompatActivity {
 
     private EditText getemail;
     private Button email_finish;
+    private RelativeLayout email_back;
     private String result;
 
     @Override
@@ -37,6 +39,7 @@ public class GetEmailNumberActivity extends AppCompatActivity {
 
         getemail = findViewById(R.id.email_get_email);
         email_finish = findViewById(R.id.email_finish);
+        email_back = findViewById(R.id.email_back);
 
         setEditTextInputSpace(getemail);
 
@@ -58,6 +61,14 @@ public class GetEmailNumberActivity extends AppCompatActivity {
                 }
             }
         });
+
+        email_back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     //输入验证码
@@ -67,6 +78,12 @@ public class GetEmailNumberActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " error : emailError");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(GetEmailNumberActivity.this, "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
@@ -84,9 +101,8 @@ public class GetEmailNumberActivity extends AppCompatActivity {
                     public void run() {
                         if (result.equals("验证码验证成功")){
                             Toast.makeText(GetEmailNumberActivity.this,"验证码验证成功",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(GetEmailNumberActivity.this, LoginActivity.class);
+                            Intent intent = new Intent(GetEmailNumberActivity.this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-                            finish();
                         }else if (result.equals("验证码错误")){
                             Toast.makeText(GetEmailNumberActivity.this,"验证码错误",Toast.LENGTH_SHORT).show();
                             Log.i("zyr","email_num:"+email_num);

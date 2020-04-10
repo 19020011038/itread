@@ -68,6 +68,15 @@ public class MyBookCommentsActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " mybookComment : error");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(MyBookCommentsActivity.this));//纵向
+                        recyclerView.setAdapter(new MyBookCommentsAdapter(MyBookCommentsActivity.this, list));
+                        recyclerView.setNestedScrollingEnabled(false);
+                        Toast.makeText(MyBookCommentsActivity.this, "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {

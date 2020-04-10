@@ -72,8 +72,13 @@ public class WantReadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final String book_id = list.get(position).get("book_num").toString(); //这个非常重要
 
 
-            final Float score = Float.parseFloat(list.get(position).get("score").toString());
-            final String score22 = score.toString();
+            Float score = Float.parseFloat(list.get(position).get("score").toString());
+            if (score > 5) {
+                score = Float.valueOf("5");
+            }
+//            final String score22 = score.toString();
+            final String score22 = String.format("%.1f",score);
+
             recyclerViewHolder.wantread_score.setText(score22);
 
             Log.i("zyr","wantread:"+score22);
