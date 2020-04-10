@@ -10,7 +10,7 @@
         <ImageView
             android:id="@+id/back_from_book"
             android:layout_marginLeft="30px"
-            android:layout_width="42px"
+            android:layout_width="70px"
             android:layout_height="70px"
             android:src="@drawable/back"
             android:layout_gravity="center"/>
@@ -20,6 +20,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:text="书籍详情"
+            android:layout_marginRight="100px"
             android:textSize="48px"
             android:textColor="#000000"
             android:gravity="center"/>
