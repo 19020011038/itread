@@ -97,6 +97,20 @@ public class HttpUtil {
         Call call = client.newCall(request);
         call.enqueue(callback);
     }
+    //更改图书评分  POST
+    public static void changeScoreWithOkHttp(String address,String score, okhttp3.Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("score",score)
+                .build();
+        Request request = new Request.Builder()
+                .url(address)
+                .header("Cookie",SharedPreferencesUtil.getCookie())
+                .post(body)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+    }
 
     //修改密码post请求
     public static void ChangePasswordWithOkHttp(String address, String old_password, String new_password, String renew_password, okhttp3.Callback callback) {

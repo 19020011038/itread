@@ -78,17 +78,27 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private RecyclerView.ViewHolder holder2;
     private String show;
     private String result_change;
-    private String final_score;
+    private String final_score_string;
+    private float final_score_float;
+    private String text_people;
+    private String all_score;
+    private String all_number;
+    private String result_change_score;
+    private Handler handler_change_basic;
+    private String new_score;
+    private String people;
+    private Handler handler_people;
 
 
-    public BookAdapter(Context context, List<Map<String, Object>> list, String book_id, String status, SharedPreferencesUtil check, String number,String final_score) {
+    public BookAdapter(Context context, List<Map<String, Object>> list, String book_id, String status, SharedPreferencesUtil check, String number,String all_score,String all_number) {
         this.context = context;
         this.list = list;
         this.book_id = book_id;
         this.status = status;
         this.check = check;
         this.number = number;
-        this.final_score = final_score;
+        this.all_number = all_number;
+        this.all_score = all_score;
     }
 
     @Override
@@ -314,17 +324,18 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
             //该到对评分的操作了
-            viewHolder.book_rating_1.setStepSize((float)0.1);
-            book_score = Float.parseFloat(final_score);
-            final_score = String.format("%.1f",book_score);
-            if(book_score == (float) 5.0 ){
-                viewHolder.book_people.setText("尚未有用户评分");
-                viewHolder.book_rating_1.setRating(book_score);
-                viewHolder.book_score.setText("");
+            if(all_number.equals("0")){
+                text_people = "尚未有用户评分";
+                final_score_string = "";
+                viewHolder.book_people.setText(text_people);
+                viewHolder.book_score.setText(final_score_string);
+                viewHolder.book_rating_1.setRating((float)0.0);
             }else {
-                viewHolder.book_rating_1.setRating(book_score);
-                viewHolder.book_score.setText(final_score);
                 viewHolder.book_people.setText("评论人数：" + list.get(position).get("people").toString());
+                final_score_float = Float.valueOf(all_score) / Float.valueOf(all_number) ;
+                final_score_string = String.format("%.1f",final_score_float);
+                viewHolder.book_score.setText(final_score_string);
+                viewHolder.book_rating_1.setRating(final_score_float);
             }
 
             //简介
@@ -347,6 +358,28 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     context.startActivity(intent);
                 }
             });
+
+            //修改
+            handler_change_basic = new Handler(context.getMainLooper()) {
+                public void handleMessage(Message message) {
+                    super.handleMessage(message);
+                    if (true) {
+                        new_score = String.format("%.1f",Float.valueOf(new_score));
+                        viewHolder.book_score.setText(new_score);
+                        viewHolder.book_rating_1.setRating(Float.valueOf(new_score));
+                        bookWithOkHttp2("http://47.102.46.161/AT_read/book/?num=" + book_id);
+
+                        handler_people = new Handler(context.getMainLooper()) {
+                            public void handleMessage(Message message1) {
+                                super.handleMessage(message1);
+                                if (true) {
+                                    viewHolder.book_people.setText("评分人数："+people);
+                                }
+                            }
+                        };
+                    }
+                }
+            };
         } else if (holder instanceof EmptyViewHolder) {
 
             //空白条
@@ -443,6 +476,37 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         });
     }
 
+    //修改图书评分的方法
+    public void changeScoreWithOkHttp(String address,String score) {
+        HttpUtil.changeStatusWithOkHttp(address, score, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    result_change_score = jsonObject.getString("result");
+                    Log.d("result_change_score",result_change_score);
+                    if(result_change_score.equals("200")){
+                        Message message = new Message();
+                        message.what = 1;
+                        handler_change_basic.sendMessage(message);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public void publishCommentsWithOkHttp(String address, String title, String content, String score, String book_num) {
         HttpUtil.publishCommentsWithOkHttp(address, title, content, score, book_num, new Callback() {
             @Override
@@ -460,6 +524,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     JSONObject jsonObject = new JSONObject(responseData);
                     result = jsonObject.getString("result");
                     if (result.equals("200")) {
+                        Message message = new Message();
+                        message.what = 1;
+                        handler_fail.sendMessage(message);
                         flag_publish_finish = true;
                         if (flag_publish_finish) {
                             bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
@@ -479,14 +546,71 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public void handleMessage(Message message) {
                 super.handleMessage(message);
                 if (true) {
-                    if (result.equals("200"))
+                    if (result.equals("200")){
                         Toast.makeText(BookAdapter.this.context, "评论成功", Toast.LENGTH_SHORT).show();
+                        new_score = String.valueOf((Float.valueOf(user_score_string)+Float.valueOf(all_score))/(Float.valueOf(all_number)+(float)1.0));
+                        changeScoreWithOkHttp("http://47.102.46.161/AT_read/score/?num=" + book_id,new_score );
+                    }
                     else if (result.equals("402"))
                         Toast.makeText(BookAdapter.this.context, "请求有误", Toast.LENGTH_SHORT).show();
                     else if(result.equals("400"))
                         Toast.makeText(BookAdapter.this.context, "参数有误", Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(BookAdapter.this.context, "用户未登录", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
+    //获得修改后的评论人数
+    public void bookWithOkHttp2(String address) {
+        HttpUtil.bookWithOkHttp(address, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("book");
+                    people = jsonObject1.getString("people");
+                    Message message = new Message();
+                    message.what = 1;
+                    handler_people.sendMessage(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        if (number.equals("0")) {
+            handler1 = new Handler(context.getMainLooper()) {
+                public void handleMessage(Message message3) {
+                    super.handleMessage(message3);
+                    if (true) {
+                        number = "1";
+                        Log.d("3号位置", number);
+                        list.remove(4);
+                        notifyItemRemoved(4);
+//                    //添加评论
+//                    Message message3 = new Message();
+//                    message3.what = 1;
+//                    handler.sendMessage(message3);
+                    }
+                }
+            };
+        }
+        handler = new Handler(context.getMainLooper()
+
+        ) {
+            public void handleMessage(Message message4) {
+                super.handleMessage(message4);
+                if (true) {
+                    Log.d("4号位置", number);
+                    addItem(4, map3);
                 }
             }
         };
