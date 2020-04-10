@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.layout_main_acitivity);
         unbinder = ButterKnife.bind(this);
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
-        check.setLogin(false);
+//        check.setLogin(false);
         initFragments();
         initListener();
 
