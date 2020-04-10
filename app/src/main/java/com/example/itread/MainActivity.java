@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("zyr","rrr2");
                         Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                     break;
 

@@ -6,41 +6,41 @@
     android:orientation="vertical">
 
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="50dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="50dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="158px"
+            android:id="@+id/head">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个人中心"
+                android:layout_centerInParent="true"
+                android:textStyle="bold"
+                android:textSize="58px"/>
+
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="158px"
-                android:id="@+id/head">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="个人中心"
+                android:id="@+id/home_setting"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:onClick="onClick"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="9dip"
+                android:layout_marginRight="10dip">
+
+                <ImageView
+                    android:layout_width="35dip"
+                    android:layout_height="35dip"
                     android:layout_centerInParent="true"
-                    android:textStyle="bold"
-                    android:textSize="58px"/>
-
-                <RelativeLayout
-                    android:id="@+id/home_setting"
-                    android:layout_width="50dip"
-                    android:layout_height="50dip"
-                    android:onClick="onClick"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="9dip"
-                    android:layout_marginRight="10dip">
-
-                    <ImageView
-                        android:layout_width="35dip"
-                        android:layout_height="35dip"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/shezhi_1">
-                    </ImageView>
-                </RelativeLayout>
+                    android:background="@drawable/shezhi_1">
+                </ImageView>
             </RelativeLayout>
+        </RelativeLayout>
 
-        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <RelativeLayout
         android:padding="20px"
@@ -52,7 +52,10 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="140px">
+            android:layout_marginBottom="140px"
+            android:fillViewport="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -145,43 +148,45 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:elevation="40dp"
-                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_below="@+id/layout2"
+                    android:layout_marginTop="16dp"
                     android:background="#ffffff"
-                    android:layout_marginTop="42px"
+                    android:elevation="40dp"
                     app:cardCornerRadius="10px">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="150px"
-                        android:background="#fffdf9">
+                        android:background="#fffdf9"
+                        >
+
                         <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tabLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tabLayout">
+                            android:layout_height="30dp">
 
-                                        <!--<com.google.android.material.tabs.TabItem
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="Monday" />
+                            <!--            <com.google.android.material.tabs.TabItem-->
+                            <!--                android:layout_width="wrap_content"-->
+                            <!--                android:layout_height="wrap_content"-->
+                            <!--                android:text="Monday" />-->
 
-                                        <com.google.android.material.tabs.TabItem
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="Tuesday" />
+                            <!--            <com.google.android.material.tabs.TabItem-->
+                            <!--                android:layout_width="wrap_content"-->
+                            <!--                android:layout_height="wrap_content"-->
+                            <!--                android:text="Tuesday" />-->
 
-                                        <com.google.android.material.tabs.TabItem
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="Wednesday" />-->
+                            <!--            <com.google.android.material.tabs.TabItem-->
+                            <!--                android:layout_width="wrap_content"-->
+                            <!--                android:layout_height="wrap_content"-->
+                            <!--                android:text="Wednesday" />-->
                         </com.google.android.material.tabs.TabLayout>
 
-                        <androidx.viewpager.widget.ViewPager
-                            android:layout_marginTop="5dp"
+                        <com.example.itread.Util.MyViewPager
                             android:id="@+id/view_pager"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_below="@+id/tabLayout"
                             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
@@ -189,17 +194,6 @@
 
 
             </RelativeLayout>
-
-
-
-
-
-
-
-
-
-
-
 
         </ScrollView>
 

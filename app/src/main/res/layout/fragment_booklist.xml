@@ -32,25 +32,11 @@
             android:layout_height="30dp"
             android:id="@+id/tabLayout">
 
-            <!--            <com.google.android.material.tabs.TabItem-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Monday" />-->
-
-            <!--            <com.google.android.material.tabs.TabItem-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Tuesday" />-->
-
-            <!--            <com.google.android.material.tabs.TabItem-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="Wednesday" />-->
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager.widget.ViewPager
-            android:layout_marginTop="5dp"
             android:id="@+id/view_pager"
+            android:layout_below="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

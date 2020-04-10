@@ -78,7 +78,8 @@ public class PersonFragment extends Fragment {
 //        });
 //            }
 //        });
-
+//        nameAddress = "http://47.102.46.161/user/index";
+//        homeNameOkHttp(nameAddress);
         return root;
     }
 
@@ -88,13 +89,14 @@ public class PersonFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        nameAddress = "http://47.102.46.161/user/index";
+        homeNameOkHttp(nameAddress);
+
         home_icon = getActivity().findViewById(R.id.home_icon);
         home_nickname = getActivity().findViewById(R.id.home_nickname);
         home_bookcomment = getActivity().findViewById(R.id.home_bookcomment);
         home_shortcomment = getActivity().findViewById(R.id.home_shortcomment);
         home_setting = (RelativeLayout) getActivity().findViewById(R.id.home_setting);
-        nameAddress = "http://47.102.46.161/user/index";
-        homeNameOkHttp(nameAddress);
         home_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

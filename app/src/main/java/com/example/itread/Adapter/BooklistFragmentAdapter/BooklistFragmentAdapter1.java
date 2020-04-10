@@ -79,9 +79,9 @@ public class BooklistFragmentAdapter1 extends RecyclerView.Adapter<BooklistFragm
             holder.textView2.setText(name2);
             holder.textView3.setText(name3);
 
-            holder.number1.setText(number1);
-            holder.number2.setText(number2);
-            holder.number3.setText(number3);
+            holder.number1.setText("共"+number1+"本书");
+            holder.number2.setText("共"+number2+"本书");
+            holder.number3.setText("共"+number3+"本书");
 
             GlideWithPictureUrl(image1,holder.imageView1);
             GlideWithPictureUrl(image2,holder.imageView2);

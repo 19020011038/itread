@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.itread.Adapter.HaveReadAdapter;
 import com.example.itread.Adapter.WantReadAdapter;
 import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
@@ -54,7 +55,9 @@ public class ReadedFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_want, container, false);
 
-
+//        recyclerView = view.findViewById(R.id.wantread_recyclerview);
+////        list.clear();
+//        WantReadWithOkHttp("http://47.102.46.161/user/index");
 
         return view;
     }

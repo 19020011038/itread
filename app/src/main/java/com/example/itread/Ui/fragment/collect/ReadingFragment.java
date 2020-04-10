@@ -54,16 +54,22 @@ public class ReadingFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_reading, container, false);
 
-        recyclerView = view.findViewById(R.id.reading_recyclerview);
-//        list.clear();
-        ReadingWithOkHttp("http://47.102.46.161/user/index");
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        recyclerView = getActivity().findViewById(R.id.reading_recyclerview);
+//        list.clear();
+        WantReadWithOkHttp("http://47.102.46.161/user/index");
+
+    }
 
     //获得在读
-    public void ReadingWithOkHttp(String address){
+    public void WantReadWithOkHttp(String address){
         HttpUtil.WantReadWithOkHttp(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
