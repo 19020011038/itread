@@ -56,14 +56,14 @@ public class ReadingFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.reading_recyclerview);
 //        list.clear();
-        ReadingWithOkHttp("http://47.102.46.161/user/index");
+        WantReadWithOkHttp("http://47.102.46.161/user/index");
 
         return view;
     }
 
 
     //获得在读
-    public void ReadingWithOkHttp(String address){
+    public void WantReadWithOkHttp(String address){
         HttpUtil.WantReadWithOkHttp(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -106,7 +106,7 @@ public class ReadingFragment extends Fragment {
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//纵向
                             recyclerView.setAdapter(new ReadingAdapter(getActivity(), list));
-                            recyclerView.setNestedScrollingEnabled(false);
+//                            recyclerView.setNestedScrollingEnabled(false);
                         }
                     });
                 } catch (JSONException e) {

@@ -149,7 +149,7 @@ public class BookListActivity extends AppCompatActivity {
 
                             name.setText(name1);
                             content.setText(content1);
-                            number.setText(number1);
+                            number.setText("共"+number1+"本书");
 
                             String picture_1 = image1.replace("\\","");
                             String picture_2 = picture_1.replace("\"","");
