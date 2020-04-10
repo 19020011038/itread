@@ -4,19 +4,19 @@
     android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="700px"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="30px"
         android:background="#f0f0f0">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="75px"
+            android:layout_height="115px"
             android:id="@+id/layout1">
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:paddingHorizontal="90dp">
+                android:paddingHorizontal="45dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <View
-                            android:layout_width="70dp"
+                            android:layout_width="80dp"
                             android:layout_height="1.25dp"
                             android:layout_centerVertical="true"
                             android:background="#aaaaaa"
@@ -39,7 +39,7 @@
                             android:textColor="#f92b20"
                             android:layout_centerInParent="true"/>
                         <View
-                            android:layout_width="70dp"
+                            android:layout_width="80dp"
                             android:layout_height="1.25dp"
                             android:layout_centerVertical="true"
                             android:background="#aaaaaa"
@@ -86,26 +86,26 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/name"
                     android:id="@+id/relative">
-                    <RatingBar
-                        android:id="@+id/book_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:isIndicator="true"
-                        android:numStars="5"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:rating="0"
-                        android:stepSize="0.1"
-                        android:layout_centerVertical="true"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="7.8"
-                        android:layout_toRightOf="@+id/book_rating"
-                        android:id="@+id/score"
-                        android:layout_marginLeft="5dp"/>
+<!--                    <RatingBar-->
+<!--                        android:id="@+id/book_rating"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:gravity="center"-->
+<!--                        android:isIndicator="true"-->
+<!--                        android:numStars="5"-->
+<!--                        style="?android:attr/ratingBarStyleSmall"-->
+<!--                        android:rating="0"-->
+<!--                        android:stepSize="0.1"-->
+<!--                        android:layout_centerVertical="true"-->
+<!--                        />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="7.8"-->
+<!--                        android:layout_toRightOf="@+id/book_rating"-->
+<!--                        android:id="@+id/score"-->
+<!--                        android:layout_marginLeft="5dp"/>-->
 
                 </RelativeLayout>
 
@@ -117,7 +117,9 @@
                     android:layout_below="@id/relative"
                     android:text="作者名字"
                     android:textSize="13dp"
-                    android:id="@+id/author"/>
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/author"
+                    />
 
             </RelativeLayout>
             <RelativeLayout
@@ -128,8 +130,8 @@
                 android:layout_alignParentRight="true"
                 android:id="@+id/newbook_want">
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/newbook_want"
                     android:id="@+id/book_want"
                     />
@@ -158,10 +160,11 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200px"
+            android:layout_height="wrap_content"
             android:layout_below="@id/layout3"
             android:background="@drawable/side_dark"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:layout_marginBottom="5dp">
             <TextView
                 android:id="@+id/content"
                 android:layout_width="wrap_content"

@@ -3,7 +3,6 @@ package com.example.itread.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +37,7 @@ import okhttp3.Response;
 public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHolder>{
 
     private List<Map<String, Object>> list;
+    private List<Map<String, Object>> list2;
     private Context context;
     private Handler mHandler;
     private Handler mHandler_f;
@@ -51,9 +51,10 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
 
 
 
-    public NewBookAdapter(Context context, List<Map<String, Object>> list) {
+    public NewBookAdapter(Context context, List<Map<String, Object>> list,List<Map<String, Object>> list2) {
         this.context = context;
         this.list = list;
+        this.list2 = list2;
         check = SharedPreferencesUtil.getInstance(context.getApplicationContext());
     }
 
@@ -87,33 +88,54 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
 
         if (check.isLogin())
         {
-            if(flag){
-                getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num="+book_id);
-                flag = false;
-            }
-
-            handler = new Handler(context.getMainLooper()
-
-            ) {
-                public void handleMessage(Message message4) {
-                    super.handleMessage(message4);
-                    if (true) {
-
-                        if (status.equals("0"))
+            status = list2.get(position).get("status").toString();
+            if (status.equals("0"))
                         {
-
                             holder.like.setImageResource(R.drawable.like2);
                             holder.like.invalidate();
-                            flag = true;
-
                         }
-
-                    }
-                }
-            };
-
-
+            else
+            {
+                holder.like.setImageResource(R.drawable.newbook_want);
+                holder.like.invalidate();
+            }
         }
+
+
+
+//        if (check.isLogin())
+//        {
+//            if(flag){
+//                getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num="+book_id);
+//                flag = false;
+//            }
+
+
+
+
+
+////            handler = new Handler(context.getMainLooper()
+////
+////            ) {
+////                public void handleMessage(Message message4) {
+////                    super.handleMessage(message4);
+////                    if (true) {
+////
+////                        if (status.equals("0"))
+////                        {
+////
+////                            holder.like.setImageResource(R.drawable.like2);
+////                            holder.like.invalidate();
+////                            flag = true;
+////
+////                        }
+////
+////                    }
+////                }
+////            };
+//
+//
+//        }
 
 
 
@@ -158,7 +180,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
                         Toast.makeText(context, "已成功加入想读", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                         status = "3";
+                        status = "1";
                         changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id,status);
 
                         holder.like.setImageResource(R.drawable.newbook_want);
@@ -166,8 +188,6 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
                         Toast.makeText(context, "已取消想读", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-
                 else
                 {
                     Toast.makeText(context, "请先登录！", Toast.LENGTH_SHORT).show();
@@ -242,9 +262,9 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
                     JSONObject jsonObject = new JSONObject(responseData);
                     status = jsonObject.getString("result");
                     Log.d("获得图书状态请求的返回结果",status);
-                    Message message = new Message();
-                    message.what = 1;
-                    handler.sendMessage(message);
+//                    Message message = new Message();
+//                    message.what = 1;
+//                    handler.sendMessage(message);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

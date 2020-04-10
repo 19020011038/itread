@@ -132,8 +132,8 @@ public class BookListActivity extends AppCompatActivity {
                         image2 = jsonObject3.getString("image");
                         author2 = jsonObject3.getString("author");
 
-
                         Map map1 = new HashMap();
+
                         map1.put("title",title2);
                         map1.put("content",content2);
                         map1.put("image",image2);
@@ -167,6 +167,9 @@ public class BookListActivity extends AppCompatActivity {
                                     .into(image);
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookListActivity.this));
                             recyclerView.setAdapter(new BooklistAdapter(BookListActivity.this, list));
+
+                            recyclerView.setNestedScrollingEnabled(false);
+
                         }
                     });
                 } catch (JSONException e) {

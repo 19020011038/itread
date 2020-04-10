@@ -307,10 +307,15 @@ public class BookActivity extends AppCompatActivity {
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
                             recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(all_score),String.valueOf(all_number)));
+
+
+
                         }
                     });
                 } catch (JSONException e) {
+
                     e.printStackTrace();
+
                 }
             }
         });

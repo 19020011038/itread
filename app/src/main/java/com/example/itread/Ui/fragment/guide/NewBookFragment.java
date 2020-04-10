@@ -1,6 +1,7 @@
 package com.example.itread.Ui.fragment.guide;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.itread.Adapter.NewBookAdapter;
 import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
+import com.example.itread.Util.SharedPreferencesUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,58 +34,89 @@ import okhttp3.Response;
 public class NewBookFragment extends Fragment {
 
     private List<Map<String, Object>> list = new ArrayList<>();
+    private List<Map<String, Object>> list2 = new ArrayList<>();
     private RecyclerView recyclerView;
     private String name;
     private String image;
     private String content;
     private String author;
     private String book_id;
+    private SharedPreferencesUtil check;
     private String score;
     private String result;
-
+    private String status;
     private Button button;
+    private Handler handler;
+    private boolean aBoolean = true;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        notificationsViewModel =
-//                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-
-
-        //清除列表内容
-        list.clear();
-
-        //联网请求获得图书信息
-        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
+        check = SharedPreferencesUtil.getInstance(getActivity());
         View root = inflater.inflate(R.layout.fragment_newbook, container, false);
-//        final TextView textView = root.findViewById(R.id.text_notifications);
-//
-//        notificationsViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
+        recyclerView = (RecyclerView)root.findViewById(R.id.recyclerView5);
+
+
+
+
         return root;
     }
 
     @Override
-
-
-
     public void onResume() {
         super.onResume();
+        if (check.isLogin())
+        {
+            list2.clear();
+            NewBookStatus("http://47.102.46.161/AT_read/20/");
+        }
+        list.clear();
+        //联网请求获得图书信息
+        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
 
-        recyclerView = (RecyclerView)getActivity().findViewById(R.id.recyclerView);
+    }
 
-        //清除列表内容
-//        list.clear();
-//
-//        //联网请求获得图书信息
-//        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
+    public void NewBookStatus(String address){
+        HttpUtil.NewBookStatus(address, new Callback() {
 
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+                //       Toast.makeText(getActivity(),"获取图书信息失败，请检查您的网络",Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+                try {
 
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    JSONArray jsonArray = jsonObject.getJSONArray("book");
 
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+
+                        status = jsonObject1.getString("status");
+
+                        Map map1 = new HashMap();
+                        map1.put("status",status);
+                        list2.add(map1);
+
+                    }
+                    if (!getActivity().equals(null))
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     //获得图书信息的方法
@@ -114,30 +147,33 @@ public class NewBookFragment extends Fragment {
                         author = jsonObject1.getString("author");
                         content = jsonObject1.getString("content");
                         book_id = jsonObject1.getString("num");
-                        score = jsonObject1.getString("score");
-
 
                         Map map = new HashMap();
-
                         map.put("name",name);
                         map.put("image",image);
                         map.put("author",author);
                         map.put("content",content);
                         map.put("book_id",book_id);
-                        map.put("score",score);
-
+                        map.put("status",status);
 
                         list.add(map);
 
-
-
                     }
 
+                    if (!getActivity().equals(null))
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
-                            recyclerView.setAdapter(new NewBookAdapter(getActivity(), list));//绑定适配器
+
+
+                            if (!getActivity().equals(null))
+                            {
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
+                                recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
+                            }
+
+
+
                         }
                     });
 
@@ -145,14 +181,7 @@ public class NewBookFragment extends Fragment {
                     e.printStackTrace();
                 }
             }
-
-//            private void runOnUiThread(Runnable runnable) {
-//            }
         });
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 }

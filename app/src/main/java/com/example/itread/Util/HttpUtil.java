@@ -14,6 +14,17 @@ public class HttpUtil {
 
 
 
+    //删除我的评论
+    public static void NewBookStatus(String address,okhttp3.Callback callback){
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(address)
+                .header("Cookie",SharedPreferencesUtil.getCookie())
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
+
     //新书速递    GET
     public static void NewbookWithOkHttp(String address,okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();

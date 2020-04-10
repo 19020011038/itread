@@ -104,7 +104,7 @@ public class BooklistAdapter extends RecyclerView.Adapter<BooklistAdapter.ViewHo
 
             relativeLayout = itemView.findViewById(R.id.relative);
             mName = itemView.findViewById(R.id.name);
-            mScore = itemView.findViewById(R.id.score);
+//            mScore = itemView.findViewById(R.id.score);
             mAuthor = itemView.findViewById(R.id.author);
             mComment = itemView.findViewById(R.id.comment);
             mImage = itemView.findViewById(R.id.image);
