@@ -94,7 +94,6 @@ public class BookActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-
         //绑定控件
         book_label = (TextView) findViewById(R.id.book_label);
         back = (ImageView) findViewById(R.id.back_from_book);
@@ -143,8 +142,14 @@ public class BookActivity extends AppCompatActivity {
                 bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
                 //计算书籍评分
                 bookScoreWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+                //判断用户是否登录以显示想读已读在读按钮的状态
+                if (check.isLogin()) {
+                    String a = SharedPreferencesUtil.getCookie();
+                    Log.d("cookie", a);
+                    getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
+                }
                 recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(final_score)));
+                recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(all_score),String.valueOf(all_number)));
                 refreshLayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
         });
@@ -264,7 +269,7 @@ public class BookActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(final_score)));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(all_score),String.valueOf(all_number)));
                             book_label.setText(title);
                         }
                     });
@@ -301,7 +306,7 @@ public class BookActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(final_score)));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(all_score),String.valueOf(all_number)));
                         }
                     });
                 } catch (JSONException e) {
@@ -379,7 +384,7 @@ public class BookActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(final_score)));
+                            recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(all_score),String.valueOf(all_number)));
                         }
                     });
                 } catch (JSONException e) {
