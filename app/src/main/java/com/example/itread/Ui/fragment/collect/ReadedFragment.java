@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.itread.Adapter.WantReadAdapter;
+import com.example.itread.Adapter.HaveReadAdapter;
 import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
 
@@ -52,9 +52,9 @@ public class ReadedFragment extends Fragment {
 
 
 
-        View view = inflater.inflate(R.layout.fragment_want, container, false);
+        View view = inflater.inflate(R.layout.fragment_readed, container, false);
 
-        recyclerView = view.findViewById(R.id.wantread_recyclerview);
+        recyclerView = view.findViewById(R.id.haveread_recyclerview);
 //        list.clear();
         WantReadWithOkHttp("http://47.102.46.161/user/index");
 
@@ -113,8 +113,8 @@ public class ReadedFragment extends Fragment {
                         public void run() {
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//纵向
-                            recyclerView.setAdapter(new WantReadAdapter(getActivity(), list));
-                            recyclerView.setNestedScrollingEnabled(false);
+                            recyclerView.setAdapter(new HaveReadAdapter(getActivity(), list));
+//                            recyclerView.setNestedScrollingEnabled(false);
                         }
                     });
                 } catch (JSONException e) {

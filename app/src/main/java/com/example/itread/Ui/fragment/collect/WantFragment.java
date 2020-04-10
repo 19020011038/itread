@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.itread.Adapter.HaveReadAdapter;
+import com.example.itread.Adapter.WantReadAdapter;
 import com.example.itread.R;
 import com.example.itread.Util.HttpUtil;
 
@@ -33,6 +33,11 @@ import okhttp3.Response;
  */
 public class WantFragment extends Fragment {
 
+    private RecyclerView recyclerView;
+    private Map map;
+    List<Map<String, Object>> list = new ArrayList<>();
+
+
     public static WantFragment newInstance(int index) {
         WantFragment fragment = new WantFragment();
 //        Bundle bundle = new Bundle();
@@ -41,9 +46,7 @@ public class WantFragment extends Fragment {
         return fragment;
     }
 
-    private RecyclerView recyclerView;
-    private Map map;
-    List<Map<String, Object>> list = new ArrayList<>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,18 +55,19 @@ public class WantFragment extends Fragment {
 
 
 
-        View view = inflater.inflate(R.layout.fragment_readed, container, false);
+        View view = inflater.inflate(R.layout.fragment_want, container, false);
 
-        recyclerView = view.findViewById(R.id.haveread_recyclerview);
-//        list.clear();
-        HaveReadWithOkHttp("http://47.102.46.161/user/index");
+        recyclerView = view.findViewById(R.id.wantread_recyclerview);
+        list.clear();
+
+        WantReadWithOkHttp("http://47.102.46.161/user/index");
 
         return view;
     }
 
 
     //获得在读
-    public void HaveReadWithOkHttp(String address){
+    public void WantReadWithOkHttp(String address){
         HttpUtil.WantReadWithOkHttp(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -88,7 +92,7 @@ public class WantFragment extends Fragment {
                         String score = jsonObject1.getString("score");
                         String book_num = jsonObject1.getString("num");
                         map = new HashMap();
-
+    Log.d("qsh",bookname);
                         map.put("bookname", bookname);
                         map.put("bookphoto", bookphoto);
                         map.put("info", info);
@@ -107,8 +111,8 @@ public class WantFragment extends Fragment {
                         public void run() {
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//纵向
-                            recyclerView.setAdapter(new HaveReadAdapter(getActivity(), list));
-                            recyclerView.setNestedScrollingEnabled(false);
+                            recyclerView.setAdapter(new WantReadAdapter(getActivity(), list));
+//                            recyclerView.setNestedScrollingEnabled(false);
                         }
                     });
                 } catch (JSONException e) {

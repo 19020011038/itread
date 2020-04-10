@@ -3,7 +3,6 @@ package com.example.itread.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +43,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
     private Handler mHandler_e;
     private String result;
     private SharedPreferencesUtil check;
+    private String status = "0";
 
     public NewBookAdapter(Context context, List<Map<String, Object>> list) {
         this.context = context;
@@ -105,79 +105,81 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             public void onClick(View view) {
 
                 if (check.isLogin()) {
-
-                    HttpUtil.changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, "0", new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            //在这里对异常情况进行处理
-                            Log.i("qqqq", " name : error");
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            //得到服务器返回的具体内容
-                            final String responseData = response.body().string();
-
-
+                    changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id, status);
+//                    String status = "0";
 //
-                            try {
-                                JSONObject object = new JSONObject(responseData);
-                                result = object.getString("result");
-                                Log.i("zyr", "short,result:" + result);
-                                if (result.equals("200")) {
-                                    Message message = new Message();
-                                    message.what = 1;
-                                    //发送信息给handler
-                                    mHandler.sendMessage(message);
-                                } else if (result.equals("请求失败")) {
-                                    Message message = new Message();
-                                    message.what = 1;
-                                    //发送信息给handler
-                                    mHandler_f.sendMessage(message);
-                                } else {
-                                    Message message = new Message();
-                                    message.what = 1;
-                                    //发送信息给handler
-                                    mHandler_e.sendMessage(message);
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.i("zyr", "LLL" + responseData);
-                            }
-                        }//标签页
-                    });
-
-                    mHandler = new Handler() {
-
-                        //handleMessage为处理消息的方法
-                        public void handleMessage(Message msg) {
-                            super.handleMessage(msg);
-                            if (true) {
-                                Toast.makeText(context, "已想读", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    };
-                    mHandler_f = new Handler() {
-
-                        //handleMessage为处理消息的方法
-                        public void handleMessage(Message msg) {
-                            super.handleMessage(msg);
-                            if (true) {
-                                Toast.makeText(context, "请求失败，请稍后重试", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    };
-                    mHandler_e = new Handler() {
-
-                        //handleMessage为处理消息的方法
-                        public void handleMessage(Message msg) {
-                            super.handleMessage(msg);
-                            if (true) {
-                                Toast.makeText(context, "用户未登陆", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    };
+//                    HttpUtil.changeStatusWithOkHttp("http://47.102.46.161/At_read/status/?num=" + book_id, status, new Callback() {
+//                        @Override
+//                        public void onFailure(Call call, IOException e) {
+//                            //在这里对异常情况进行处理
+//                            Log.i("qqqq", " name : error");
+//                        }
+//
+//                        @Override
+//                        public void onResponse(Call call, Response response) throws IOException {
+//                            //得到服务器返回的具体内容
+//                            final String responseData = response.body().string();
+//
+//
+////
+//                            try {
+//                                JSONObject object = new JSONObject(responseData);
+//                                result = object.getString("result");
+//                                Log.i("zyr", "short,result:" + result);
+//                                if (result.equals("200")) {
+//                                    Message message = new Message();
+//                                    message.what = 1;
+//                                    //发送信息给handler
+//                                    mHandler.sendMessage(message);
+//                                } else if (result.equals("请求失败")) {
+//                                    Message message = new Message();
+//                                    message.what = 1;
+//                                    //发送信息给handler
+//                                    mHandler_f.sendMessage(message);
+//                                } else {
+//                                    Message message = new Message();
+//                                    message.what = 1;
+//                                    //发送信息给handler
+//                                    mHandler_e.sendMessage(message);
+//                                }
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                                Log.i("zyr", "LLL" + responseData);
+//                            }
+//                        }//标签页
+//                    });
+//
+//                    mHandler = new Handler() {
+//
+//                        //handleMessage为处理消息的方法
+//                        public void handleMessage(Message msg) {
+//                            super.handleMessage(msg);
+//                            if (true) {
+//                                Toast.makeText(context, "已想读", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    };
+//                    mHandler_f = new Handler() {
+//
+//                        //handleMessage为处理消息的方法
+//                        public void handleMessage(Message msg) {
+//                            super.handleMessage(msg);
+//                            if (true) {
+//                                Toast.makeText(context, "请求失败，请稍后重试", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    };
+//                    mHandler_e = new Handler() {
+//
+//                        //handleMessage为处理消息的方法
+//                        public void handleMessage(Message msg) {
+//                            super.handleMessage(msg);
+//                            if (true) {
+//                                Toast.makeText(context, "用户未登陆", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    };
                 }
                 else
                 {
@@ -185,7 +187,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
                 }
             }
 
-                });
+        });
 
 
 
@@ -228,6 +230,30 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
 
         }
 
+    }
+    public void changeStatusWithOkHttp(String address, final String status) {
+        HttpUtil.changeStatusWithOkHttp(address, status, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                //在这里对异常情况进行处理
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d("要改变为的改变图书状态：", status);
+                //得到服务器返回的具体内容
+                final String responseData = response.body().string();
+                Log.d("改变图书状态的返回结果", responseData);
+                try {
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    result = jsonObject.getString("result");
+                    Log.d("改变后的图书状态：", status);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 }

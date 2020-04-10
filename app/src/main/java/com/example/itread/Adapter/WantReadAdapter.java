@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -15,13 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-//import com.example.itread.MyCommentsDelActivity;
-//import com.example.itread.NewBookActivity;
 import com.example.itread.BookActivity;
 import com.example.itread.R;
 
 import java.util.List;
 import java.util.Map;
+
+//import com.example.itread.MyCommentsDelActivity;
+//import com.example.itread.NewBookActivity;
 
 public class WantReadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -69,10 +69,12 @@ public class WantReadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //            recyclerViewHolder.wantread_score.setText(list.get(position).get("score").toString());
             final String bookphoto_url = list.get(position).get("bookphoto").toString(); //这个非常重要
             final String book_id = list.get(position).get("book_num").toString(); //这个非常重要
-            final Float score = Float.parseFloat(list.get(position).get("score").toString());
-            final String score22 = score.toString();
-            recyclerViewHolder.wantread_score.setText(score22);
-            recyclerViewHolder.wantread_ratingbar.setRating(score / 2);
+
+
+//            final Float score = Float.parseFloat(list.get(position).get("score").toString());
+//            final String score22 = score.toString();
+//            recyclerViewHolder.wantread_score.setText(score22);
+//            recyclerViewHolder.wantread_ratingbar.setRating(score / 2);
             Glide.with(context).load(bookphoto_url).into(recyclerViewHolder.wantread_book_photo);
 
             recyclerViewHolder.wantread_all.setOnClickListener(new View.OnClickListener() {
