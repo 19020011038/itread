@@ -78,8 +78,8 @@ public class PersonFragment extends Fragment {
 //        });
 //            }
 //        });
-        nameAddress = "http://47.102.46.161/user/index";
-        homeNameOkHttp(nameAddress);
+//        nameAddress = "http://47.102.46.161/user/index";
+//        homeNameOkHttp(nameAddress);
         return root;
     }
 
@@ -88,6 +88,9 @@ public class PersonFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        nameAddress = "http://47.102.46.161/user/index";
+        homeNameOkHttp(nameAddress);
 
         home_icon = getActivity().findViewById(R.id.home_icon);
         home_nickname = getActivity().findViewById(R.id.home_nickname);

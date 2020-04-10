@@ -2,6 +2,7 @@ package com.example.itread;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -88,10 +89,15 @@ public class MainActivity extends AppCompatActivity {
                     switchFragment(bookListFragment);
                     break;
                 case R.id.person:
+                    Log.i("zyr","rrr1");
 //                    switchFragment(personFragment);
-                    if (check.isLogin())
-                    switchFragment(personFragment);
+                    if (check.isLogin()) {
+                        Log.i("zyr","rrr");
+                        switchFragment(personFragment);
+                    }
+
                     else {
+                        Log.i("zyr","rrr2");
                         Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                         startActivity(intent);
                         finish();
