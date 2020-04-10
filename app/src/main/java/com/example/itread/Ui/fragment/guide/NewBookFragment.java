@@ -60,6 +60,7 @@ public class NewBookFragment extends Fragment {
         NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
 
 
+
 //asdasdasdasdasdasdasdsadasdasdasdasd
 
         return root;
@@ -161,6 +162,11 @@ public class NewBookFragment extends Fragment {
 
                         list.add(map);
 
+
+                        Map map1 = new HashMap();
+                        map1.put("status","0");
+                        list2.add(map1);
+
                     }
 
                     if (!getActivity().equals(null))
@@ -171,7 +177,10 @@ public class NewBookFragment extends Fragment {
 
                             if (!getActivity().equals(null))
                             {
-
+                                if(!check.isLogin()){
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
+                                    recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
+                                }
                             }
 
 
