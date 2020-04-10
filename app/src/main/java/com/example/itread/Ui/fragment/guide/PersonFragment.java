@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -135,6 +136,12 @@ public class PersonFragment extends Fragment {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " name : error");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -146,18 +153,32 @@ public class PersonFragment extends Fragment {
                     nickname = object1.getString("nickname");
                     icon = object1.getString("icon");
                     Log.i("zyr", "HomeActivity.icon_url:"+icon);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            home_nickname.setText(nickname);
+                            Glide.with(getActivity()).load(icon).into(home_icon);
+//                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.i( "zyr", "LLL"+responseData);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "网络好像出现了问题...", Toast.LENGTH_SHORT);
+                        }
+                    });
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        home_nickname.setText(nickname);
-                        Glide.with(getActivity()).load(icon).into(home_icon);
-//                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        home_nickname.setText(nickname);
+//                        Glide.with(getActivity()).load(icon).into(home_icon);
+////                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }//标签页
         });
     }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.itread.Adapter.MyBookCommentsAdapter;
 import com.example.itread.Adapter.MyShortCommentsAdapter;
@@ -65,6 +66,15 @@ public class MyShortCommentsActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
                 Log.i( "zyr", " mybookComment : error");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(MyShortCommentsActivity.this));//纵向
+                        recyclerView.setAdapter(new MyShortCommentsAdapter(MyShortCommentsActivity.this, list));
+                        recyclerView.setNestedScrollingEnabled(false);
+                        Toast.makeText(MyShortCommentsActivity.this, "网络出现了问题...", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
