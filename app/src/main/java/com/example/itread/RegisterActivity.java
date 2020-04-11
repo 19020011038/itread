@@ -181,6 +181,7 @@ public class RegisterActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "邮箱发送失败", Toast.LENGTH_SHORT).show();
                         }
+                        progressDialog.dismiss();
                     }
                 });
 

@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.itread.Util.HttpUtil;
@@ -46,6 +48,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 import jp.wasabeef.richeditor.RichEditor;
 import okhttp3.Call;
@@ -54,6 +57,7 @@ import okhttp3.Response;
 
 
 public class WriteBookCommentsActivity extends AppCompatActivity {
+    private final static int CROP_IMAGE = 3;
     public static final int CHOOSE_PHOTO = 2;
     public static final int TAKE_PHOTO = 1;
     private Uri imageUri;
@@ -181,12 +185,43 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
 
 
     }
-
+    //打开相册
     private void openAlbum() {
-        Intent intent = new Intent("android.intent.action.GET_CONTENT");
-        intent.setType("image/*");
-        startActivityForResult(intent, CHOOSE_PHOTO);
+        Intent intent_album = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
+
+        startActivityForResult( intent_album, CHOOSE_PHOTO );
     }
+
+    //剪切图片
+    private void startImageCrop(File saveToFile,Uri uri) {
+        if(uri == null){
+            return ;
+        }
+        Intent intent = new Intent( "com.android.camera.action.CROP" );
+        Log.i( "Test", "startImageCrop: " + "执行到压缩图片了" + "uri is " + uri );
+        intent.setDataAndType( uri, "image/*" );//设置Uri及类型
+        //uri权限，如果不加的话，   会产生无法加载图片的问题
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.putExtra( "crop", "true" );//
+        intent.putExtra( "aspectX", 1 );//X方向上的比例
+        intent.putExtra( "aspectY", 1 );//Y方向上的比例
+        intent.putExtra( "outputX", 250 );//裁剪区的X方向宽
+        intent.putExtra( "outputY", 250 );//裁剪区的Y方向宽
+        intent.putExtra( "scale", true );//是否保留比例
+        intent.putExtra( "outputFormat", Bitmap.CompressFormat.PNG.toString() );
+        intent.putExtra( "return-data", false );//是否将数据保留在Bitmap中返回dataParcelable相应的Bitmap数据，防止造成OOM，置位false
+        //判断文件是否存在
+        //File saveToFile = ImageUtils.getTempFile();
+        if (!saveToFile.getParentFile().exists()) {
+            saveToFile.getParentFile().mkdirs();
+        }
+        //将剪切后的图片存储到此文件
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(saveToFile));
+        Log.i( "Test", "startImageCrop: " + "即将跳到剪切图片" );
+        startActivityForResult( intent, CROP_IMAGE );
+    }
+
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -205,36 +240,117 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case CHOOSE_PHOTO:
-                if (resultCode == RESULT_OK) {
-                    //判断手机系统版本号
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        //4.4及以上系统使用这个方法处理图片
-                        handleImageOnKitKat(data);
-                    } else {
-                        //4.4以下系统使用这个方法处理图片
-                        handleImageBeforeKitKat(data);
-                    }
-                }
-                break;
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
+                    //需要对拍摄的照片进行处理编辑
+                    //拍照成功的话，就调用BitmapFactory的decodeStream()方法把图片解析成Bitmap对象，然后显示
+//                    Log.i("Test", "onActivityResult TakePhoto : " + imageUri);
+//                    //Bitmap bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
+//                    //takephoto.setImageBitmap( bitmap );
+//                    //设置照片存储文件及剪切图片
+//                    File saveFile = SettingActivity.ImageUtils.getTempFile();
+//                    filePath = SettingActivity.ImageUtils.getTempFile();
+//                    startImageCrop(saveFile, imageUri);
+                }
+                break;
+            case CHOOSE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    //选中相册照片显示
+                    Log.i("Test", "onActivityResult: 执行到打开相册了");
                     try {
-
-                        //将拍摄的图片显示出来
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        Bitmap compress_bitmap = compressImage(bitmap);
-//                        file = toFile(compress_bitmap);
-
-
-                        //
-                    } catch (FileNotFoundException e) {
+                        imageUri = data.getData(); //获取系统返回的照片的Uri
+                        Log.i("Test", "onActivityResult: uriImage is " + imageUri);
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(imageUri,
+                                filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String path = cursor.getString(columnIndex);  //获取照片路径
+                        cursor.close();
+                        Bitmap bitmap = BitmapFactory.decodeFile(path);
+                        //                        photo_taken.setImageBitmap(bitmap);
+                        //设置照片存储文件及剪切图片
+                        File saveFile = WriteBookCommentsActivity.ImageUtils.setTempFile(WriteBookCommentsActivity.this);
+                        file = WriteBookCommentsActivity.ImageUtils.getTempFile();
+                        startImageCrop(saveFile, imageUri);
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
                 break;
+            case CROP_IMAGE:
+                if (resultCode == RESULT_OK) {
+                    Log.i("Test", "onActivityResult: CROP_IMAGE" + "进入了CROP");
+                    // 通过图片URI拿到剪切图片
+                    //bitmap = BitmapFactory.decodeStream( getContentResolver().openInputStream( imageUri ) );
+                    //通过FileName拿到图片
+                    Bitmap bitmap = BitmapFactory.decodeFile(file.toString());
+
+
+
+
+                    Bitmap bitmap1 = compressImage(bitmap);
+
+                    Log.i("tttttttttttttttt", file.toString());
+                    postFileWithOkHttp("http://47.102.46.161/user/image_upload",file);
+                    //a = getBitmapByte(bitmap1);
+//                    MyDataBaseHelper myDataBaseHelper = new MyDataBaseHelper(Home.this);
+//                    SQLiteDatabase database = myDataBaseHelper.getReadableDatabase();
+//                    ContentValues values = new ContentValues();
+//                    values.put("icon", a);
+//                    database.update("user", values, "id=?", new String[]{user_id});
+//                    database.close();
+//                    String b = a.toString();
+                    //Log.i( "zyr", "b" );
+
+//                    Intent intent990 = new Intent(Home.this, Main.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(intent990);
+                }
+                break;
             default:
                 break;
+        }
+    }
+    public static class ImageUtils {
+        private static String TAG = "Test";
+        public static File tempFile;
+
+        public static Uri getImageUri(Context content) {
+            File file = setTempFile( content );
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(Build.VERSION.SDK_INT >= 24){
+                //将File对象转换成封装过的Uri对象，这个Uri对象标志着照片的真实路径
+                Uri imageUri = FileProvider.getUriForFile( content, "com.example.itread.fileprovider", file );
+                return imageUri;                                                          //a15927.bottombardemo
+            }else{
+                //将File对象转换成Uri对象，这个Uri对象标志着照片的真实路径
+                Uri imageUri = Uri.fromFile( file );
+                return imageUri;
+            }
+        }
+
+        public static File setTempFile(Context content) {
+            //自定义图片名称
+            String name = DateFormat.format("yyyyMMdd_hhmmss", WriteBookCommentsActivity.ImageUtils.Calendar.getInstance( Locale.CHINA)) + ".png";
+            Log.i( TAG, " name : "+name );
+            //定义图片存放的位置
+            tempFile = new File(content.getExternalCacheDir(),name);
+            Log.i( TAG, " tempFile : "+tempFile );
+            return tempFile;
+        }
+
+        public static File getTempFile() {
+            return tempFile;
+        }
+
+        private static class Calendar {
+            public static long getInstance(Locale china) {
+                return 0;
+            }
         }
     }
 
