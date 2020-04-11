@@ -76,15 +76,12 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         String book_id = list.get(position).get("book_id").toString();
 //        String score = list.get(position).get("score").toString();
 
-//
-
 //        holder.ratingBar.setRating(Float.valueOf(score)/2);
         holder.name.setText(title);
 //        holder.score.setText(score);
         holder.content.setText(content);
         holder.author.setText(author);
         holder.textView.setText(position+1+"");
-
 
         if (check.isLogin())
         {
@@ -101,18 +98,12 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             }
         }
 
-
-
 //        if (check.isLogin())
 //        {
 //            if(flag){
 //                getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num="+book_id);
 //                flag = false;
 //            }
-
-
-
-
 
 ////            handler = new Handler(context.getMainLooper()
 ////
@@ -133,18 +124,12 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
 ////                    }
 ////                }
 ////            };
-//
-//
 //        }
-
-
-
 
         String picture_1 = image.replace("\\","");
         String picture_2 = picture_1.replace("\"","");
         String picture_3 = picture_2.replace("[","");
         String picture_4 = picture_3.replace("]","");
-
 
         RequestOptions options = new RequestOptions()
                 .placeholder(R.drawable.logo)
@@ -154,8 +139,6 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
                 .load(picture_4)
                 .apply(options)
                 .into(holder.image);
-
-
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,13 +179,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
 
         });
 
-
-
-
-
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -235,8 +212,6 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             like = itemView.findViewById(R.id.book_want);
 //            ratingBar = itemView.findViewById(R.id.book_rating);
 
-
-
         }
 
     }
@@ -247,9 +222,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
-
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
@@ -265,7 +238,6 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
 //                    Message message = new Message();
 //                    message.what = 1;
 //                    handler.sendMessage(message);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
