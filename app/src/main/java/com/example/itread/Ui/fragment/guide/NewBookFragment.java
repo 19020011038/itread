@@ -2,6 +2,7 @@ package com.example.itread.Ui.fragment.guide;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class NewBookFragment extends Fragment {
     private Button button;
     private Handler handler;
     private boolean aBoolean = true;
+    private String a = "a";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,6 +60,8 @@ public class NewBookFragment extends Fragment {
         list.clear();
         //联网请求获得图书信息
         NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
+        Log.d("11111111111111111111",a);
+        Log.d("是否登录",String.valueOf(check.isLogin()));
 
 
 
@@ -71,6 +75,7 @@ public class NewBookFragment extends Fragment {
         super.onResume();
         if (check.isLogin())
         {
+            Log.d("2222222222222222222",a);
             list2.clear();
             NewBookStatus("http://47.102.46.161/AT_read/20/");
         }
@@ -110,6 +115,7 @@ public class NewBookFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.d("4444444444",a);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
                             recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
 
@@ -164,7 +170,7 @@ public class NewBookFragment extends Fragment {
 
 
                         Map map1 = new HashMap();
-                        map1.put("status","0");
+                        map1.put("status","1");
                         list2.add(map1);
 
                     }
@@ -178,13 +184,11 @@ public class NewBookFragment extends Fragment {
                             if (!getActivity().equals(null))
                             {
                                 if(!check.isLogin()){
+                                    Log.d("33333333333333333",a);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
                                     recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
                                 }
                             }
-
-
-
                         }
                     });
 
