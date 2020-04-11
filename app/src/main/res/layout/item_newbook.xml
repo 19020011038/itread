@@ -78,46 +78,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="书名"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:id="@+id/name"
                     android:textStyle="bold"/>
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/name"
-                    android:id="@+id/relative">
-<!--                    <RatingBar-->
-<!--                        android:id="@+id/book_rating"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:gravity="center"-->
-<!--                        android:isIndicator="true"-->
-<!--                        android:numStars="5"-->
-<!--                        style="?android:attr/ratingBarStyleSmall"-->
-<!--                        android:rating="0"-->
-<!--                        android:stepSize="0.1"-->
-<!--                        android:layout_centerVertical="true"-->
-<!--                        />-->
-<!--                    <TextView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="7.8"-->
-<!--                        android:layout_toRightOf="@+id/book_rating"-->
-<!--                        android:id="@+id/score"-->
-<!--                        android:layout_marginLeft="5dp"/>-->
 
-                </RelativeLayout>
 
 
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/relative"
+                    android:layout_below="@id/name"
                     android:text="作者名字"
-                    android:textSize="13dp"
-                    android:layout_marginTop="5dp"
+                    android:textSize="12dp"
+                    android:layout_marginTop="7dp"
                     android:id="@+id/author"
                     />
 
@@ -130,8 +104,8 @@
                 android:layout_alignParentRight="true"
                 android:id="@+id/newbook_want">
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/newbook_want"
                     android:id="@+id/book_want"
                     />
@@ -140,6 +114,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/book_want"
                     android:text="想读"
+                    android:textSize="12dp"
                     android:layout_centerHorizontal="true"/>
             </RelativeLayout>
 

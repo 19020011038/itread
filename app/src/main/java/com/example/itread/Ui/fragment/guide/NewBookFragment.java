@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -51,24 +52,28 @@ public class NewBookFragment extends Fragment {
     private boolean aBoolean = true;
     private String a = "a";
     private String ab = "1";
+    private boolean isNet;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        check = SharedPreferencesUtil.getInstance(getActivity());
+        View root = inflater.inflate(R.layout.fragment_newbook, container, false);
+
+        isNet = HttpUtil.isNetworkConnected(getActivity());
+
         for(int i= 0;i<20;i++){
             Map map = new HashMap();
             map.put("status",ab);
             list2.add(map);
         }
-        check = SharedPreferencesUtil.getInstance(getActivity());
-        View root = inflater.inflate(R.layout.fragment_newbook, container, false);
+
         recyclerView = (RecyclerView)root.findViewById(R.id.recyclerView5);
         //联网请求获得图书信息
         NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
         Log.d("11111111111111111111",a);
         Log.d("是否登录",String.valueOf(check.isLogin()));
-
-
 
 //asdasdasdasdasdasdasdsadasdasdasdasd
 
@@ -78,15 +83,24 @@ public class NewBookFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        if (isNet){
+            Log.d("qsh","有网络");
+        }else{
+            Toast.makeText(getActivity(),"网络似乎不太给力=.=", Toast.LENGTH_LONG).show();
+        }
+
+
+
         if (check.isLogin())
         {
             Log.d("2222222222222222222",a);
             list2.clear();
             NewBookStatus("http://47.102.46.161/AT_read/20/");
         }
-
-
     }
+
+
 
     public void NewBookStatus(String address){
         HttpUtil.NewBookStatus(address, new Callback() {
@@ -203,5 +217,7 @@ public class NewBookFragment extends Fragment {
             }
         });
     }
+
+
 
 }
