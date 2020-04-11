@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -55,13 +56,28 @@ public class NewBookFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        check = SharedPreferencesUtil.getInstance(getActivity());
+        View root = inflater.inflate(R.layout.fragment_newbook, container, false);
+
+        boolean isNet = HttpUtil.isNetworkConnected(getActivity());
+
+
+
+        if (isNet){
+            Log.d("qsh","有网络");
+        }else{
+            Toast.makeText(getActivity(),"网络似乎不太给力=.=", Toast.LENGTH_LONG).show();
+        }
+
+
+
         for(int i= 0;i<20;i++){
             Map map = new HashMap();
             map.put("status",ab);
             list2.add(map);
         }
-        check = SharedPreferencesUtil.getInstance(getActivity());
-        View root = inflater.inflate(R.layout.fragment_newbook, container, false);
+
         recyclerView = (RecyclerView)root.findViewById(R.id.recyclerView5);
         //联网请求获得图书信息
         NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
@@ -203,5 +219,7 @@ public class NewBookFragment extends Fragment {
             }
         });
     }
+
+
 
 }
