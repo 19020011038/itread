@@ -8,18 +8,18 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:id="@+id/book_new_container"
+        android:id="@+id/container"
         android:layout_height="match_parent"/>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:id="@+id/book_list_container"
-        android:layout_height="match_parent"/>
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:id="@+id/book_list_container"-->
+<!--        android:layout_height="match_parent"/>-->
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:id="@+id/person_container"
-        android:layout_height="match_parent"/>
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:id="@+id/person_container"-->
+<!--        android:layout_height="match_parent"/>-->
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
