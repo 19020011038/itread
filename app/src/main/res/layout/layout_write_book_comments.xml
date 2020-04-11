@@ -22,6 +22,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="40px"
             android:layout_gravity="center"
             android:layout_weight="3"
             android:gravity="center"
@@ -64,6 +65,8 @@
                 android:layout_marginLeft="46px"
                 android:layout_marginRight="46px"
                 android:hint="标题"
+                android:maxLength="20"
+                android:singleLine="true"
                 android:textSize="60px" />
 
             <LinearLayout

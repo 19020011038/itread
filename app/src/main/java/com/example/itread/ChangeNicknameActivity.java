@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +43,28 @@ public class ChangeNicknameActivity extends AppCompatActivity {
         nickname_finish = findViewById(R.id.nickname_finish);
 
         setEditTextInputSpace(nickname);
+        nickname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (s.toString().contains(" ")) {
+                    String[] str = s.toString().split(" ");
+                    String str1 = "";
+                    for (int i = 0; i < str.length; i++) {
+                        str1 += str[i];
+                    }
+                    nickname.setText(str1);
+                    nickname.setSelection(start);
+                }
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         //控制最大长度
         int maxLengthUserName =16;
@@ -134,14 +158,11 @@ public class ChangeNicknameActivity extends AppCompatActivity {
 
     //防止空格回车
     public static void setEditTextInputSpace(EditText editText) {
-        InputFilter filter = new InputFilter() {
-            @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (source.equals(" ") || source.toString().contentEquals("\n")) {
-                    return "";
-                } else {
-                    return null;
-                }
+        InputFilter filter = (source, start, end, dest, dstart, dend) -> {
+            if (source.equals(" ") || source.toString().contentEquals("\n")) {
+                return "";
+            } else {
+                return null;
             }
         };
         editText.setFilters(new InputFilter[]{filter});
