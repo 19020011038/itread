@@ -52,6 +52,7 @@ public class NewBookFragment extends Fragment {
     private boolean aBoolean = true;
     private String a = "a";
     private String ab = "1";
+    private boolean isNet;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -60,17 +61,7 @@ public class NewBookFragment extends Fragment {
         check = SharedPreferencesUtil.getInstance(getActivity());
         View root = inflater.inflate(R.layout.fragment_newbook, container, false);
 
-        boolean isNet = HttpUtil.isNetworkConnected(getActivity());
-
-
-
-        if (isNet){
-            Log.d("qsh","有网络");
-        }else{
-            Toast.makeText(getActivity(),"网络似乎不太给力=.=", Toast.LENGTH_LONG).show();
-        }
-
-
+        isNet = HttpUtil.isNetworkConnected(getActivity());
 
         for(int i= 0;i<20;i++){
             Map map = new HashMap();
@@ -84,8 +75,6 @@ public class NewBookFragment extends Fragment {
         Log.d("11111111111111111111",a);
         Log.d("是否登录",String.valueOf(check.isLogin()));
 
-
-
 //asdasdasdasdasdasdasdsadasdasdasdasd
 
         return root;
@@ -94,15 +83,24 @@ public class NewBookFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        if (isNet){
+            Log.d("qsh","有网络");
+        }else{
+            Toast.makeText(getActivity(),"网络似乎不太给力=.=", Toast.LENGTH_LONG).show();
+        }
+
+
+
         if (check.isLogin())
         {
             Log.d("2222222222222222222",a);
             list2.clear();
             NewBookStatus("http://47.102.46.161/AT_read/20/");
         }
-
-
     }
+
+
 
     public void NewBookStatus(String address){
         HttpUtil.NewBookStatus(address, new Callback() {
