@@ -53,6 +53,9 @@ public class NewBookFragment extends Fragment {
     private String a = "a";
     private String ab = "1";
     private boolean isNet;
+    private NewBookAdapter newBookAdapter;
+    int k = 0;
+    int g = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -60,13 +63,13 @@ public class NewBookFragment extends Fragment {
 
         check = SharedPreferencesUtil.getInstance(getActivity());
         View root = inflater.inflate(R.layout.fragment_newbook, container, false);
-
+        
         isNet = HttpUtil.isNetworkConnected(getActivity());
 
         for(int i= 0;i<20;i++){
-            Map map = new HashMap();
-            map.put("status",ab);
-            list2.add(map);
+            Map map2 = new HashMap();
+            map2.put("status",ab);
+            list2.add(map2);
         }
 
         recyclerView = (RecyclerView)root.findViewById(R.id.recyclerView5);
@@ -74,8 +77,6 @@ public class NewBookFragment extends Fragment {
         NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
         Log.d("11111111111111111111",a);
         Log.d("是否登录",String.valueOf(check.isLogin()));
-
-//asdasdasdasdasdasdasdsadasdasdasdasd
 
         return root;
     }
@@ -100,8 +101,6 @@ public class NewBookFragment extends Fragment {
         }
     }
 
-
-
     public void NewBookStatus(String address){
         HttpUtil.NewBookStatus(address, new Callback() {
 
@@ -120,7 +119,7 @@ public class NewBookFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(responseData);
                     JSONArray jsonArray = jsonObject.getJSONArray("book");
 
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                    for (int i = 0;k == 20 && i < jsonArray.length(); i++,g++) {
 
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
@@ -136,9 +135,11 @@ public class NewBookFragment extends Fragment {
                         @Override
                         public void run() {
                             Log.d("4444444444",a);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
-                            recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
-
+                            if (g==20)
+                            {
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
+                                recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
+                            }
                         }
                     });
 
@@ -168,7 +169,7 @@ public class NewBookFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(responseData);
                     JSONArray jsonArray = jsonObject.getJSONArray("book");
 
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                    for (int i = 0; i < jsonArray.length(); i++,k++) {
 
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
@@ -199,13 +200,17 @@ public class NewBookFragment extends Fragment {
 
                             if (!getActivity().equals(null))
                             {
+                                if (k==20)
+                                {
                                 if(!check.isLogin()){
                                     Log.d("33333333333333333",a);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
                                     recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
                                 }else {
-                                    list2.clear();
-                                    NewBookStatus("http://47.102.46.161/AT_read/20/");
+                                        list2.clear();
+                                        NewBookStatus("http://47.102.46.161/AT_read/20/");
+                                    }
+
                                 }
                             }
                         }
