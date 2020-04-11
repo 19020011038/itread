@@ -89,6 +89,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String new_score;
     private String people;
     private Handler handler_people;
+    private Handler net_fail;
 
 
     public BookAdapter(Context context, List<Map<String, Object>> list, String book_id, String status, SharedPreferencesUtil check, String number,String all_score,String all_number) {
@@ -453,6 +454,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+                Message message = new Message();
+                message.what = 1;
+                net_fail.sendMessage(message);
 
             }
 
@@ -480,6 +484,14 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
+        net_fail = new Handler(context.getMainLooper()) {
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                if (true) {
+                    Toast.makeText(context,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
+                }
+            }
+        };
     }
 
     //修改图书评分的方法
@@ -488,6 +500,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+                Message message = new Message();
+                message.what = 1;
+                net_fail.sendMessage(message);
 
             }
 
@@ -511,6 +526,14 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
+        net_fail = new Handler(context.getMainLooper()) {
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                if (true) {
+                    Toast.makeText(context,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
+                }
+            }
+        };
     }
 
     public void publishCommentsWithOkHttp(String address, String title, String content, String score, String book_num) {
@@ -518,6 +541,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+                Message message = new Message();
+                message.what = 1;
+                net_fail.sendMessage(message);
 
             }
 
@@ -569,6 +595,14 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         };
+        net_fail = new Handler(context.getMainLooper()) {
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                if (true) {
+                    Toast.makeText(context,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
+                }
+            }
+        };
     }
     //获得修改后的评论人数
     public void bookWithOkHttp2(String address) {
@@ -576,6 +610,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+                Message message = new Message();
+                message.what = 1;
+                net_fail.sendMessage(message);
 
             }
 
@@ -595,6 +632,14 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
         });
+        net_fail = new Handler(context.getMainLooper()) {
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                if (true) {
+                    Toast.makeText(context,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
+                }
+            }
+        };
     }
 
     //获得图书信息的方法
@@ -603,6 +648,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+                Message message = new Message();
+                message.what = 1;
+                net_fail.sendMessage(message);
 
             }
 
@@ -672,6 +720,14 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (true) {
                     Log.d("4号位置", number);
                     addItem(4, map3);
+                }
+            }
+        };
+        net_fail = new Handler(context.getMainLooper()) {
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                if (true) {
+                    Toast.makeText(context,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
                 }
             }
         };
