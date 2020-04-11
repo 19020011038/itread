@@ -28,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +37,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHolder>{
 
-    private List<Map<String, Object>> list;
-    private List<Map<String, Object>> list2;
+    private List<Map<String, Object>> list = new ArrayList<>();
+    private List<Map<String, Object>> list2 = new ArrayList<>();
     private Context context;
     private Handler mHandler;
     private Handler mHandler_f;
@@ -51,12 +52,28 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
 
 
 
-    public NewBookAdapter(Context context, List<Map<String, Object>> list,List<Map<String, Object>> list2) {
+    public NewBookAdapter(Context context) {
         this.context = context;
-        this.list = list;
-        this.list2 = list2;
         check = SharedPreferencesUtil.getInstance(context.getApplicationContext());
     }
+
+    public List<Map<String, Object>>  getData() {
+        return list;
+    }
+
+    public void setData(List<Map<String, Object>> list) {
+        this.list = list;
+    }
+
+
+    public List<Map<String, Object>>  getData2() {
+        return list2;
+    }
+
+    public void setData2(List<Map<String, Object>> list2) {
+        this.list2 = list2;
+    }
+
 
 
 
