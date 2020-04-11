@@ -50,14 +50,19 @@ public class NewBookFragment extends Fragment {
     private Handler handler;
     private boolean aBoolean = true;
     private String a = "a";
+    private String ab = "1";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        for(int i= 0;i<20;i++){
+            Map map = new HashMap();
+            map.put("status",ab);
+            list2.add(map);
+        }
         check = SharedPreferencesUtil.getInstance(getActivity());
         View root = inflater.inflate(R.layout.fragment_newbook, container, false);
         recyclerView = (RecyclerView)root.findViewById(R.id.recyclerView5);
-        list.clear();
         //联网请求获得图书信息
         NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
         Log.d("11111111111111111111",a);
@@ -95,6 +100,7 @@ public class NewBookFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
+                Log.d("caonimacaonimacaocaocao",responseData);
                 try {
 
                     JSONObject jsonObject = new JSONObject(responseData);
@@ -169,10 +175,6 @@ public class NewBookFragment extends Fragment {
                         list.add(map);
 
 
-                        Map map1 = new HashMap();
-                        map1.put("status","1");
-                        list2.add(map1);
-
                     }
 
                     if (!getActivity().equals(null))
@@ -187,6 +189,9 @@ public class NewBookFragment extends Fragment {
                                     Log.d("33333333333333333",a);
                                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
                                     recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
+                                }else {
+                                    list2.clear();
+                                    NewBookStatus("http://47.102.46.161/AT_read/20/");
                                 }
                             }
                         }
