@@ -73,6 +73,13 @@ public class NewBookFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        list.clear();
+        //联网请求获得图书信息
+        NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
+        Log.d("11111111111111111111",a);
+        Log.d("是否登录",String.valueOf(check.isLogin()));
+
+
         if (check.isLogin())
         {
             Log.d("2222222222222222222",a);
@@ -183,11 +190,11 @@ public class NewBookFragment extends Fragment {
 
                                 if (!getActivity().equals(null))
                                 {
-                                    if(!check.isLogin()){
+//                                    if(!check.isLogin()){
                                         Log.d("33333333333333333",a);
                                         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//垂直排列 , Ctrl+P
                                         recyclerView.setAdapter(new NewBookAdapter(getActivity(), list,list2));//绑定适配器
-                                    }
+//                                    }
                                 }
                             }
                         });

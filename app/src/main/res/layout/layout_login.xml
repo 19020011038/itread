@@ -33,7 +33,7 @@
         <ImageView
             android:id="@+id/login_saw_1"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:layout_marginTop="55dp"
             android:background="@drawable/shadow">
         </ImageView>
@@ -41,12 +41,12 @@
 
         <ImageView
             android:id="@+id/login_imagelogo"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
+            android:layout_width="135dp"
+            android:layout_height="135dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/login_saw_1"
             android:layout_marginTop="60dp"
-            android:background="@drawable/ic_launcher_round">
+            android:background="@drawable/tubiao">
         </ImageView>
 
         <EditText
@@ -55,9 +55,11 @@
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="14dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="60dp"
             android:layout_below="@+id/login_imagelogo"
             android:hint=" 请输入用户名"
+            android:singleLine="true"
+            android:maxLines="1"
             android:inputType="text"
             android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:background="@drawable/edittext_shape">
@@ -73,7 +75,10 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/edittext_shape"
             android:hint=" 请输入密码"
-            android:inputType="textPassword">
+            android:singleLine="true"
+            android:maxLines="1"
+            android:inputType="textPassword"
+            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM">
         </EditText>
 
         <Button

@@ -48,7 +48,7 @@
         <ImageView
             android:id="@+id/login_saw_1"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:layout_marginTop="55dp"
             android:background="@drawable/shadow">
         </ImageView>
@@ -66,6 +66,8 @@
                 android:layout_marginRight="20dip"
                 android:layout_marginTop="220dp"
                 android:hint=" 请输入新昵称"
+                android:singleLine="true"
+                android:maxLines="1"
                 android:background="@drawable/edittext_shape">
             </EditText>
 
