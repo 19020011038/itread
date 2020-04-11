@@ -43,7 +43,7 @@
     <ImageView
         android:id="@+id/register_saw_1"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="4dp"
         android:background="@drawable/shadow">
     </ImageView>
 
@@ -59,6 +59,9 @@
             android:layout_marginRight="14dp"
             android:layout_marginTop="60dp"
             android:hint=" 请输入用户名"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:maxLines="1"
             android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:inputType="textEmailAddress"
             android:background="@drawable/edittext_shape">
@@ -73,6 +76,9 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="14dp"
             android:hint=" 请输入邮箱"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:maxLines="1"
             android:inputType="textEmailAddress"
             android:background="@drawable/edittext_shape">
         </EditText>
@@ -86,6 +92,10 @@
             android:layout_marginTop="15dp"
             android:layout_below="@+id/register_email"
             android:hint=" 请输入6~18位密码"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:inputType="textPassword"
             android:maxLength="18"
             android:background="@drawable/edittext_shape">
@@ -100,6 +110,10 @@
             android:layout_marginTop="15dp"
             android:layout_below="@+id/register_password"
             android:hint=" 请确认密码"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
             android:inputType="textPassword"
             android:background="@drawable/edittext_shape">
         </EditText>
@@ -111,7 +125,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="14dp"
-            android:text="* 用户名和密码可包含大小写字母、数字和下划线，长度6~18位">
+            android:text="* 用户名和密码可包含大小写字母和数字，长度6~18位">
         </TextView>
 
         <Button
