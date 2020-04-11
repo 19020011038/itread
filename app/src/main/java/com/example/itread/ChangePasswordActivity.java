@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +47,98 @@ public class ChangePasswordActivity extends AppCompatActivity {
         setEditTextInputSpace(password_old);
         setEditTextInputSpace(password_new);
         setEditTextInputSpace(password_renew);
+
+        password_old.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (s.toString().contains(" ")) {
+                    String[] str = s.toString().split(" ");
+                    String str1 = "";
+                    for (int i = 0; i < str.length; i++) {
+                        str1 += str[i];
+                    }
+                    password_old.setText(str1);
+                    password_old.setSelection(start);
+                }
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        password_new.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (s.toString().contains(" ")) {
+                    String[] str = s.toString().split(" ");
+                    String str1 = "";
+                    for (int i = 0; i < str.length; i++) {
+                        str1 += str[i];
+                    }
+                    password_new.setText(str1);
+                    password_new.setSelection(start);
+                }
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        password_renew.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (s.toString().contains(" ")) {
+                    String[] str = s.toString().split(" ");
+                    String str1 = "";
+                    for (int i = 0; i < str.length; i++) {
+                        str1 += str[i];
+                    }
+                    password_renew.setText(str1);
+                    password_renew.setSelection(start);
+                }
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+//        nickname.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before,
+//                                      int count) {
+//                if (s.toString().contains(" ")) {
+//                    String[] str = s.toString().split(" ");
+//                    String str1 = "";
+//                    for (int i = 0; i < str.length; i++) {
+//                        str1 += str[i];
+//                    }
+//                    nickname.setText(str1);
+//                    nickname.setSelection(start);
+//                }
+//            }
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count,
+//                                          int after) {
+//            }
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//            }
+//        });
 
         //控制最大长度
         int maxLengthPassword = 18;

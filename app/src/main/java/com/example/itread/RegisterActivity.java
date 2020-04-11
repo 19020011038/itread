@@ -6,9 +6,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -178,7 +180,11 @@ public class RegisterActivity extends AppCompatActivity {
                         }else if (result.equals("邮箱发送失败")) {
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "邮箱发送失败", Toast.LENGTH_SHORT).show();
+                        }else {
+                            progressDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this, "验证码发送失败", Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 });
 
@@ -201,16 +207,29 @@ public class RegisterActivity extends AppCompatActivity {
 
     //防止空格回车
     public static void setEditTextInputSpace(EditText editText) {
-        InputFilter filter = new InputFilter() {
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (source.equals(" ") || source.toString().contentEquals("\n")) {
-                    return "";
-                } else {
-                    return null;
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                if (s.toString().contains(" ")) {
+                    String[] str = s.toString().split(" ");
+                    String str1 = "";
+                    for (int i = 0; i < str.length; i++) {
+                        str1 += str[i];
+                    }
+                    editText.setText(str1);
+                    editText.setSelection(start);
                 }
             }
-        };
-        editText.setFilters(new InputFilter[]{filter});
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 }
