@@ -84,6 +84,9 @@ public class BookActivity extends AppCompatActivity {
     private String flag_book_comments;
     private float final_score = (float)0.0;
 
+    //判断联网
+    private boolean isNet;
+
 
 
     @Override
@@ -101,6 +104,7 @@ public class BookActivity extends AppCompatActivity {
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
         refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
 
+        boolean isNet = HttpUtil.isNetworkConnected(BookActivity.this);
 
         //返回按钮的监听
         back.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +117,9 @@ public class BookActivity extends AppCompatActivity {
         //接受书的id
         Intent intent = getIntent();
         book_id = intent.getStringExtra("book_id");
+        if(isNet){
+
+        }
 
         //联网请求获得图书信息
 
