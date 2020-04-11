@@ -180,8 +180,11 @@ public class RegisterActivity extends AppCompatActivity {
                         }else if (result.equals("邮箱发送失败")) {
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "邮箱发送失败", Toast.LENGTH_SHORT).show();
+                        }else {
+                            progressDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this, "验证码发送失败", Toast.LENGTH_SHORT).show();
                         }
-                        progressDialog.dismiss();
+
                     }
                 });
 
