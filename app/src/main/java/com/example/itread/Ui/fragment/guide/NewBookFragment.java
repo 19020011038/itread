@@ -54,9 +54,9 @@ public class NewBookFragment extends Fragment {
     private String a = "a";
     private String ab = "1";
     private NewBookAdapter mAdapter;
-    private int m = 0;
-    private int n = 0;
-    private int k = 0;
+    private int m ;
+    private int n ;
+    private int k ;
     private boolean flag = false;
     private Handler net_fail;
     private Handler book_finish;
@@ -64,7 +64,7 @@ public class NewBookFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        k = 0;
         list.clear();
         for (int i = 0; i < 20; i++) {
             Map map = new HashMap();
@@ -78,7 +78,7 @@ public class NewBookFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
         mAdapter = new NewBookAdapter(getActivity());
-        recyclerView.setAdapter(mAdapter);
+
 
         //联网请求获得图书信息
         if (k == 20) {
@@ -87,7 +87,8 @@ public class NewBookFragment extends Fragment {
             NewbookWithOkHttp("http://47.102.46.161/AT_read/book_list/");
         }
 
-        Log.i("执行了 on create","123");
+        Log.i("执行了 on create..","1231651651896516516515651");
+
 
 //asdasdasdasdasdasdasdsadasdasdasdasd
 
@@ -97,14 +98,14 @@ public class NewBookFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(flag){
+//        if(flag){
             Log.i("执行了 on resume","123");
             if(check.isLogin()){
                 list2.clear();
                 NewBookStatus2("http://47.102.46.161/AT_read/20/");
             }
-        }
-        flag = true;
+//        }
+//        flag = true;
     }
 
 
@@ -150,10 +151,9 @@ public class NewBookFragment extends Fragment {
                             public void run() {
 
                                 if (n == 20) {
-                                    Log.i("在获取图书状态的结果中绑定适配器",String.valueOf(list));
                                     recyclerView.setAdapter(mAdapter);
+                                    Log.i("在获取图书状态的结果中绑定适配器",String.valueOf(list));
                                     mAdapter.setData(list);
-                                    Log.i("zyr","list.size:"+list.size());
                                     mAdapter.setData2(list2);
                                 }
                             }
@@ -255,6 +255,7 @@ public class NewBookFragment extends Fragment {
                 //得到服务器返回的具体内容
                 final String responseData = response.body().string();
                 try {
+                    m = 0;
 
 
                     JSONObject jsonObject = new JSONObject(responseData);
@@ -295,31 +296,34 @@ public class NewBookFragment extends Fragment {
                                     if (!check.isLogin()) {
 
                                         if (m == 20) {
-                                            Log.i("未登录时绑定适配器","recyclerView.setAdapter(mAdapter);");
                                             recyclerView.setAdapter(mAdapter);
+                                            Log.i("未登录时绑定适配器","recyclerView.setAdapter(mAdapter);");
                                             mAdapter.setData(list);
                                             mAdapter.setData2(list2);
                                         }
                                     } else {
                                         if (m == 20) {
                                             list2.clear();
-                                            Message message = new Message();
-                                            message.what = 1;
-                                            book_finish.sendMessage(message);
+                                            Log.i("已经登录，联网获取图书状态"," NewBookStatus");
+                                            NewBookStatus("http://47.102.46.161/AT_read/20/");
+//                                            Message message = new Message();
+//                                            message.what = 1;
+//                                            book_finish.sendMessage(message);
                                         }
                                     }
                                 }
                             }
                         });
-                    book_finish = new Handler(getActivity().getMainLooper()) {
-                        public void handleMessage(Message message) {
-                            super.handleMessage(message);
-                            if (true) {
-                                Log.i("已经登录，联网获取图书状态"," NewBookStatus");
-                                NewBookStatus("http://47.102.46.161/AT_read/20/");
-                            }
-                        }
-                    };
+//                    book_finish = new Handler(getActivity().getMainLooper()) {
+//                        public void handleMessage(Message message) {
+//                            super.handleMessage(message);
+//                            if (true) {
+//                                Log.i("已经登录，联网获取图书状态"," NewBookStatus");
+//                                NewBookStatus("http://47.102.46.161/AT_read/20/");
+//
+//                            }
+//                        }
+//                    };
 
                 } catch (JSONException e) {
                     e.printStackTrace();
