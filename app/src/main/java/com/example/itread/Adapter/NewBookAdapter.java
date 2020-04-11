@@ -180,7 +180,7 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
                         Toast.makeText(context, "已成功加入想读", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        status = "1";
+                        status = "3";
                         changeStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id,status);
 
                         holder.like.setImageResource(R.drawable.newbook_want);
