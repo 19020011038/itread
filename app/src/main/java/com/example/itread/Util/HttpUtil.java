@@ -17,6 +17,22 @@ import okhttp3.RequestBody;
 public class HttpUtil {
 
 
+    public static boolean isNetworkConnected(Context context){
+        //判断上下文是不是空的
+        //为啥要判断啊? 防止context是空的导致 报空指针异常
+        if (context!=null){
+            //获取连接管理器
+            ConnectivityManager mConnectivityManager= (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            //获取网络状态mConnectivityManager.getActiveNetworkInfo();
+            NetworkInfo mNnetNetworkInfo=mConnectivityManager.getActiveNetworkInfo();
+            if (mNnetNetworkInfo!=null){
+                //判断网络是否可用//如果可以用就是 true  不可用就是false
+                return mNnetNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
+
 
     //删除我的评论
     public static void NewBookStatus(String address,okhttp3.Callback callback){
