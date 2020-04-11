@@ -64,6 +64,7 @@ public class NewBookFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         list.clear();
         for (int i = 0; i < 20; i++) {
             Map map = new HashMap();
@@ -87,7 +88,6 @@ public class NewBookFragment extends Fragment {
         }
 
         Log.i("执行了 on create","123");
-
 
 //asdasdasdasdasdasdasdsadasdasdasdasd
 
@@ -153,6 +153,7 @@ public class NewBookFragment extends Fragment {
                                     Log.i("在获取图书状态的结果中绑定适配器",String.valueOf(list));
                                     recyclerView.setAdapter(mAdapter);
                                     mAdapter.setData(list);
+                                    Log.i("zyr","list.size:"+list.size());
                                     mAdapter.setData2(list2);
                                 }
                             }
@@ -316,7 +317,6 @@ public class NewBookFragment extends Fragment {
                             if (true) {
                                 Log.i("已经登录，联网获取图书状态"," NewBookStatus");
                                 NewBookStatus("http://47.102.46.161/AT_read/20/");
-
                             }
                         }
                     };
