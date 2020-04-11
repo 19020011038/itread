@@ -63,7 +63,6 @@ public class NewBookFragment extends Fragment {
 
         check = SharedPreferencesUtil.getInstance(getActivity());
         View root = inflater.inflate(R.layout.fragment_newbook, container, false);
-        
         isNet = HttpUtil.isNetworkConnected(getActivity());
 
         for(int i= 0;i<20;i++){
