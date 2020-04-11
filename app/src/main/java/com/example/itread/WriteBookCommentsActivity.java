@@ -89,6 +89,8 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
     private String all_number;
     private String result_change_score;
     private String new_score;
+    private boolean isNet;
+    private Handler net_fail;
 
 
     @Override
@@ -143,24 +145,30 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                 html = text;
             }
         });
+        isNet = HttpUtil.isNetworkConnected(WriteBookCommentsActivity.this);
         //发布
         write_book_comments_publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                title = write_book_comments_title.getText().toString();
-                if("".equals(title))
-                    Toast.makeText(WriteBookCommentsActivity.this,"请输入书评标题",Toast.LENGTH_SHORT).show();
-                else {
-                    if(html.equals(" "))
-                        Toast.makeText(WriteBookCommentsActivity.this,"请输入书评内容",Toast.LENGTH_SHORT).show();
+                isNet = HttpUtil.isNetworkConnected(WriteBookCommentsActivity.this);
+                if(isNet){
+                    title = write_book_comments_title.getText().toString();
+                    if("".equals(title))
+                        Toast.makeText(WriteBookCommentsActivity.this,"请输入书评标题",Toast.LENGTH_SHORT).show();
                     else {
-                        Log.d("book_id",book_id);
-                        Log.d("title",title);
-                        Log.d("html",html);
-                        Log.d("score",score);
+                        if(html.equals(" "))
+                            Toast.makeText(WriteBookCommentsActivity.this,"请输入书评内容",Toast.LENGTH_SHORT).show();
+                        else {
+                            Log.d("book_id",book_id);
+                            Log.d("title",title);
+                            Log.d("html",html);
+                            Log.d("score",score);
 
-                        publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num="+book_id+"&type=l",title,html,score,book_id);
+                            publishCommentsWithOkHttp("http://47.102.46.161/AT_read/book_review/?num="+book_id+"&type=l",title,html,score,book_id);
+                        }
                     }
+                }else {
+                    Toast.makeText(WriteBookCommentsActivity.this,"网络不给力哦qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -181,7 +189,9 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                 }
             }
         });
-        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+        if(isNet){
+            bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+        }
 
 
     }
@@ -533,6 +543,10 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+
+                Message message = new Message();
+                message.what = 1;
+                net_fail.sendMessage(message);
             }
 
             @Override
@@ -562,6 +576,15 @@ public class WriteBookCommentsActivity extends AppCompatActivity {
                 }
             }
         });
+        net_fail = new Handler(WriteBookCommentsActivity.this.getMainLooper()) {
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                if (true) {
+                    Toast.makeText(WriteBookCommentsActivity.this,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
     }
 
     //发布评论

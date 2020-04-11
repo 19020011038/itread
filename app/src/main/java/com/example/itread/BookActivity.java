@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -104,7 +105,7 @@ public class BookActivity extends AppCompatActivity {
         check = SharedPreferencesUtil.getInstance(getApplicationContext());
         refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
 
-        boolean isNet = HttpUtil.isNetworkConnected(BookActivity.this);
+        isNet = HttpUtil.isNetworkConnected(BookActivity.this);
 
         //返回按钮的监听
         back.setOnClickListener(new View.OnClickListener() {
@@ -118,49 +119,53 @@ public class BookActivity extends AppCompatActivity {
         Intent intent = getIntent();
         book_id = intent.getStringExtra("book_id");
         if(isNet){
+            //联网请求获得图书信息
 
-        }
+            bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
 
-        //联网请求获得图书信息
-
-        bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
-
-        //计算书籍评分
-        bookScoreWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+            //计算书籍评分
+            bookScoreWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
 
 
-        //判断用户是否登录以显示想读已读在读按钮的状态
+            //判断用户是否登录以显示想读已读在读按钮的状态
 
-        if (check.isLogin()) {
+            if (check.isLogin()) {
 
-            String a = SharedPreferencesUtil.getCookie();
-            Log.d("cookie", a);
-            getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
+                String a = SharedPreferencesUtil.getCookie();
+                Log.d("cookie", a);
+                getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
 
+            }
+        }else {
+            Toast.makeText(BookActivity.this,"网络不给力哦~ 请检查您的网络设置qwq",Toast.LENGTH_LONG).show();
         }
         //刷新的监听
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                list.clear();
-                all_number = 0;
-                all_score = (float)0.0;
-                final_score = (float)0.0;
-                bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
-                //计算书籍评分
-                bookScoreWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
-                //判断用户是否登录以显示想读已读在读按钮的状态
-                if (check.isLogin()) {
-                    String a = SharedPreferencesUtil.getCookie();
-                    Log.d("cookie", a);
-                    getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
+                isNet = HttpUtil.isNetworkConnected(BookActivity.this);
+                if(isNet){
+                    list.clear();
+                    all_number = 0;
+                    all_score = (float)0.0;
+                    final_score = (float)0.0;
+                    bookWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+                    //计算书籍评分
+                    bookScoreWithOkHttp("http://47.102.46.161/AT_read/book/?num=" + book_id);
+                    //判断用户是否登录以显示想读已读在读按钮的状态
+                    if (check.isLogin()) {
+                        String a = SharedPreferencesUtil.getCookie();
+                        Log.d("cookie", a);
+                        getStatusWithOkHttp("http://47.102.46.161/AT_read/status/?num=" + book_id);
+                    }
+                    recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
+                    recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(all_score),String.valueOf(all_number)));
+                    refreshLayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+                }else {
+                    Toast.makeText(BookActivity.this,"刷新失败了qwq，请检查您的网络设置",Toast.LENGTH_LONG).show();
                 }
-                recyclerView.setLayoutManager(new LinearLayoutManager(BookActivity.this));
-                recyclerView.setAdapter(new BookAdapter(BookActivity.this, list, book_id, status, check, number,String.valueOf(all_score),String.valueOf(all_number)));
-                refreshLayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
         });
-
     }
 
     //重写onResume方法
@@ -189,6 +194,12 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(BookActivity.this,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
 
@@ -293,6 +304,12 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(BookActivity.this,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
 
@@ -334,6 +351,12 @@ public class BookActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(BookActivity.this,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
 

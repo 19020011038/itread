@@ -1,11 +1,14 @@
 package com.example.itread;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +48,7 @@ public class BookCommentsDetailActivity extends AppCompatActivity {
     private String time;
     private String score;
     private String richtext;
+    private Handler net_fail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +92,10 @@ public class BookCommentsDetailActivity extends AppCompatActivity {
             public void onFailure(Call call, IOException e) {
                 //在这里对异常情况进行处理
 
+                Message message = new Message();
+                message.what = 1;
+                net_fail.sendMessage(message);
+
             }
 
             @Override
@@ -125,6 +133,16 @@ public class BookCommentsDetailActivity extends AppCompatActivity {
                 }
             }
         });
+        net_fail = new Handler(BookCommentsDetailActivity.this.getMainLooper()) {
+            public void handleMessage(Message message) {
+                super.handleMessage(message);
+                if (true) {
+                    Toast.makeText(BookCommentsDetailActivity.this,"网络连接失败qwq\n请检查您的网络设置",Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+
     }
 
 }

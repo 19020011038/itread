@@ -3,6 +3,7 @@ package com.example.itread.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class BookCommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private String book_id;
     public final int None_Comments_View = 2;
     public final int Book_Comments_View = 1;
+    private Handler net_fail;
 
     public BookCommentsAdapter(Context context, List<Map<String, Object>> list,String book_id) {
         this.context = context;
