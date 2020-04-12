@@ -76,7 +76,8 @@
                 android:layout_width="400px"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:gravity="left|center"
+                android:layout_marginLeft="28px"
                 android:text="8.0"
                 android:textSize="48px" />
         </LinearLayout>

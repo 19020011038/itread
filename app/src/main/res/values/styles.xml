@@ -12,5 +12,10 @@
         <item name="android:minHeight">20px</item>
         <item name="android:maxHeight">120px</item>
     </style>
+    <style name="roomRatingBar2" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_full2</item>
+        <item name="android:minHeight">20px</item>
+        <item name="android:maxHeight">120px</item>
+    </style>
 
 </resources>
