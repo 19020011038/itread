@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="12px"
+        android:layout_height="16px"
         android:background="#f0f0f0">
     </TextView>
 
@@ -22,13 +23,14 @@
         app:cardCornerRadius="10px">
 
     <RelativeLayout
-        android:id="@+id/myshort_all"
+        android:id="@+id/mybook_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
         android:background="#ffffff">
 
         <ImageButton
-            android:id="@+id/myshort_comment_del"
+            android:id="@+id/mybook_comment_del"
             android:layout_width="80px"
             android:layout_height="80px"
             android:layout_alignParentRight="true"
@@ -38,21 +40,21 @@
         </ImageButton>
 
         <ImageView
-            android:id="@+id/myshort_comment_bookphoto"
+            android:id="@+id/mybook_comment_bookphoto"
             android:layout_width="100px"
             android:layout_height="130px"
             android:background="#c7c7c7"
             android:layout_marginTop="36px"
-            android:layout_marginLeft="140px">
+            android:layout_marginLeft="110px">
         </ImageView>
 
         <TextView
-            android:id="@+id/myshort_comment_bookname"
+            android:id="@+id/mybook_comment_bookname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="70px"
             android:layout_marginRight="70dip"
-            android:layout_toRightOf="@+id/myshort_comment_bookphoto"
+            android:layout_toRightOf="@+id/mybook_comment_bookphoto"
             android:layout_marginLeft="30px"
             android:text="书名书名书名"
             android:textSize="40px"
@@ -62,7 +64,7 @@
             android:ellipsize="end">
         </TextView>
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/myshort_2"
             android:layout_width="70px"
             android:layout_height="50px"
@@ -72,29 +74,46 @@
             android:layout_marginLeft="22dip">
         </ImageView>
 
+-->
         <TextView
-            android:id="@+id/myshort_comment_content"
+            android:id="@+id/mybook_comment_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/myshort_comment_bookphoto"
-            android:layout_toRightOf="@+id/myshort_2"
-            android:layout_marginTop="30dip"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="86px"
-            android:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
-            android:lineSpacingExtra="6dip"
-            android:textSize="44px"
-            android:textColor="#434343">
+            android:layout_below="@+id/mybook_comment_bookphoto"
+            android:layout_marginLeft="110px"
+            android:layout_marginRight="110px"
+            android:layout_marginTop="50px"
+            android:text="书评名字名字名字"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="#434343"
+            android:textSize="58px"
+            android:textStyle="bold">
         </TextView>
 
         <TextView
-            android:id="@+id/myshort_comment_time"
+            android:id="@+id/mybook_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mybook_comment_name"
+            android:layout_marginLeft="110px"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="86px"
+            android:lineSpacingExtra="6dip"
+            android:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
+            android:textColor="#434343"
+            android:textSize="44px">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/mybook_comment_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/myshort_comment_content"
+            android:layout_below="@+id/mybook_comment_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="86px"
-            android:layout_marginTop="40px"
+            android:layout_marginTop="70px"
             android:text="2020.3.8"
             android:textSize="38px"
             android:textColor="#7f7f7f">
@@ -102,12 +121,12 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="35px"
-            android:layout_below="@+id/myshort_comment_time">
+            android:layout_height="45px"
+            android:layout_below="@+id/mybook_comment_time">
         </TextView>
 
         <RatingBar
-            android:id="@+id/myshort_rating"
+            android:id="@+id/mybook_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:isIndicator="true"
@@ -115,17 +134,11 @@
             style="?android:attr/ratingBarStyleSmall"
             android:rating="4.6"
             android:stepSize="0.1"
-            android:layout_below="@id/myshort_comment_content"
-            android:layout_marginLeft="120px"
-            android:layout_marginTop="40px"
+            android:layout_below="@id/mybook_comment_content"
+            android:layout_marginLeft="110px"
+            android:layout_marginTop="75px"
             />
     </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="28px"
-        android:background="#f0f0f0">
-    </TextView>
 </LinearLayout>

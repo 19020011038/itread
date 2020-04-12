@@ -72,7 +72,7 @@ public class MyBookCommentsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             View view = LayoutInflater.from(context).inflate(R.layout.item_mycomment_white, parent, false);
             return new WhiteMyCommentViewHolder(view);
         } else {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_mybook_comment, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_mybook_comment2, parent, false);
             return new RecyclerViewHolder(view);
         }
     }
@@ -87,7 +87,7 @@ public class MyBookCommentsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             recyclerViewHolder.mybook_comment_time.setText(list.get(position).get("time").toString());
             recyclerViewHolder.mybook_comment_bookname.setText(list.get(position).get("book_name").toString());
             recyclerViewHolder.mybook_comment_name.setText(list.get(position).get("comment_title").toString());
-            recyclerViewHolder.mybook_score.setText(list.get(position).get("score").toString());
+//            recyclerViewHolder.mybook_score.setText(list.get(position).get("score").toString());
             final String bookphoto_url = list.get(position).get("book_photo").toString(); //这个非常重要
             final Float score = Float.parseFloat(list.get(position).get("score").toString());
             recyclerViewHolder.mybook_rating.setRating(score);
@@ -217,9 +217,9 @@ public class MyBookCommentsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             mybook_comment_bookstatus = itemView.findViewById(R.id.mybook_comment_bookstatus);
             mybook_comment_time = itemView.findViewById(R.id.mybook_comment_time);
             mybook_comment_del = itemView.findViewById(R.id.mybook_comment_del);
-            mybook_comment_bookall = itemView.findViewById(R.id.mybook_comment_bookall);
+            mybook_comment_bookall = itemView.findViewById(R.id.mybook_all);
             mybook_rating = itemView.findViewById(R.id.mybook_rating);
-            mybook_score = itemView.findViewById(R.id.mybook_score);
+//            mybook_score = itemView.findViewById(R.id.mybook_score);
         }
     }
 
