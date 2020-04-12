@@ -13,10 +13,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="400px"
+            android:textColor="#434343"
+            android:layout_marginLeft="48px"
+            android:layout_width="300px"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left|center"
             android:text="您的评分:"
             android:textSize="48px" />
 

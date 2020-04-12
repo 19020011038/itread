@@ -3,6 +3,7 @@ package com.example.itread;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -119,8 +120,12 @@ public class BookCommentsDetailActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            TextPaint tp2 = book_comments_detail_title.getPaint();
+                            tp2.setFakeBoldText(true);
                             book_comments_detail_title.setText(title);
                             Glide.with(BookCommentsDetailActivity.this).load("http://47.102.46.161/media/"+image).into(book_comments_detail_image);
+                            TextPaint tp = book_comments_detail_name.getPaint();
+                            tp.setFakeBoldText(true);
                             book_comments_detail_name.setText(name);
                             book_comments_detail_score.setText(score);
                             book_comments_detail_time.setText(time);

@@ -24,8 +24,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/book_comments_image"
                 android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_gravity="left"
+                android:layout_height="60dp"
+                android:layout_gravity="left|center"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 android:src="@drawable/blue"
@@ -77,11 +77,11 @@
             android:id="@+id/book_comments_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="center|left"
             android:paddingLeft="5dp"
             android:text="评论标题"
             android:textColor="#000000"
-            android:textSize="48px" />
+            android:textSize="50px" />
 
         <TextView
             android:id="@+id/book_comments_word"
@@ -91,7 +91,7 @@
             android:layout_marginTop="5dp"
             android:text="啦啦啦啦啦啦啦啦啦啦"
             android:textColor="#434343"
-            android:textSize="40px"
+            android:textSize="38px"
             android:maxLength="150"/>
     </LinearLayout>
 

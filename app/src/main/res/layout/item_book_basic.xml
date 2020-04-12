@@ -127,6 +127,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:textColor="#434343"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -179,6 +180,7 @@
             android:layout_height="65px"
             android:layout_gravity="left"
             android:layout_marginTop="23px"
+            android:textColor="#434343"
             android:gravity="center"
             android:text="简介:"
             android:textSize="48px" />
