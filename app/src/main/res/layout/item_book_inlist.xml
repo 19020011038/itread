@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/relative"
-        android:background="#ffffff">
+        android:background="@drawable/side_dark">
         <ImageView
             android:id="@+id/image"
             android:layout_width="260px"
@@ -23,7 +23,7 @@
             android:layout_marginTop="55px"
             android:layout_toRightOf="@+id/image"
             android:text="中国通史"
-            android:textSize="14dp"
+            android:textSize="40px"
             android:textStyle="bold"
             android:layout_marginLeft="45px"/>
 <!--        <RatingBar-->
@@ -52,13 +52,14 @@
             android:layout_marginLeft="45px"
             android:layout_marginTop="18px"
             android:text="作者/年代1990/出版社"
-            android:textSize="12dp"
+            android:textSize="28px"
             android:layout_marginRight="168px"/>
         <TextView
             android:id="@+id/comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#f0f0f0"
+            android:textSize="28px"
             android:layout_below="@+id/image"
             android:layout_marginTop="50px"
             android:layout_marginHorizontal="20px"

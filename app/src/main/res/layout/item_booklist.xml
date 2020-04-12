@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,34 +14,132 @@
             android:layout_weight="1">
 
 
-
-            <ImageView
-                android:layout_width="230px"
-                android:layout_height="280px"
-                android:src="@drawable/shadow"
-                android:id="@+id/pic1"
-
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="40dp"
+                android:id="@+id/layout2"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_below="@+id/layout1"
+                android:background="#ffffff"
+                app:cardCornerRadius="10px"
                 android:layout_marginTop="48px"
-                android:layout_centerHorizontal="true"
-                />
+                android:layout_centerHorizontal="true">
+                <ImageView
+                    android:layout_width="230px"
+                    android:layout_height="280px"
+                    android:src="@drawable/shadow"
+                    android:id="@+id/pic1"
+
+                    />
+            </androidx.cardview.widget.CardView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pic1"
+                android:layout_below="@+id/layout2"
                 android:id="@+id/text1"
+                android:layout_marginHorizontal="7dp"
                 android:text="书单名称"
-                android:textSize="11dp"
+                android:textSize="10dp"
                  android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"/>
+
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="40dp"
+                android:id="@+id/layout"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="#ffffff"
+                app:cardCornerRadius="10px"
+                android:layout_marginTop="48px"
+                android:layout_centerHorizontal="true">
+                <ImageView
+                    android:layout_width="230px"
+                    android:layout_height="280px"
+                    android:src="@drawable/shadow"
+                    android:id="@+id/pic2"
+                    android:layout_centerHorizontal="true"
+                    />
+            </androidx.cardview.widget.CardView>
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text1"
+                android:layout_below="@+id/layout"
+                android:id="@+id/text2"
+                android:text="书单名称"
+                android:layout_marginHorizontal="7dp"
+                android:textSize="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="40dp"
+                android:id="@+id/layout3"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:background="#ffffff"
+                app:cardCornerRadius="10px"
+                android:layout_marginTop="48px"
+                android:layout_centerHorizontal="true">
+                <ImageView
+                    android:layout_width="230px"
+                    android:layout_height="280px"
+                    android:src="@drawable/shadow"
+                    android:id="@+id/pic3"
+                    android:layout_centerHorizontal="true" />
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout3"
+                android:id="@+id/text3"
+                android:text="书单名称"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="5dp"
+                android:textSize="10dp"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+
+
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="75本"
-                android:textSize="13dp"
+                android:textSize="10dp"
                 android:layout_marginTop="5dp"
                 android:id="@+id/number1"
-                android:layout_alignParentBottom="true"
                 android:layout_marginBottom="5px"
                 android:layout_centerHorizontal="true"/>
 
@@ -48,32 +148,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
-            <ImageView
-                android:layout_width="230px"
-                android:layout_height="280px"
-                android:src="@drawable/shadow"
-                android:id="@+id/pic2"
-                android:layout_marginTop="48px"
-                android:layout_centerHorizontal="true"
-                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pic2"
-                android:id="@+id/text2"
-                android:text="书单名称"
-                android:textSize="11dp"
-                android:layout_marginTop="5dp"
-                android:layout_centerHorizontal="true"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text2"
                 android:text="75本"
                 android:id="@+id/number2"
                 android:layout_marginTop="5dp"
-                android:textSize="13dp"
-                android:layout_alignParentBottom="true"
+                android:textSize="10dp"
                 android:layout_marginBottom="5px"
                 android:layout_centerHorizontal="true"/>
         </RelativeLayout>
@@ -81,31 +163,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
-            <ImageView
-                android:layout_width="230px"
-                android:layout_height="280px"
-                android:src="@drawable/shadow"
-                android:id="@+id/pic3"
-                android:layout_marginTop="48px"
-                android:layout_centerHorizontal="true"
-                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pic3"
-                android:id="@+id/text3"
-                android:text="书单名称"
-                android:layout_marginTop="5dp"
-                android:textSize="11dp"
-                android:layout_centerHorizontal="true"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text3"
                 android:text="75本"
-                android:textSize="13dp"
+                android:textSize="10dp"
                 android:id="@+id/number3"
-                android:layout_alignParentBottom="true"
                 android:layout_marginBottom="5px"
                 android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"/>
