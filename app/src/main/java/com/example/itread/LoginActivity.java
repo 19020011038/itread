@@ -147,6 +147,8 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this,"用户名或密码为空",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("未提交POST请求")){
                             Toast.makeText(LoginActivity.this,"提交请求失败",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this,"登录失败，请稍后重试",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -159,18 +159,42 @@ public class PersonFragment extends Fragment {
                     JSONObject object = new JSONObject(responseData);
 //                    JSONObject object2 = object.getJSONObject("code");
                     String code = object.getString("code");
-                    JSONObject object1 = object.getJSONObject("user");
-                    nickname = object1.getString("nickname");
-                    icon = object1.getString("icon");
-                    Log.i("zyr", "HomeActivity.icon_url:"+icon);
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            home_nickname.setText(nickname);
-                            Glide.with(getActivity()).load(icon).into(home_icon);
+                    if (code.equals("1000")) {
+                        JSONObject object1 = object.getJSONObject("user");
+                        nickname = object1.getString("nickname");
+                        icon = object1.getString("icon");
+                        Log.i("zyr", "HomeActivity.icon_url:"+icon);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                home_nickname.setText(nickname);
+                                Glide.with(getActivity()).load(icon).into(home_icon);
 //                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            }
+                        });
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                            Toast.makeText(getActivity(),"登录状态已失效，请重新登录",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity(),LoginActivity.class);
+                            startActivity(intent);
+                            }
+                        });
+                    }
+//                    JSONObject object1 = object.getJSONObject("user");
+//                    nickname = object1.getString("nickname");
+//                    icon = object1.getString("icon");
+//                    Log.i("zyr", "HomeActivity.icon_url:"+icon);
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            home_nickname.setText(nickname);
+//                            Glide.with(getActivity()).load(icon).into(home_icon);
+////                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.i( "zyr", "LLL"+responseData);
