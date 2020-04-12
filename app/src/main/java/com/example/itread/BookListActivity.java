@@ -2,6 +2,7 @@ package com.example.itread;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,6 +56,7 @@ public class BookListActivity extends AppCompatActivity {
     private String list_id;
     private String book_id;
     private String test;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +75,17 @@ public class BookListActivity extends AppCompatActivity {
         image = findViewById(R.id.pic);
         recyclerView = findViewById(R.id.recyclerView);
         number = findViewById(R.id.sum);
+        imageView = findViewById(R.id.back_from_book);
 
         Intent intent = getIntent();
         test = intent.getStringExtra("1231232");
 
-//       if (test == null)
-//       {
-//           Toast.makeText(this, "dsadasdasdas", Toast.LENGTH_SHORT).show();
-//       }
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         list_id = intent.getStringExtra("list_id");
 

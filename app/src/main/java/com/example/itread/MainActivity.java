@@ -1,7 +1,9 @@
 package com.example.itread;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +16,20 @@ import com.example.itread.Ui.fragment.guide.NewBookFragment;
 import com.example.itread.Ui.fragment.guide.PersonFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
     //定义Fragment
     private NewBookFragment homeFragment;
     private BookListFragment secondFragment;
     private PersonFragment thirdFragment;
+
+    // 是否退出程序
+    private static Boolean isExit = false;
+    // 定时触发器
+    private static Timer tExit = null;
+
 
     //记录当前正在使用的fragment
     private Fragment isFragment;
@@ -28,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_acitivity);
+
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         //初始化Fragment及底部导航栏
         initFragment(savedInstanceState);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.main_navigation_bar);
@@ -92,7 +107,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    //利用反射关闭底部导航栏默认动画效果，使多个按钮平分界面
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
+
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (isExit == false) {
+                isExit = true;
+                if (tExit != null) {
+                    tExit.cancel(); // 将原任务从队列中移除
+                }
+                // 重新实例一个定时器
+                tExit = new Timer();
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        isExit = false;
+                    }
+                };
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                // 延时两秒触发task任务
+                tExit.schedule(task, 2000);
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
+
+    //    //利用反射关闭底部导航栏默认动画效果，使多个按钮平分界面
 //    public void disableShiftMode(BottomNavigationView view) {
 //        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
 //        try {

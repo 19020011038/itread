@@ -149,9 +149,9 @@
             android:id="@+id/write_book_comments_richeditor"
             android:layout_width="match_parent"
             android:layout_height="960px"
-            android:layout_marginLeft="86px"
+            android:layout_marginLeft="46px"
             android:layout_marginTop="60px"
-            android:layout_marginRight="86px"
+            android:layout_marginRight="46px"
             android:layout_marginBottom="100px"
             android:gravity="center" />
 

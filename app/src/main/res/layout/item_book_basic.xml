@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="1900px"
+    android:layout_height="wrap_content"
     android:background="#ffffff"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40px"
+        android:background="#f0f0f0"/>
 
 
     <LinearLayout
@@ -17,11 +21,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="800px"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center"
+                android:layout_gravity="bottom"
                 android:id="@+id/book_image"
                 android:layout_width="362px"
                 android:layout_height="wrap_content"
@@ -29,10 +33,11 @@
                 android:src="@drawable/blue" />
 
             <TextView
-                android:gravity="center"
                 android:id="@+id/book_info"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30px"
+                android:gravity="left|bottom"
                 android:text="显示书籍信息"
                 android:textSize="30px" />
 
@@ -52,17 +57,17 @@
 
                 <ImageView
                     android:id="@+id/book_want"
-                    android:layout_width="wrap_content"
+                    android:layout_width="244px"
                     android:layout_height="80px"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|left"
                     android:src="@drawable/xiangdu"
                     android:text="想读" />
 
                 <TextView
                     android:id="@+id/book_want_number"
-                    android:layout_width="wrap_content"
+                    android:layout_width="244px"
                     android:layout_height="40px"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|left"
                     android:gravity="center"
                     android:text="想读人数："
                     android:textSize="30px" />
@@ -76,7 +81,7 @@
 
                 <ImageView
                     android:id="@+id/book_reading"
-                    android:layout_width="wrap_content"
+                    android:layout_width="244px"
                     android:layout_height="80px"
                     android:layout_gravity="center"
                     android:src="@drawable/zaidu" />
@@ -99,16 +104,16 @@
 
                 <ImageView
                     android:id="@+id/book_done"
-                    android:layout_width="wrap_content"
+                    android:layout_width="244px"
                     android:layout_height="80px"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|right"
                     android:src="@drawable/yidu" />
 
                 <TextView
                     android:id="@+id/book_done_number"
-                    android:layout_width="wrap_content"
+                    android:layout_width="244px"
                     android:layout_height="40px"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center|right"
                     android:gravity="center"
                     android:text="已读人数："
                     android:textSize="30px" />
@@ -126,8 +131,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="评分"
+                android:gravity="center|left"
+                android:text="评分:"
                 android:textSize="48px" />
 
             <RatingBar
@@ -143,12 +148,13 @@
                 android:rating="3.5" />
 
             <TextView
+                android:layout_marginLeft="28px"
                 android:id="@+id/book_score"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="center|left"
                 android:text="8.0"
                 android:textSize="48px" />
         </LinearLayout>
@@ -158,7 +164,6 @@
             android:layout_width="wrap_content"
             android:layout_height="50px"
             android:layout_gravity="left"
-            android:layout_marginLeft="60px"
             android:layout_marginBottom="20px"
             android:gravity="center"
             android:text="评分人数"
@@ -167,7 +172,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#000000" />
+            android:background="#f0f0f0" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -191,7 +196,7 @@
             <TextView
                 android:id="@+id/book_intro"
                 android:layout_width="match_parent"
-                android:layout_height="350px"
+                android:layout_height="300px"
                 android:maxLength="100"
                 android:text="简介"
                 android:textSize="30px" />
@@ -206,7 +211,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#000000" />
+            android:background="#f0f0f0" />
         <Button
             android:id="@+id/jump_book_book_comments"
             android:layout_width="match_parent"
