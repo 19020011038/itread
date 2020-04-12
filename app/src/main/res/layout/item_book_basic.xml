@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
+    android:background="@drawable/side_dark2"
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="48px"
         android:layout_marginTop="30px"
         android:layout_marginRight="48px"
@@ -188,7 +188,7 @@
         <LinearLayout
             android:id="@+id/book_introduction"
             android:layout_width="match_parent"
-            android:layout_height="400px"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="32px"
             android:layout_marginTop="10px"
             android:layout_marginRight="32px"
@@ -198,15 +198,15 @@
             <TextView
                 android:id="@+id/book_intro"
                 android:layout_width="match_parent"
-                android:layout_height="300px"
-                android:maxLength="100"
+                android:layout_height="wrap_content"
+                android:maxLength="250"
                 android:text="简介"
                 android:textSize="30px" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50px"
-                android:layout_gravity="right"
+                android:layout_gravity="right|center"
                 android:text="...展开全部"
                 android:maxLength="150"/>
         </LinearLayout>
@@ -218,6 +218,9 @@
             android:id="@+id/jump_book_book_comments"
             android:layout_width="match_parent"
             android:layout_height="120px"
+            android:paddingBottom="10px"
+            android:gravity="bottom|center"
+            android:layout_gravity="center"
             android:background="#ffffff"
             android:text="     全部书评   > "
             android:textColor="#bddc8d"
