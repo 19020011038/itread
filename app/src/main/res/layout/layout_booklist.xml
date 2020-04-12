@@ -15,6 +15,14 @@
             android:textStyle="bold"
             android:layout_centerInParent="true"
             android:textSize="20dp"/>
+        <ImageView
+            android:id="@+id/back_from_book"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:layout_width="70px"
+            android:layout_height="70px"
+            android:src="@drawable/back"
+            android:layout_gravity="center"/>
     </RelativeLayout>
 <ScrollView
     android:layout_width="wrap_content"
@@ -76,6 +84,7 @@
             android:background="@drawable/side_dark"
             android:padding="7dp"
             android:id="@+id/body"
+            android:layout_marginHorizontal="30px"
             android:layout_marginTop="10dp">
 
             <TextView
@@ -91,7 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/body"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"/>
 
 
     </RelativeLayout>

@@ -137,8 +137,8 @@ public class BooklistFragmentAdapter1 extends RecyclerView.Adapter<BooklistFragm
 
 
         RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.logo)
-                .error(R.drawable.logo)
+                .placeholder(R.drawable.glide)
+                .error(R.drawable.glide)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(this.context)
                 .load(picture_4)

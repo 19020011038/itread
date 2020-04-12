@@ -93,10 +93,9 @@ public class BooklistFragmentAdapter5 extends RecyclerView.Adapter<BooklistFragm
         String picture_3 = picture_2.replace("[","");
         String picture_4 = picture_3.replace("]","");
 
-
         RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.logo)
-                .error(R.drawable.logo)
+                .placeholder(R.drawable.glide)
+                .error(R.drawable.glide)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(this.context)
                 .load(picture_4)

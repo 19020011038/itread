@@ -149,8 +149,8 @@ public class NewBookAdapter extends RecyclerView.Adapter<NewBookAdapter.ViewHold
         String picture_4 = picture_3.replace("]","");
 
         RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.logo)
-                .error(R.drawable.logo)
+                .placeholder(R.drawable.glide)
+                .error(R.drawable.glide)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(this.context)
                 .load(picture_4)
