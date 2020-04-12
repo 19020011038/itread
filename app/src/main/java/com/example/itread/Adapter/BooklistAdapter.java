@@ -26,14 +26,10 @@ public class BooklistAdapter extends RecyclerView.Adapter<BooklistAdapter.ViewHo
     private List<Map<String, Object>> list;
     private Context context;
 
-
-
     public BooklistAdapter(Context context, List<Map<String, Object>> list) {
         this.context = context;
         this.list = list;
     }
-
-
 
     @NonNull
     @Override
@@ -65,8 +61,8 @@ public class BooklistAdapter extends RecyclerView.Adapter<BooklistAdapter.ViewHo
 
 
         RequestOptions options = new RequestOptions()
-                .placeholder(R.drawable.logo)
-                .error(R.drawable.logo)
+                .placeholder(R.drawable.glide)
+                .error(R.drawable.glide)
                 .diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(this.context)
                 .load(picture_4)

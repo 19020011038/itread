@@ -10,7 +10,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="115px"
+            android:layout_height="200px"
             android:id="@+id/layout1">
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
                         android:layout_height="match_parent">
                         <View
                             android:layout_width="80dp"
-                            android:layout_height="1.25dp"
+                            android:layout_height="0.75dp"
                             android:layout_centerVertical="true"
                             android:background="#aaaaaa"
                             android:layout_alignParentLeft="true"/>
@@ -40,7 +40,7 @@
                             android:layout_centerInParent="true"/>
                         <View
                             android:layout_width="80dp"
-                            android:layout_height="1.25dp"
+                            android:layout_height="0.75dp"
                             android:layout_centerVertical="true"
                             android:background="#aaaaaa"
                             android:layout_alignParentRight="true"/>
@@ -61,9 +61,9 @@
             >
             <ImageView
                 android:layout_width="200px"
-                android:layout_height="332px"
+                android:layout_height="260px"
                 android:src="@drawable/shadow"
-                android:layout_marginVertical="18px"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="40px"
                 android:id="@+id/image"/>
 
@@ -125,11 +125,11 @@
             android:layout_width="match_parent"
             android:layout_height="60px"
             android:layout_below="@+id/layout2"
-            android:paddingHorizontal="85px"
+            android:paddingHorizontal="45dp"
             android:id="@+id/layout3">
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1.2dp"
+                android:layout_height="0.5dp"
                 android:background="#aaaaaa"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>

@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/person"
-        android:icon="@drawable/ren"
+        android:icon="@drawable/geren"
         android:title="@string/person"/>
 
 </menu>
