@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#F0F0F0">
 
 
     <LinearLayout
+        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="158px"
         android:orientation="horizontal">
@@ -32,10 +34,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40px"
+        android:layout_height="1dp"
         android:background="#f0f0f0" />
 
     <TextView
+        android:background="#ffffff"
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
         android:id="@+id/book_comments_detail_title"
@@ -48,6 +51,7 @@
         android:textSize="20sp" />
 
     <LinearLayout
+        android:background="#ffffff"
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
         android:layout_width="match_parent"
@@ -138,6 +142,7 @@
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants">
             <TextView
+                android:background="#ffffff"
                 android:layout_marginLeft="40px"
                 android:layout_marginRight="40px"
                 android:layout_width="match_parent"
