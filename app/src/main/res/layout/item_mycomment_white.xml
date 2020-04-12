@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/mycomment_photo"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dip"
+            android:layout_marginTop="5dip"
             android:text="Σ(っ °Д °;)っ"
             android:textSize="18sp"
             android:textColor="#c7c7c7">

@@ -1,5 +1,6 @@
 package com.example.itread;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.itread.Ui.fragment.guide.BookListFragment;
 import com.example.itread.Ui.fragment.guide.NewBookFragment;
 import com.example.itread.Ui.fragment.guide.PersonFragment;
+import com.example.itread.Util.SharedPreferencesUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Timer;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private NewBookFragment homeFragment;
     private BookListFragment secondFragment;
     private PersonFragment thirdFragment;
-
+    private SharedPreferencesUtil check;
     // 是否退出程序
     private static Boolean isExit = false;
     // 定时触发器
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_main_acitivity);
+        check = SharedPreferencesUtil.getInstance(getApplicationContext());
 
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -81,11 +84,22 @@ public class MainActivity extends AppCompatActivity {
                     switchContent(isFragment, secondFragment);
                     return true;
                 case R.id.person:
-                    if (thirdFragment == null) {
-                        thirdFragment = new PersonFragment();
+
+                    if (check.isLogin())
+                    {
+                        if (thirdFragment == null) {
+                            thirdFragment = new PersonFragment();
+                        }
+                        switchContent(isFragment, thirdFragment);
+                        return true;
                     }
-                    switchContent(isFragment, thirdFragment);
-                    return true;
+                    else
+                    {
+                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
             }
             return false;
         }

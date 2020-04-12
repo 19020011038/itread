@@ -17,11 +17,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.example.itread.Adapter.ScreenSlidePagerAdapter2;
+import com.example.itread.LoginActivity;
+import com.example.itread.MainActivity;
 import com.example.itread.MyBookCommentsActivity;
 import com.example.itread.MyShortCommentsActivity;
 import com.example.itread.R;
 import com.example.itread.SettingActivity;
 import com.example.itread.Util.HttpUtil;
+import com.example.itread.Util.SharedPreferencesUtil;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
@@ -50,6 +53,7 @@ public class PersonFragment extends Fragment {
     private String icon;
     private RelativeLayout home_bookcomment;
     private RelativeLayout home_shortcomment;
+    private SharedPreferencesUtil check;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -82,6 +86,17 @@ public class PersonFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        //别忘了这句！！！！
+        check = SharedPreferencesUtil.getInstance(getContext());
+
+//        if (!check.isLogin()){
+//            Toast.makeText(getActivity(), "您尚未登录，请先登录再访问个人中心页", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent();
+//            intent.setClass(getActivity(), LoginActivity.class); //从前者跳到后者，特别注意的是，在fragment中，用getActivity()来获取当前的activity
+//            getActivity().startActivity(intent);
+//
+//        }
 
         nameAddress = "http://47.102.46.161/user/index";
         homeNameOkHttp(nameAddress);
@@ -142,18 +157,44 @@ public class PersonFragment extends Fragment {
                 final String responseData = response.body().string();
                 try{
                     JSONObject object = new JSONObject(responseData);
-                    JSONObject object1 = object.getJSONObject("user");
-                    nickname = object1.getString("nickname");
-                    icon = object1.getString("icon");
-                    Log.i("zyr", "HomeActivity.icon_url:"+icon);
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            home_nickname.setText(nickname);
-                            Glide.with(getActivity()).load(icon).into(home_icon);
+//                    JSONObject object2 = object.getJSONObject("code");
+                    String code = object.getString("code");
+                    if (code.equals("1000")) {
+                        JSONObject object1 = object.getJSONObject("user");
+                        nickname = object1.getString("nickname");
+                        icon = object1.getString("icon");
+                        Log.i("zyr", "HomeActivity.icon_url:"+icon);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                home_nickname.setText(nickname);
+                                Glide.with(getActivity()).load(icon).into(home_icon);
 //                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            }
+                        });
+                    } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                            Toast.makeText(getActivity(),"登录状态已失效，请重新登录",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity(),LoginActivity.class);
+                            startActivity(intent);
+                            }
+                        });
+                    }
+//                    JSONObject object1 = object.getJSONObject("user");
+//                    nickname = object1.getString("nickname");
+//                    icon = object1.getString("icon");
+//                    Log.i("zyr", "HomeActivity.icon_url:"+icon);
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            home_nickname.setText(nickname);
+//                            Glide.with(getActivity()).load(icon).into(home_icon);
+////                        Toast.makeText(HomeActivity.this,"显示头像",Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.i( "zyr", "LLL"+responseData);

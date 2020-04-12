@@ -399,6 +399,8 @@ public class SettingActivity extends AppCompatActivity {
                             Toast.makeText(SettingActivity.this,"图片格式不正确",Toast.LENGTH_SHORT).show();
                         }else if (result.equals("未提交POST请求")){
                             Toast.makeText(SettingActivity.this,"提交请求失败",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SettingActivity.this,"头像修改失败，请稍后重试",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

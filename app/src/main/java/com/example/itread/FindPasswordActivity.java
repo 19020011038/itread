@@ -268,6 +268,9 @@ public class FindPasswordActivity extends AppCompatActivity {
                         }else if (result.equals("邮箱发送失败")) {
                             progressDialog.dismiss();
                             Toast.makeText(FindPasswordActivity.this, "邮箱发送失败", Toast.LENGTH_SHORT).show();
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(FindPasswordActivity.this, "邮箱发送失败", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
