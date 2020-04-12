@@ -29,6 +29,7 @@
                 android:onClick="onClick"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="9dip"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="10dip">
 
                 <ImageView
