@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#F0F0F0">
+    android:background="#ffffff">
 
 
     <LinearLayout
@@ -34,21 +34,43 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:background="#f0f0f0" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70px"
+        android:background="#ffffff" />
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="140px"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:background="#bddc8d"/>
+        <TextView
+            android:background="#ffffff"
+            android:layout_marginLeft="40px"
+            android:layout_marginRight="40px"
+            android:id="@+id/book_comments_detail_title"
+            android:layout_weight="10"
+            android:layout_width="0dp"
+            android:layout_height="140px"
+            android:gravity="center|left"
+            android:text=""
+            android:textColor="#434343"
+            android:textSize="54px" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="27px"
         android:background="#ffffff"
         android:layout_marginLeft="40px"
-        android:layout_marginRight="40px"
-        android:id="@+id/book_comments_detail_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:text="这里是标题评论的标题这里是标题评论的标题这里是标题评论的标题这里是标题评论的标题"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        android:layout_marginRight="40px"/>
 
     <LinearLayout
         android:background="#ffffff"
@@ -60,16 +82,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="65dp"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/book_comments_detail_image"
-                android:layout_width="40dp"
-                android:layout_height="80dp"
-                android:layout_gravity="left"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center|left"
                 android:scaleType="centerCrop"
-                android:src="@drawable/blue"
                 app:civ_border_color="#a9a9a9"
                 app:civ_border_width="2dp" />
 
@@ -85,9 +106,9 @@
                     android:layout_height="0dp"
                     android:layout_weight="1.5"
                     android:gravity="center"
-                    android:text="评论人昵称"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:text="加载中....请稍后"
+                    android:textColor="#434343"
+                    android:textSize="40px" />
 
                 <TextView
                     android:maxLength="10"
@@ -95,8 +116,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="2020-3-24" />
+                    android:gravity="top"
+                    android:text=""
+                    android:textColor="#7f7f7f"
+                    android:textSize="30px"/>
             </LinearLayout>
 
             <LinearLayout
@@ -115,8 +138,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:isIndicator="true"
-                    android:numStars="5"
-                    android:rating="3.5" />
+                    android:numStars="0"
+                    android:rating="0" />
 
                 <TextView
                     android:id="@+id/book_comments_detail_score"
@@ -124,7 +147,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="8.0"
+                    android:text=""
                     android:textSize="48px" />
             </LinearLayout>
 
@@ -132,11 +155,14 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40px"
-        android:background="#f0f0f0" />
+        android:layout_height="56px"
+        android:background="#ffffff"
+        android:layout_marginRight="40px"
+        android:layout_marginLeft="40px"/>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

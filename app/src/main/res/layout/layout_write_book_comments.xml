@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="40px"
+            android:layout_marginLeft="75px"
             android:layout_gravity="center"
             android:layout_weight="3"
             android:gravity="center"
@@ -49,7 +49,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#ffffff">
 
         <LinearLayout
             android:layout_gravity="center"
@@ -65,7 +66,7 @@
                 android:layout_marginLeft="46px"
                 android:layout_marginRight="46px"
                 android:hint="标题"
-                android:maxLength="20"
+                android:maxLength="30"
                 android:singleLine="true"
                 android:textSize="60px" />
 
@@ -76,7 +77,7 @@
 
                 <RatingBar
                     android:id="@+id/write_book_comments_rating"
-                    style="@style/roomRatingBar"
+                    style="@style/roomRatingBar2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
